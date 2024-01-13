@@ -25,7 +25,7 @@ class MainCharacter{
 
         // MainCharacter's state variables
         this.facing = 0; // 0 = right, 1 = left
-        this.state = 0; // 0 = walking, 1 = attacking 
+        this.state = 0; // 0 = walking, 1 = attacking, 2, idling
         this.directionFace  = Direction.DOWN;
 
         this.dead = false;
@@ -51,7 +51,7 @@ class MainCharacter{
     };
 
     loadAnimations() {
-        for (var i = 0; i < 2; i++) {//State: 0 = walking, 1 = attacking 
+        for (var i = 0; i < 3; i++) {//State: 0 = walking, 1 = attacking 
             this.animations.push([]);
             for (var j = 0; j < 4; j++) { // 4 Directions
                 this.animations[i].push([]);
@@ -70,10 +70,20 @@ class MainCharacter{
 
 
      
-        this.animations[1][Direction.DOWN] = new Animator(this.spritesheet, 144, 0, 32, 32, 4, 0.1, 0, false, true);
-        this.animations[1][Direction.LEFT] = new Animator(this.spritesheet, 144, 32, 32, 32, 4, 0.1, 0, false, true);
-        this.animations[1][Direction.RIGHT] = new Animator(this.spritesheet, 144, 32*2, 32, 32, 4, 0.1, 0, false, true);
-        this.animations[1][Direction.UP] = new Animator(this.spritesheet, 144, 32*3, 32, 32, 4, 0.1, 0, false, true);
+        this.animations[1][Direction.DOWN] = new Animator(this.spritesheet, 48*6, 0, 32, 32, 4, 0.1, 0, false, true);
+        this.animations[1][Direction.LEFT] = new Animator(this.spritesheet, 48*6, 32, 32, 32, 4, 0.1, 0, false, true);
+        this.animations[1][Direction.RIGHT] = new Animator(this.spritesheet, 48*6, 32*2, 32, 32, 4, 0.1, 0, false, true);
+        this.animations[1][Direction.UP] = new Animator(this.spritesheet, 48*6, 32*3, 32, 32, 4, 0.1, 0, false, true);
+
+        this.animations[2][Direction.DOWN] = new Animator(this.spritesheet, 48*3, 0, 48, 48, 3, 0.20, 0, false, true);
+
+        this.animations[2][Direction.LEFT] = new Animator(this.spritesheet, 48*3, 48+1, 48, 48, 3, 0.20, 0, false, true);
+
+        this.animations[2][Direction.RIGHT] = new Animator(this.spritesheet, 48*3, 48*2+1, 48, 48, 3, 0.20, 0, false, true);
+
+        this.animations[2][Direction.UP] = new Animator(this.spritesheet, 48*3, 48*3+1, 48, 48, 3, 0.20, 0, false, true);
+
+
 
 
         
@@ -164,7 +174,8 @@ class MainCharacter{
         } else if (this.game.down) {
             this.animations[0][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
         } else if(!this.game.spaceKey){
-            ctx.drawImage(this.spritesheet,0,this.directionFace*48+1, 48,48, this.x - this.game.camera.x,this.y - this.game.camera.y,48*PARAMS.SCALE,48*PARAMS.SCALE);
+          //  ctx.drawImage(this.spritesheet,0,this.directionFace*48+1, 48,48, this.x - this.game.camera.x,this.y - this.game.camera.y,48*PARAMS.SCALE,48*PARAMS.SCALE);
+            this.animations[2][this.directionFace].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
         }
         
         if(this.game.spaceKey){
