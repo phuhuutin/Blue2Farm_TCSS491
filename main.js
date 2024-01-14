@@ -8,7 +8,9 @@ ASSET_MANAGER.queueDownload("./sprites/inventory.png");
 ASSET_MANAGER.queueDownload("./sprites/slime.png");
 ASSET_MANAGER.queueDownload("./sprites/farmland.png");
 ASSET_MANAGER.queueDownload("./sprites/grassbase.png");
-
+ASSET_MANAGER.queueDownload("./sprites/doghit.png");
+ASSET_MANAGER.queueDownload("./sprites/dogwalkk.png");
+ASSET_MANAGER.queueDownload("./sprites/dogidle.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

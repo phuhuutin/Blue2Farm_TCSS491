@@ -38,6 +38,7 @@ class SceneManager{
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0 ,0);
+        this.dog = new Dog(this.game,600, 100, [{ x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: 0, y: 0 }]);
 
         this.loadMap();
 
@@ -47,7 +48,8 @@ class SceneManager{
     loadMap(){
   
 
-       
+        this.game.addEntity(this.dog);
+
 
 
        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 50, 300));

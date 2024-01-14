@@ -133,6 +133,28 @@ class Slime{
                 //     this.elapsedTime = 0;
                 // }
             }
+            if (ent instanceof Dog && canSee(this, ent)) {
+                this.target = ent;
+
+            }
+            //size of FarmLandBigTree: 99,127
+            if (ent instanceof Dog && collide(this,  ent)) {
+                if (this.state === 0) {
+                    this.state = 1;
+                    this.elapsedTime = 0;
+                 //   console.log("Fighting");
+
+                 } 
+               if (this.elapsedTime > 0.8) {
+                   var damage = 7 + randomInt(4);
+                   ent.hitpoints -= damage;
+                     this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
+                     this.elapsedTime = 0;
+                     if( ent.hitpoints<=0){
+                        ent.removeFromWorld = true
+                     }
+                 }
+            }
         }
         if (this.state !== 1) {
             dist = distance(this, this.target);

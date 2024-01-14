@@ -7,13 +7,14 @@ const Direction = {
 class MainCharacter{
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-
         this.x = 110;
         this.y = 110;
         this.height = 48;
         this.width = 48;
         this.game.character = this;
-        this.speed = 0.5;
+        this.radius = 30;
+     //   this.speed = 0.5;
+     this.speed = 0.5;
         // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
         //if (luigi) this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
@@ -99,7 +100,27 @@ class MainCharacter{
     update(){
         this.elapsedTime += this.game.clockTick;
 
-        
+        if (this.game.left && this.game.up) {
+            // Move diagonally to the top-left
+            this.x -= this.speed;
+            this.y -= this.speed;
+            this.directionFace = Direction.LEFT;
+        } else if (this.game.right && this.game.up) {
+            // Move diagonally to the top-right
+            this.x += this.speed;
+            this.y -= this.speed;
+            this.directionFace = Direction.RIGHT;
+        } else if (this.game.left && this.game.down) {
+            // Move diagonally to the bottom-left
+            this.x -= this.speed;
+            this.y += this.speed;
+            this.directionFace = Direction.LEFT;
+        } else if (this.game.right && this.game.down) {
+            // Move diagonally to the bottom-right
+            this.x += this.speed;
+            this.y += this.speed;
+            this.directionFace = Direction.RIGHT;
+        } 
 
         if (this.game.left) {
             this.x -= this.speed;
