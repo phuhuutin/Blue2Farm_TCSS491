@@ -20,7 +20,7 @@ class Slime{
         this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
         
         //healthbar information
-        this.healthbar= new HealthBar(this);
+        this.healthbar= new HealthBar(this, this.game);
         this.hitpoints = 100;
         this.maxhitpoints = 100;
        // this.game.slime = this;
