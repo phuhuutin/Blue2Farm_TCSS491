@@ -15,7 +15,7 @@ class FarmLandNormalGrass{
    
      
         ctx.fillStyle = "#367f63";
-        ctx.fillRect(0- this.game.camera.x, - this.game.camera.y, 1500, 2000);
+        ctx.fillRect(0- this.game.camera.x, - this.game.camera.y, 2000, 2500);
      
     }
 
