@@ -51,7 +51,7 @@ class SceneManager{
   
 
         this.game.addEntity(this.dog);
-        
+
         
 
 
@@ -101,10 +101,11 @@ class SceneManager{
         //////////////////////////////////DO NOT BLOCK THE MAIN CHARACTER
         
 
-        
-        this.listOfBuildings.push(new FarmLandHouse(this.game, 550, 80));
-        this.listOfBuildings.push(new FarmLandWindmill(this.game, 722, 230));
-        this.listOfBuildings.push(new FarmLandBigHouse(this.game, 670, 150));
+        let houseX = 600;
+        let houseY = 40;
+        this.listOfBuildings.push(new FarmLandHouse(this.game, houseX, houseY));
+        this.listOfBuildings.push(new FarmLandWindmill(this.game, houseX+172, houseY+150));
+        this.listOfBuildings.push(new FarmLandBigHouse(this.game, houseX+120, houseY+70));
 
         for(let i = 0; i < this.listOfBuildings.length; i++){
             this.game.addEntity(this.listOfBuildings[i]);
