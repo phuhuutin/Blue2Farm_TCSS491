@@ -7,6 +7,7 @@ ASSET_MANAGER.queueDownload("./sprites/plants.png");
 ASSET_MANAGER.queueDownload("./sprites/inventory.png");
 ASSET_MANAGER.queueDownload("./sprites/slime.png");
 ASSET_MANAGER.queueDownload("./sprites/farmland.png");
+ASSET_MANAGER.queueDownload("./sprites/farmAsset.png");
 ASSET_MANAGER.queueDownload("./sprites/grassbase.png");
 ASSET_MANAGER.queueDownload("./sprites/doghit.png");
 ASSET_MANAGER.queueDownload("./sprites/dogwalkk.png");
