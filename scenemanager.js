@@ -36,6 +36,8 @@ class SceneManager{
 
         this.listOfDirtGround = [];
 
+        this.listOfBuildings = [];
+
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0 ,0);
         this.dog = new Dog(this.game,600, 100, [{ x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: 0, y: 0 }]);
@@ -49,7 +51,7 @@ class SceneManager{
   
 
         this.game.addEntity(this.dog);
-
+        
         
 
 
@@ -100,6 +102,13 @@ class SceneManager{
         
 
         
+        this.listOfBuildings.push(new FarmLandHouse(this.game, 550, 80));
+        this.listOfBuildings.push(new FarmLandWindmill(this.game, 722, 230));
+        this.listOfBuildings.push(new FarmLandBigHouse(this.game, 670, 150));
+
+        for(let i = 0; i < this.listOfBuildings.length; i++){
+            this.game.addEntity(this.listOfBuildings[i]);
+        }
  
 
 
@@ -219,7 +228,7 @@ class SceneManager{
         this.normalGrass.removeFromWorld = false;
         this.game.addEntity(this.normalGrass);
        
-
+        
     }
     draw(ctx){
         //HUB
