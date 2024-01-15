@@ -102,27 +102,25 @@ class MainCharacter{
 
         if (this.game.left && this.game.up) {
             // Move diagonally to the top-left
-            this.x -= this.speed;
-            this.y -= this.speed;
+            this.x -= this.speed/ Math.sqrt(2);
+            this.y -= this.speed/ Math.sqrt(2);
             this.directionFace = Direction.LEFT;
         } else if (this.game.right && this.game.up) {
             // Move diagonally to the top-right
-            this.x += this.speed;
-            this.y -= this.speed;
+            this.x += this.speed/ Math.sqrt(2);
+            this.y -= this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
         } else if (this.game.left && this.game.down) {
             // Move diagonally to the bottom-left
-            this.x -= this.speed;
-            this.y += this.speed;
+            this.x -= this.speed/ Math.sqrt(2);
+            this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.LEFT;
         } else if (this.game.right && this.game.down) {
             // Move diagonally to the bottom-right
-            this.x += this.speed;
-            this.y += this.speed;
+            this.x += this.speed/ Math.sqrt(2);
+            this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
-        } 
-
-        if (this.game.left) {
+        } else if (this.game.left) {
             this.x -= this.speed;
             this.directionFace = Direction.LEFT;
         } else if (this.game.right) {
