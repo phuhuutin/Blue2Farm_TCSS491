@@ -66,6 +66,17 @@ class SceneManager{
 
         }
 
+        
+        
+        
+
+        this.character.removeFromWorld = false;
+        this.game.addEntity(this.character);
+        
+
+
+        //////////////////////////////////DO NOT BLOCK THE MAIN CHARACTER
+        
         this.listOfCutTree.push(new FarmLandCutTree(this.game, 300,200))
         for(let i = 0; i < this.listOfCutTree.length; i++){
             this.listOfCutTree[i].removeFromWorld = false;
@@ -88,17 +99,6 @@ class SceneManager{
             this.game.addEntity(this.listOfSproutTree[i]);
 
         }
-        
-        
-
-        this.character.removeFromWorld = false;
-        this.game.addEntity(this.character);
-        
-
-
-        //////////////////////////////////DO NOT BLOCK THE MAIN CHARACTER
-        
-
         
  
 
