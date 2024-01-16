@@ -12,7 +12,7 @@ class MainCharacter{
         this.height = 48;
         this.width = 48;
         this.game.character = this;
-        this.radius = 30;
+        this.radius = 20;
      //   this.speed = 0.5;
      this.speed = 0.5;
         // spritesheet
@@ -229,6 +229,12 @@ class MainCharacter{
            //w  ctx.strokeStyle = 'red';
             ctx.strokeRect(this.x - this.game.camera.x, this.y - this.game.camera.y, 48*PARAMS.SCALE, 48*PARAMS.SCALE);
             ctx.setLineDash([]);
+
+            // ctx.strokeStyle = "Red";
+            // ctx.beginPath();
+            // ctx.arc(this.x - this.game.camera.x, this.y - this.game.camera.y, this.radius, 0, 2 * Math.PI);
+            // ctx.closePath();
+            // ctx.stroke();
 
         }
         this.healthbar.draw(ctx);

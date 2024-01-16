@@ -43,7 +43,12 @@ class SceneManager{
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0 ,0);
-        this.dog = new Dog(this.game,600, 100, [{ x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: 0, y: 0 }]);
+        this.dog = new Dog(this.game,600, 1400, [{ x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: 0, y: 0 }]);
+        this.wiz = new Wizard(this.game,200, 1400, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
+        this.bor = new Boar(this.game,500, 1400, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
+        this.gob = new Goblin(this.game,700, 1400, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
+        this.greenG = new GreenGoblin(this.game,400, 1550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
+        this.worm = new FireWorm(this.game,100, 1500, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
 
         this.loadMap();
 
@@ -53,9 +58,7 @@ class SceneManager{
     loadMap(){
   
 
-        this.game.addEntity(this.dog);
-
-        
+       
 
 
 
@@ -77,7 +80,12 @@ class SceneManager{
 
         this.character.removeFromWorld = false;
         this.game.addEntity(this.character);
-        
+        this.game.addEntity(this.dog);
+        this.game.addEntity(this.wiz);
+        this.game.addEntity(this.bor);
+        this.game.addEntity(this.gob);
+        this.game.addEntity(this.greenG);
+        this.game.addEntity(this.worm);
 
 
         //////////////////////////////////DO NOT BLOCK THE MAIN CHARACTER
