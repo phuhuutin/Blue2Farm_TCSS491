@@ -16,8 +16,8 @@ class FarmLandSqroutGrass{
     };
     draw(ctx) {
  
-        ctx.drawImage(this.spritesheet,32,0, 32,32, this.x - this.game.camera.x,this.y - this.game.camera.y,this.width,this.height);
-
+     //   ctx.fillStyle = "#367f63";
+      //  ctx.fillRect(0- this.game.camera.x, - this.game.camera.y, 2000, 200);
     }
 
 }
