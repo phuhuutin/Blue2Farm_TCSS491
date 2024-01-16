@@ -40,7 +40,7 @@ class FarmLandDirtGround{
                 if(j == this.cols - 1){
 
                     ctx.drawImage(this.spritesheet,178,48,10, 
-                        64, this.x - this.game.camera.x+ this.width*(j+1),
+                        64, -2 + this.x - this.game.camera.x+ this.width*(j+1),
                         this.y - this.game.camera.y + 64*i-2,
                         10,64);
                 }
