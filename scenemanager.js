@@ -36,6 +36,7 @@ class SceneManager{
 
         this.listOfDirtGround = [];
 
+        this.listOfBuildings = [];
 
         this.listOfLakeAndOtherSide = new LakeAndOtherSide(this.game);
 
@@ -107,7 +108,7 @@ class SceneManager{
         
 
         let houseX = 600;
-        let houseY = 40;
+        let houseY = 350;
         this.listOfBuildings.push(new FarmLandHouse(this.game, houseX, houseY));
         this.listOfBuildings.push(new FarmLandWindmill(this.game, houseX+172, houseY+150));
         this.listOfBuildings.push(new FarmLandBigHouse(this.game, houseX+120, houseY+70));
