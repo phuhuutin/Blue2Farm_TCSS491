@@ -36,7 +36,9 @@ class SceneManager{
 
         this.listOfDirtGround = [];
 
+
         this.listOfLakeAndOtherSide = new LakeAndOtherSide(this.game);
+
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0 ,0);
@@ -87,6 +89,7 @@ class SceneManager{
         // }
 
 
+
         // this.listOfDeadTree.push(new FarmLandDeadTree(this.game,400,200))
         // for(let i = 0; i < this.listOfDeadTree.length; i++){
         //     this.listOfDeadTree[i].removeFromWorld = false;
@@ -102,6 +105,17 @@ class SceneManager{
 
         // }
         
+
+        let houseX = 600;
+        let houseY = 40;
+        this.listOfBuildings.push(new FarmLandHouse(this.game, houseX, houseY));
+        this.listOfBuildings.push(new FarmLandWindmill(this.game, houseX+172, houseY+150));
+        this.listOfBuildings.push(new FarmLandBigHouse(this.game, houseX+120, houseY+70));
+
+        for(let i = 0; i < this.listOfBuildings.length; i++){
+            this.game.addEntity(this.listOfBuildings[i]);
+        }
+
  
 
 
@@ -225,7 +239,7 @@ class SceneManager{
         this.normalGrass.removeFromWorld = false;
         this.game.addEntity(this.normalGrass);
        
-
+        
     }
     draw(ctx){
         //HUB
