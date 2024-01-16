@@ -32,7 +32,7 @@ class HorizontalSoil{
         this.previousLandPartsClick = null;
 
 
-       this.menuOffsetY = 60;
+       this.menuOffsetY = 20;
     }; 
 
     update(){
