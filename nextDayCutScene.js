@@ -44,9 +44,7 @@ class NextDayCutScene{
         ctx.fillStyle = sunGradient;
         ctx.fill();
 
-        ctx.font = '12px "Press Start 2P"';
-        this.game.ctx.fillStyle = "white";
-        this.game.ctx.fillText( "Credit: codepen.io/TheBrutalTooth  ",10 ,PARAMS.CANVAS_HEIGHT * 0.5 + 15);
+        
 
     // Draw sea
         ctx.globalAlpha = 1;
@@ -58,7 +56,9 @@ class NextDayCutScene{
 
     
 
-
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "white";
+        this.game.ctx.fillText( "Credit: codepen.io/TheBrutalTooth  ",10 ,PARAMS.CANVAS_HEIGHT * 0.5 + 15);
 
 
         let midpointX = PARAMS.CANVAS_WIDTH/2;
