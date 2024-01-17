@@ -24,7 +24,7 @@ class GameEngine {
         this.rightClick = false;
         this.leftClick = false;
 
-        this.inventotyOn = false;
+        this.testSleepCutScene = false;
 
         this.mouseClick = false;
 
@@ -110,6 +110,9 @@ class GameEngine {
         
         const keyUpListener = (e)=>{
             switch (e.code) {
+                case "KeyI":
+                    this.testSleepCutScene = false;
+                    break;
                 case "ArrowLeft":
                 case "KeyA":
                     this.left = false;
@@ -145,7 +148,7 @@ class GameEngine {
 
                 case "KeyI":
                     ++PARAMS.DAYCOUNTER;
-                    this.inventotyOn = !this.inventotyOn;
+                    this.testSleepCutScene = true;
                     break;
                 case "ArrowLeft":
                 case "KeyA":
