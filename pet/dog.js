@@ -9,7 +9,7 @@ class Dog {
       this.maxhitpoints = 100;
       this.condition = false;
 
-      this.visualRadius = 250;
+      this.visualRadius = 150;
 
       this.initialPoint = { x, y };
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dogwalkk.png");
@@ -157,9 +157,9 @@ class Dog {
           dist = distance(this, this.target);
           this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
           //this help me move
-          this.x += this.velocity.x * this.game.clockTick;
+          // this.x += this.velocity.x * this.game.clockTick;
       
-           this.y += this.velocity.y * this.game.clockTick;
+          //  this.y += this.velocity.y * this.game.clockTick;
        }
 
       this.facing = getFacing(this.velocity);
@@ -179,31 +179,31 @@ class Dog {
 
 if(this.state==0 ){
 
-  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 60 - this.game.camera.x, this.y - 20 - this.game.camera.y, 1.5);
+  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 30 - this.game.camera.x, this.y -60 - this.game.camera.y, 1.5);
   
 
  }
 else if( this.state==1 && this.faceleft ==true){
   ctx.save();
 ctx.scale(-1, 1);
-this.animations[1][0].drawFrame(this.game.clockTick, ctx, -this.x-70 + this.game.camera.x, this.y - 20 - this.game.camera.y, 1.5);
+this.animations[1][0].drawFrame(this.game.clockTick, ctx, -this.x -40 + this.game.camera.x, this.y - 50 - this.game.camera.y, 1.5);
 ctx.restore();
 
 }
 else if( this.state==1 && this.faceleft ==false){
-  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x -60 - this.game.camera.x, this.y - 20 - this.game.camera.y,1.5);
+  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 30 - this.game.camera.x, this.y -60 - this.game.camera.y,1.5);
 
 }
   else if (this.state === 3) { // Example: checking for state 3
       ctx.save();
       ctx.scale(-1, 1);
-      this.animations[0][0].drawFrame(this.game.clockTick, ctx, -this.x -70 + this.game.camera.x, this.y - 20 - this.game.camera.y, 1.5);
+      this.animations[0][0].drawFrame(this.game.clockTick, ctx, -this.x -40 + this.game.camera.x, this.y - 50 - this.game.camera.y, 1.5);
       ctx.restore();
   }
   else if (this.state === 4) { // Example: checking for state 3
     ctx.save();
     ctx.scale(-1, 1);
-    this.animations[2][0].drawFrame(this.game.clockTick, ctx, -this.x -70 + this.game.camera.x, this.y - 20 - this.game.camera.y, 1.5);
+    this.animations[2][0].drawFrame(this.game.clockTick, ctx, -this.x -40 + this.game.camera.x, this.y - 50 - this.game.camera.y, 1.5);
     ctx.restore();
 }
 
