@@ -16,15 +16,16 @@ class LakeAndOtherSide{
         this.bigWaterFallAnimation = new Animator(this.spritesheet, 360, 352, 80, 97, 3, 0.5, 16, false, true);
         this.campFireAnimation  = new Animator(this.spritesheet, 288, 107, 32, 50, 5, 0.2, 0, false, true);
         this.verticalRightWaterAnimation  = new Animator(this.spritesheet, 187, 366, 14, 53, 3, 5, 0, false, true);
-
+        this.updateBB();
        
     }; 
+    
 
     loadAnimations(){
 
     }
     update(){
-
+        this.updateBB();
     };
     addSmallGrass(ctx,x,y){
         ctx.drawImage(this.spritesheet,256,0, 32,32, x  - this.game.camera.x , y - this.game.camera.y,32,32);
@@ -265,8 +266,19 @@ class LakeAndOtherSide{
         for(let i = 0; i < 3; i++){
             this.addWoodBridge(ctx,1750 ,135 + 40*i);
         }
+        if (PARAMS.DEBUG) {
+             ctx.strokeStyle = 'red';
+             ctx.strokeRect(0- this.game.camera.x, 0- this.game.camera.y, 2000, 300);
         
+ 
+ 
+         }
         
     }
+ 
+    updateBB(){
+        this.BB = new BoundingBox(0- this.game.camera.x, 0- this.game.camera.y, 2000, 270);
+        
+    };
 
 }

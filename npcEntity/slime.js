@@ -5,7 +5,8 @@ class Slime{
 
         this.x = x;
         this.y = y;
-
+        this.width = 48;
+        this.height = 48;
 
         //walking to the target information
         this.radius = 48/2;
@@ -133,12 +134,26 @@ class Slime{
                 //     this.elapsedTime = 0;
                 // }
             }
+            if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
+                const collisionDirection = this.BB.checkCollisionSides(ent.BB);
+                if(collisionDirection.left){
+                    this.x -= this.speed;
+                }else if(collisionDirection.right) {
+                    this.x += this.speed;
+                }else if(collisionDirection.top) {
+                    this.y -= this.speed;
+                }else if(collisionDirection.bottom) {
+                    this.y += this.speed;
+                }
+            
+                
+            } 
             if (ent instanceof Dog && canSee(this, ent)) {
                 this.target = ent;
 
             }
             //size of FarmLandBigTree: 99,127
-            if (ent instanceof Dog && collide(this,  ent)) {
+            if (ent instanceof Dog && collide(this,  ent)) {s
                 if (this.state === 0) {
                     this.state = 1;
                     this.elapsedTime = 0;
@@ -159,7 +174,7 @@ class Slime{
         if (this.state !== 1) {
             dist = distance(this, this.target);
             this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
-            this.x += this.velocity.x * this.game.clockTick;
+           if(this.x + this.velocity.x * this.game.clockTick +  this.width/2 < 2000 && this.x + this.velocity.x * this.game.clockTick - this.width/2 > 0) this.x += this.velocity.x * this.game.clockTick;
             this.y += this.velocity.y * this.game.clockTick;
         }
         this.facing = getFacing(this.velocity);
@@ -239,7 +254,7 @@ class Slime{
             ctx.stroke();
 
             ctx.strokeStyle = 'blue';
-            ctx.strokeRect(this.x - this.game.camera.x - (48/2), this.y - this.game.camera.y - (46/2), 48*PARAMS.SCALE, 46*PARAMS.SCALE);
+            ctx.strokeRect(this.x - this.game.camera.x - (48/2), this.y - this.game.camera.y - (46/2), 48, 46);
 
             ctx.strokeStyle = "Red";
             ctx.beginPath();
