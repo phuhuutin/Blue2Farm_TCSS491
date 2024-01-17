@@ -17,7 +17,7 @@ class FarmLandBigHouse {
     };
 
     loadAnimations() {
-        this.WindmillAnimations = new Animator(this.windmillSpritesheet, 419, 291, 96, 96, 3, 0.3, 0, false, true);
+        this.windmillAnimations = new Animator(this.windmillSpritesheet, 419, 291, 96, 96, 3, 0.3, 0, false, true);
         this.chimneyAnimation = new Animator(this.chimneySpritesheet, 438, 436, 48, 135, 4, 0.3, 0, false, true);
         this.doorAnimations = new Animator(this.doorSpritesheet, 482, 341, 46, 89, 3, 0.3, 0.3, false, true);
 
@@ -33,7 +33,7 @@ class FarmLandBigHouse {
             this.width,
             this.height);
 
-        this.WindmillAnimations.drawFrame(this.game.clockTick,
+        this.windmillAnimations.drawFrame(this.game.clockTick,
             ctx,
             this.x - this.game.camera.x + 26,
             this.y - this.game.camera.y + 50,
