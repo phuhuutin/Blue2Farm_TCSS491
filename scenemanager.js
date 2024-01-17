@@ -9,7 +9,7 @@ class SceneManager{
         this.x = 0;
         this.y = 0;
 
-        this.character = new MainCharacter(this.game, 0, 0);
+        this.character = new MainCharacter(this.game, 400, 400);
 
 
         this.listOfSlime = [];
@@ -42,6 +42,8 @@ class SceneManager{
 
         this.listOfLakeAndOtherSide = new LakeAndOtherSide(this.game);
 
+        this.listOfInvisibleBlocker = [];
+
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0 ,0);
@@ -62,19 +64,24 @@ class SceneManager{
 
        
 
-
-
-
-        
-
-
-        
-        this.listOfTree.push(new FarmLandBigTree(this.game, 500 ,800));
-        for(let i = 0; i < this.listOfTree.length; i++){
-            this.listOfTree[i].removeFromWorld = false;
-            this.game.addEntity(this.listOfTree[i]);
+        this.listOfInvisibleBlocker.push(new InvisibleLakeBlocker(this.game));
+        for(let i = 0; i < this.listOfInvisibleBlocker.length; i++){
+            this.listOfInvisibleBlocker[i].removeFromWorld = false;
+            this.game.addEntity(this.listOfInvisibleBlocker[i]);
 
         }
+
+
+        
+
+
+        
+        // this.listOfTree.push(new FarmLandBigTree(this.game, 500 ,800));
+        // for(let i = 0; i < this.listOfTree.length; i++){
+        //     this.listOfTree[i].removeFromWorld = false;
+        //     this.game.addEntity(this.listOfTree[i]);
+
+        // }
 
         
         
@@ -148,10 +155,10 @@ class SceneManager{
 
 
         // this.listOfSlime.push(new Slime(this.game, 0,0));
-        this.listOfSlime.push(new Slime(this.game, 200,550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 50 }]));
+        this.listOfSlime.push(new Slime(this.game, 200,550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
 
-        this.listOfSlime.push(new Slime(this.game, 333,333, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 50 }]));
-        this.listOfSlime.push(new Slime(this.game, 666,666, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, {x: 0, y: 50 }]));
+        this.listOfSlime.push(new Slime(this.game, 333,333, [{ x: -50, y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+        this.listOfSlime.push(new Slime(this.game, 666,1100, [{ x: 3000, y: 900 }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, {x: 110, y: 0 }]));
 
 
         for(let i = 0; i < this.listOfSlime.length; i++){
@@ -267,6 +274,7 @@ class SceneManager{
         this.game.addEntity(this.normalGrass);
        
         
+
     }
     draw(ctx){
         //HUB
@@ -280,7 +288,7 @@ class SceneManager{
     update(){
         let midpointX = PARAMS.CANVAS_WIDTH/2 ;
         let midpointY = PARAMS.CANVAS_HEIGHT/2 ;
-        if (0 < this.character.x - midpointX) {
+        if (0 < this.character.x - midpointX && this.character.x + midpointX < 2000 ) {
             
             this.x = this.character.x - midpointX;
 
