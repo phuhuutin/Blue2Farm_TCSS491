@@ -38,6 +38,8 @@ class SceneManager{
 
         this.listOfBuildings = [];
 
+        this.listOfAnimals = [];
+
         this.listOfLakeAndOtherSide = new LakeAndOtherSide(this.game);
 
 
@@ -107,16 +109,31 @@ class SceneManager{
         // }
         
 
-        let houseX = 600;
-        let houseY = 350;
+        let houseX = 553;
+        let houseY = 530;
         this.listOfBuildings.push(new FarmLandHouse(this.game, houseX, houseY));
-        this.listOfBuildings.push(new FarmLandWindmill(this.game, houseX+172, houseY+150));
         this.listOfBuildings.push(new FarmLandBigHouse(this.game, houseX+120, houseY+70));
+        this.listOfBuildings.push(new FarmLandGiantHouse(this.game, houseX-370, houseY-80));
+        this.listOfBuildings.push(new FarmLandHouse(this.game, houseX-500, houseY-70));
+        this.listOfBuildings.push(new FarmLandStatic(this.game,60,650,StaticType.ANIMAL_WATER));
+        this.listOfBuildings.push(new FarmLandStatic(this.game,70,800, StaticType.ANIMAL_Food));
 
         for(let i = 0; i < this.listOfBuildings.length; i++){
             this.game.addEntity(this.listOfBuildings[i]);
         }
 
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 400, 400, AnimalType.COW));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 360, 390, AnimalType.COW));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 220, 660, AnimalType.COW));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 100, 655, AnimalType.CHICKEN));
+        
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 710, 800, AnimalType.SHEEP));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 750, 750, AnimalType.SHEEP));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 680, 750, AnimalType.SHEEP));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 90, 755, AnimalType.EATINGCOW));
+        for(let i = 0; i < this.listOfAnimals.length; i++){
+            this.game.addEntity(this.listOfAnimals[i]);
+        }
  
 
 
