@@ -13,6 +13,7 @@ ASSET_MANAGER.queueDownload("./sprites/doghit.png");
 ASSET_MANAGER.queueDownload("./sprites/dogwalkk.png");
 ASSET_MANAGER.queueDownload("./sprites/dogidle.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
+ASSET_MANAGER.queueDownload("./sprites/farmHouses.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy/wizardRun.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy/wizardAttack1.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy/boarWalk.png");
