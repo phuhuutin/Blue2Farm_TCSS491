@@ -7,8 +7,8 @@ const Direction = {
 class MainCharacter{
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.x = 110;
-        this.y = 110;
+        this.x = x;
+        this.y = y;
         this.height = 48;
         this.width = 48;
         this.game.character = this;
@@ -100,30 +100,30 @@ class MainCharacter{
     update(){
         this.elapsedTime += this.game.clockTick;
 
-        if (this.game.left && this.game.up) {
+        if (this.game.left && this.game.up  && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
             // Move diagonally to the top-left
             this.x -= this.speed/ Math.sqrt(2);
             this.y -= this.speed/ Math.sqrt(2);
             this.directionFace = Direction.LEFT;
-        } else if (this.game.right && this.game.up) {
+        } else if (this.game.right && this.game.up&& this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
             // Move diagonally to the top-right
             this.x += this.speed/ Math.sqrt(2);
             this.y -= this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
-        } else if (this.game.left && this.game.down) {
+        } else if (this.game.left && this.game.down&& this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000) {
             // Move diagonally to the bottom-left
             this.x -= this.speed/ Math.sqrt(2);
             this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.LEFT;
-        } else if (this.game.right && this.game.down) {
+        } else if (this.game.right && this.game.down && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000) {
             // Move diagonally to the bottom-right
             this.x += this.speed/ Math.sqrt(2);
             this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
-        } else if (this.game.left) {
+        } else if (this.game.left && this.x -  this.width/2 > 0 ) {
             this.x -= this.speed;
             this.directionFace = Direction.LEFT;
-        } else if (this.game.right) {
+        } else if (this.game.right && this.x +  this.width/2 < 2000) {
             this.x += this.speed;
             this.directionFace = Direction.RIGHT;
         } else if (this.game.up) {
@@ -152,7 +152,7 @@ class MainCharacter{
                 //     }
                 //    console.log("collided with Smile");
                 // }else 
-                if(entity instanceof FarmLandBigTree){
+                if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
                     const collisionDirection = this.BB.checkCollisionSides(entity.BB);
                     if(collisionDirection.left){
                         this.x -= this.speed;
@@ -177,7 +177,7 @@ class MainCharacter{
                             if(entity.hitpoints - damage < 0) entity.removeFromWorld = true;
                             entity.hitpoints -= damage;
 
-                            this.game.addEntityFirst(new Score(this.game, entity.x, entity.y, damage));
+                            this.game.addEntityFirst(new Score(this.game, entity.x - this.game.camera.x, entity.y- this.game.camera.y, damage));
                             this.elapsedTime = 0;
                             
                         }
