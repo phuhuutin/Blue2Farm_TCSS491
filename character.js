@@ -12,7 +12,7 @@ class MainCharacter{
         this.height = 48;
         this.width = 48;
         this.game.character = this;
-        this.radius = 20;
+        this.radius = 30; //attack range
      //   this.speed = 0.5;
      this.speed = 0.5;
         // spritesheet
@@ -91,7 +91,7 @@ class MainCharacter{
     };
     updateBB() {
         
-            this.BB = new BoundingBox(this.x- this.game.camera.x, this.y- this.game.camera.y, this.width, this.height);
+            this.BB = new BoundingBox(this.x- this.game.camera.x- this.width/2, this.y- this.game.camera.y- this.height/2, this.width, this.height);
         
     };
     // updateLastBB() {
@@ -137,21 +137,22 @@ class MainCharacter{
             var entity = this.game.entities[i];
             
             if (entity.BB && this.BB.collide(entity.BB)) {
-                if (entity instanceof Slime) {
-                    if(this.state === 1){
-                        if (this.elapsedTime > 0.2) {
-                            var damage = 7 + randomInt(4);
-                            if(entity.hitpoints - damage < 0) entity.removeFromWorld = true;
-                            entity.hitpoints -= damage;
+                // if (entity instanceof Slime) {
+                //     if(this.state === 1){
+                //         if (this.elapsedTime > 0.2) {
+                //             var damage = 7 + randomInt(4);
+                //             if(entity.hitpoints - damage < 0) entity.removeFromWorld = true;
+                //             entity.hitpoints -= damage;
 
-                            this.game.addEntityFirst(new Score(this.game, entity.x, entity.y, damage));
-                            this.elapsedTime = 0;
+                //             this.game.addEntityFirst(new Score(this.game, entity.x, entity.y, damage));
+                //             this.elapsedTime = 0;
                             
-                        }
+                //         }
                        
-                    }
-                   console.log("collided with Smile");
-                }else if(entity instanceof FarmLandBigTree){
+                //     }
+                //    console.log("collided with Smile");
+                // }else 
+                if(entity instanceof FarmLandBigTree){
                     const collisionDirection = this.BB.checkCollisionSides(entity.BB);
                     if(collisionDirection.left){
                         this.x -= this.speed;
@@ -165,10 +166,24 @@ class MainCharacter{
                 
                     
                 } 
+
  
             }
  
-            
+            if ((entity instanceof Slime || entity instanceof Boar) && collide(this,  entity)) {
+                        if(this.state === 1){
+                        if (this.elapsedTime > 0.2) {
+                            var damage = 7 + randomInt(4);
+                            if(entity.hitpoints - damage < 0) entity.removeFromWorld = true;
+                            entity.hitpoints -= damage;
+
+                            this.game.addEntityFirst(new Score(this.game, entity.x, entity.y, damage));
+                            this.elapsedTime = 0;
+                            
+                        }
+                       
+                    }
+            }
         }
         
        // this.updateLastBB();
@@ -183,18 +198,18 @@ class MainCharacter{
 
         if (this.game.left) {
           
-            this.animations[0][Direction.LEFT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
+            this.animations[0][Direction.LEFT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - this.width/2,this.y - this.game.camera.y - this.height/2,PARAMS.SCALE);
 
         } else if (this.game.right) {
-            this.animations[0][Direction.RIGHT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
+            this.animations[0][Direction.RIGHT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
         } else if (this.game.up) {
-            this.animations[0][Direction.UP].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
+            this.animations[0][Direction.UP].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
 
         } else if (this.game.down) {
-            this.animations[0][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
+            this.animations[0][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
         } else if(!this.game.spaceKey){
           //  ctx.drawImage(this.spritesheet,0,this.directionFace*48+1, 48,48, this.x - this.game.camera.x,this.y - this.game.camera.y,48*PARAMS.SCALE,48*PARAMS.SCALE);
-            this.animations[2][this.directionFace].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
+            this.animations[2][this.directionFace].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
         }
         
         if(this.game.spaceKey){
@@ -203,23 +218,23 @@ class MainCharacter{
 
             switch(this.directionFace){
                 case Direction.DOWN:
-                    this.animations[0][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-                    this.animations[1][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x + 5,this.y - this.game.camera.y + 30,PARAMS.SCALE);
+                    this.animations[0][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
+                    this.animations[1][Direction.DOWN].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x + 5 - this.width/2,this.y - this.game.camera.y + 30- this.height/2,PARAMS.SCALE);
                 
                     break;
                 case Direction.LEFT:
-                    this.animations[0][Direction.LEFT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-                    this.animations[1][Direction.LEFT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - 10,this.y - this.game.camera.y + 20,PARAMS.SCALE);
+                    this.animations[0][Direction.LEFT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
+                    this.animations[1][Direction.LEFT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - 10- this.width/2,this.y - this.game.camera.y + 20- this.height/2,PARAMS.SCALE);
 
                     break;
                 case Direction.RIGHT:
-                    this.animations[0][Direction.RIGHT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-                    this.animations[1][Direction.RIGHT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x + 25,this.y - this.game.camera.y + 20,PARAMS.SCALE);
+                    this.animations[0][Direction.RIGHT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
+                    this.animations[1][Direction.RIGHT].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x + 25- this.width/2,this.y - this.game.camera.y + 20- this.height/2,PARAMS.SCALE);
     
                 break;
                 case Direction.UP:
-                    this.animations[1][Direction.UP].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x + 10,this.y - this.game.camera.y - 15,PARAMS.SCALE);
-                    this.animations[0][Direction.UP].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
+                    this.animations[1][Direction.UP].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x + 10- this.width/2,this.y - this.game.camera.y - 15- this.height/2,PARAMS.SCALE);
+                    this.animations[0][Direction.UP].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
 
                     break;
             }
@@ -227,14 +242,14 @@ class MainCharacter{
         }
         if (PARAMS.DEBUG) {
            //w  ctx.strokeStyle = 'red';
-            ctx.strokeRect(this.x - this.game.camera.x, this.y - this.game.camera.y, 48*PARAMS.SCALE, 48*PARAMS.SCALE);
+            ctx.strokeRect(this.x - this.game.camera.x- this.width/2, this.y - this.game.camera.y- this.height/2, 48*PARAMS.SCALE, 48*PARAMS.SCALE);
             ctx.setLineDash([]);
 
-            // ctx.strokeStyle = "Red";
-            // ctx.beginPath();
-            // ctx.arc(this.x - this.game.camera.x, this.y - this.game.camera.y, this.radius, 0, 2 * Math.PI);
-            // ctx.closePath();
-            // ctx.stroke();
+            ctx.strokeStyle = "Red";
+            ctx.beginPath();
+            ctx.arc(this.x - this.game.camera.x, this.y - this.game.camera.y, this.radius, 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.stroke();
 
         }
         this.healthbar.draw(ctx);
