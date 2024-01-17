@@ -16,9 +16,9 @@ class Boar {
         this.radius = 60;
         this.faceleft = false;
         this.healthbar= new HealthBar(this);
-        this.hitpoints = 100;
-        this.maxhitpoints = 100;
-
+        this.hitpoints = 500;
+        this.maxhitpoints = 500;
+        this.damageBase = 15;
         this.visualRadius = 150;
         this.initialPoint = {};
         this.initialPoint.x = x;
@@ -45,6 +45,8 @@ class Boar {
         this.directionFace = 0;
         
         this.attackTarget = null;
+
+        this.updateBB();
     };
 
     loadAnimations(){
@@ -74,11 +76,15 @@ class Boar {
        
     }
 
+    updateBB() {
 
+        this.BB = new BoundingBox(this.x - this.game.camera.x - (this.width/2), this.y - this.game.camera.y - (this.height/2), this.width, this.height);
+    
+    };
 
     // };s
     update() {
-       // this.updateBB();
+        this.updateBB();
     
         this.elapsedTime += this.game.clockTick;
 
@@ -100,6 +106,20 @@ class Boar {
                 this.attackTarget = ent;
 
             }
+            if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
+                const collisionDirection = this.BB.checkCollisionSides(ent.BB);
+                if(collisionDirection.left){
+                    this.x -= this.speed;
+                }else if(collisionDirection.right) {
+                    this.x += this.speed;
+                }else if(collisionDirection.top) {
+                    this.y -= this.speed;
+                }else if(collisionDirection.bottom) {
+                    this.y += this.speed;
+                }
+            
+                
+            }
             //size of FarmLandBigTree: 99,127
             if (ent instanceof Dog || ent instanceof MainCharacter  && collide(this,  ent)) {
                 if (this.state === 0) {
@@ -109,7 +129,7 @@ class Boar {
 
                  } 
             //    if (this.elapsedTime > 0.8) {
-            //        var damage = 7 + randomInt(4);
+            //        var damage = this.damageBase + randomInt(4);
             //        ent.hitpoints -= damage;
             //          this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
             //          this.elapsedTime = 0;
@@ -121,11 +141,9 @@ class Boar {
            
         }
         if (this.state !== 1 ) {
-            console.log(this.target.x + "," + this.target.y);
-            console.log(this.x  + "," + this.y);
+
 
             if(this.targetID == this.path.length - 1 && Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1){
-                console.log("ger");
                 this.state = 2;
             } else {
                 dist = distance(this, this.target);
@@ -178,6 +196,8 @@ class Boar {
           
 
             ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.x - this.game.camera.x - (this.width/2), this.y - this.game.camera.y - (this.height/2), this.width,this.height);
+
             ctx.beginPath();
             ctx.arc(this.x - this.game.camera.x , this.y - this.game.camera.y  , this.radius, 0, 2 * Math.PI);
             ctx.closePath();
