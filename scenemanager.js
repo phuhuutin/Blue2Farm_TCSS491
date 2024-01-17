@@ -113,7 +113,7 @@ class SceneManager {
             this.listOfTree[i].removeFromWorld = false;
             this.game.addEntity(this.listOfTree[i]);
 
-        // }
+        }
 
 
 
