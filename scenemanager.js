@@ -82,8 +82,8 @@ class SceneManager {
         this.listOfTree.push(new ForestRedTree(this.game, 680, 325));
         this.listOfTree.push(new FarmLandBigTree(this.game, 610, 325));
         this.listOfTree.push(new FarmLandBigTree(this.game, 740, 325));
-        this.listOfTree.push(new FarmLandBigTree(this.game, 430, 500));
-        this.listOfTree.push(new ForestRedTree(this.game, 510, 500));
+        this.listOfTree.push(new FarmLandBigTree(this.game, 230, 400));
+        this.listOfTree.push(new ForestRedTree(this.game, 900, 450));
 
 
 
@@ -92,15 +92,15 @@ class SceneManager {
         this.listOfTree.push(new FarmLandBigTree(this.game, 0, 850));
         this.listOfTree.push(new FarmLandBigTree(this.game, 0, 800));
         this.listOfTree.push(new ForestRedTree(this.game, 0, 700));
-        this.listOfTree.push(new ForestRedTree(this.game, 200, 1050));
-        this.listOfTree.push(new FarmLandBigTree(this.game, 300, 1050));
-        this.listOfTree.push(new FarmLandBigTree(this.game, 400, 1050));
+        this.listOfTree.push(new ForestRedTree(this.game, 200, 1150));
+        this.listOfTree.push(new FarmLandBigTree(this.game, 300, 1150));
+        this.listOfTree.push(new FarmLandBigTree(this.game, 400, 1150));
 
 
 
         this.listOfTree.push(new FarmLandBigTree(this.game, 1280, 1050));
         this.listOfTree.push(new FarmLandBigTree(this.game, 1280, 950));
-        this.listOfTree.push(new FarmLandBigTree(this.game, 1280, 850));
+        //this.listOfTree.push(new FarmLandBigTree(this.game, 1280, 850));
         this.listOfTree.push(new ForestRedTree(this.game, 1280, 750));
         this.listOfTree.push(new FarmLandBigTree(this.game, 1280, 650));
         this.listOfTree.push(new FarmLandBigTree(this.game, 1280, 550));
@@ -159,21 +159,32 @@ class SceneManager {
 
         let houseX = 50;
         let houseY = 460;
-        this.listOfBuildings.push(new FarmLandHouse(this.game, houseX, houseY));
-        this.listOfBuildings.push(new FarmLandHouse(this.game, houseX + 200, houseY));
+        this.listOfBuildings.push(new FarmLandHouse(this.game, houseX+20, houseY));
+        this.listOfBuildings.push(new FarmLandFencedHouse(this.game, houseX + 180, houseY));
+       
+
 
         this.listOfBuildings.push(new FarmLandBigHouse(this.game, 730, 550));
         this.listOfBuildings.push(new FarmLandGiantHouse(this.game, 540, 500));
         this.listOfBuildings.push(new FarmLandStatic(this.game, 60, 650, StaticType.ANIMAL_WATER));
-        this.listOfBuildings.push(new FarmLandStatic(this.game, 70, 800, StaticType.ANIMAL_Food));
+        this.listOfBuildings.push(new FarmLandStatic(this.game, 530, 750, StaticType.ANIMAL_WATER));
+        this.listOfBuildings.push(new FarmLandStatic(this.game, 70, 800, StaticType.ANIMAL_Food));        
+        this.listOfBuildings.push(new FarmLandStatic(this.game, 1280, 820, StaticType.WELL));     
+        this.listOfBuildings.push(new FarmLandStatic(this.game, 1250, 830, StaticType.BOTTLE));        
+        this.listOfBuildings.push(new FarmLandStatic(this.game, 150, 330, StaticType.DEADTREE));        
+        this.listOfBuildings.push(new FarmLandStatic(this.game, 950, 330, StaticType.DEADTREE));        
+
+
+   
+
 
         for (let i = 0; i < this.listOfBuildings.length; i++) {
             this.game.addEntity(this.listOfBuildings[i]);
         }
 
-        this.listOfAnimals.push(new FarmLandAnimal(this.game, 400, 400, AnimalType.COW));
-        this.listOfAnimals.push(new FarmLandAnimal(this.game, 360, 390, AnimalType.COW));
-        this.listOfAnimals.push(new FarmLandAnimal(this.game, 220, 660, AnimalType.COW));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 300, 750, AnimalType.COW));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 250, 700, AnimalType.COW));
+        this.listOfAnimals.push(new FarmLandAnimal(this.game, 200, 660, AnimalType.COW));
         this.listOfAnimals.push(new FarmLandAnimal(this.game, 100, 625, AnimalType.CHICKEN));
         this.listOfAnimals.push(new FarmLandAnimal(this.game, 100, 655, AnimalType.CHICKEN));
         this.listOfAnimals.push(new FarmLandAnimal(this.game, 100, 685, AnimalType.CHICKEN));
@@ -188,12 +199,12 @@ class SceneManager {
         }
 
         //small plants
-        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 290, 880, PlantType.ROSE));
-        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 322, 880, PlantType.ROSE));
-        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 355, 880, PlantType.ROSE));
-        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 290, 910, PlantType.ROSE));
-        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 322, 910, PlantType.ROSE));
-        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 355, 910, PlantType.ROSE));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 350, 880, PlantType.ROSE));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 382, 880, PlantType.ROSE));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 414, 880, PlantType.ROSE));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 350, 910, PlantType.ROSE));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 382, 910, PlantType.ROSE));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 414, 910, PlantType.ROSE));
 
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 410, PlantType.BUSH));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 440, PlantType.BUSH));
@@ -201,6 +212,8 @@ class SceneManager {
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 500, PlantType.BUSH));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 530, PlantType.BUSH));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 560, PlantType.BUSH));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 204, 540, PlantType.BUSH));
+
 
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 580, PlantType.CACTUS));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 0, 900, PlantType.CACTUS));
@@ -236,6 +249,15 @@ class SceneManager {
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 880, 570, PlantType.BUSH));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 880, 540, PlantType.BUSH));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 880, 510, PlantType.BUSH));
+
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 456, 310, PlantType.BUSH));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 488, 310, PlantType.BUSH));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 520, 310, PlantType.BUSH));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 456, 342, PlantType.BUSH));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 488, 342, PlantType.BUSH));
+        this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 520, 342, PlantType.BUSH));
+
+
 
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 162, 880, PlantType.SUNFLOWER));
         this.listOfSmallPlants.push(new ForestSmallPlant(this.game, 194, 880, PlantType.SUNFLOWER));
@@ -320,28 +342,40 @@ class SceneManager {
         this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 200, 500));
         this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 600));
         this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 700));
+        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 500, 400));
+        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 650, 420));
+        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 500));
+        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 900, 320));
+        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 450, 650));
+
+
+
 
 
 
         // Medium Grass
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 350));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 500, 400));
+     
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 100, 360));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 200, 450));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 950, 500));
-
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 680, 800));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 500, 400));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 850));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 750));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 800, 800));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 680, 800));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 790, 850));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 750, 450));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 500));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 800, 800));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 950, 500));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 370));
+
 
 
         // Thick Grass
+        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 80, 420));
+        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 200, 320));
         this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 850, 450));
         this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 300, 350));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 1000, 400));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 200, 350));
+        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 1000, 400));  
         this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 550));
 
         this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 600, 800));
