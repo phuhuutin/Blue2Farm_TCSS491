@@ -11,6 +11,9 @@ class SceneManager {
 
         this.character = new MainCharacter(this.game, 400, 400);
 
+        this.nextNextCutScene = false;
+    
+
 
         this.listOfSlime = [];
 
@@ -427,6 +430,10 @@ class SceneManager {
     update(){
         let midpointX = PARAMS.CANVAS_WIDTH/2 ;
         let midpointY = PARAMS.CANVAS_HEIGHT/2 ;
+        if(this.game.testSleepCutScene) {
+            this.game.addEntityFirst(new NextDayCutScene(this.game));
+        }
+
         if (0 < this.character.x - midpointX && this.character.x + midpointX < 2000 ) {
             
             this.x = this.character.x - midpointX;

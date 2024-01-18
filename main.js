@@ -29,10 +29,19 @@ ASSET_MANAGER.queueDownload("./sprites/enemy/wormwalk.png");
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
+	canvas.width = window.innerWidth*.98;
+	canvas.height = window.innerHeight*0.9;	
+	window.addEventListener("resize", () => {
+		canvas.width = window.innerWidth*.98;
+		canvas.height = window.innerHeight*0.9;	
+		PARAMS.CANVAS_WIDTH = canvas.width;
+		PARAMS.CANVAS_HEIGHT = canvas.height;
+		// Additional logic to handle resizing if needed
+	});
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
-
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;
+	
 	gameEngine.init(ctx);
 	//gameEngine.addEntity(new SceneManager(gameEngine));
 	new SceneManager(gameEngine);
