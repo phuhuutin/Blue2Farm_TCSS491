@@ -1,6 +1,9 @@
 const StaticType = {
         ANIMAL_WATER: 'ANIMAL_WATER',
         ANIMAL_Food: 'ANIMAL_Food',
+        WELL: 'WELL',
+        BOTTLE: 'BOTTLE',
+        DEADTREE: 'DEADTREE',
 
 };
 
@@ -9,6 +12,8 @@ class FarmLandStatic {
                 Object.assign(this, { game, x, y });
                 this.type = type;
                 this.spritesheet = ASSET_MANAGER.getAsset("./sprites/farmland.png");
+                this.spritesheet1 = ASSET_MANAGER.getAsset("./sprites/farmAsset.png");
+
         }
         update() {
                 // Add your update logic here if needed
@@ -24,6 +29,24 @@ class FarmLandStatic {
                                 break;
                         case StaticType.ANIMAL_WATER:
                                 ctx.drawImage(this.spritesheet, 545, 226, 30, 57,
+                                        this.x - this.game.camera.x,
+                                        this.y - this.game.camera.y,
+                                        30, 50);
+                                break;
+                        case StaticType.WELL:
+                                ctx.drawImage(this.spritesheet1, 9, 333, 85, 96,
+                                        this.x - this.game.camera.x,
+                                        this.y - this.game.camera.y,
+                                        50, 50);
+                                break;
+                        case StaticType.BOTTLE:
+                                ctx.drawImage(this.spritesheet1, 103, 264, 34, 58,
+                                        this.x - this.game.camera.x,
+                                        this.y - this.game.camera.y,
+                                        20, 30);
+                                break;
+                        case StaticType.DEADTREE:
+                                ctx.drawImage(this.spritesheet, 122, 257, 42, 95,
                                         this.x - this.game.camera.x,
                                         this.y - this.game.camera.y,
                                         30, 50);
