@@ -10,7 +10,6 @@ class NextDayCutScene{
     update(){
         this.elapsed += this.game.clockTick;
         if (this.elapsed > 3.5) {
-            console.log("alo")
             this.removeFromWorld = true;
         };
 
@@ -26,39 +25,23 @@ class NextDayCutScene{
         // ctx.fillRect(0,0, 2000, 1000);
 
         // Draw sky
-        ctx.globalAlpha = 0.8;
-        const skyGradient = ctx.createRadialGradient(PARAMS.CANVAS_WIDTH / 2, PARAMS.CANVAS_HEIGHT * 0.7, 0, PARAMS.CANVAS_WIDTH / 2, PARAMS.CANVAS_HEIGHT * 0.7, PARAMS.CANVAS_WIDTH);
-        skyGradient.addColorStop(0, '#820');
-        skyGradient.addColorStop(0.4, '#610');
-        skyGradient.addColorStop(0.8, '#400');
-        skyGradient.addColorStop(1, '#100');
-        ctx.fillStyle = skyGradient;
+        ctx.fillStyle = '#820';
         ctx.fillRect(0, 0, PARAMS.CANVAS_WIDTH, PARAMS.CANVAS_HEIGHT * 0.5);
         // Draw sun
-        ctx.globalAlpha = 1;
-        const sunGradient = ctx.createLinearGradient(PARAMS.CANVAS_WIDTH * 0.45 - 50, PARAMS.CANVAS_HEIGHT * 0.15 - 50, PARAMS.CANVAS_WIDTH * 0.45 + 50, PARAMS.CANVAS_HEIGHT * 0.15 + 50);
-        sunGradient.addColorStop(0, '#ff0');
-        sunGradient.addColorStop(1, '#d00');
+        ctx.fillStyle = '#ff0';
         ctx.beginPath();
         ctx.arc(PARAMS.CANVAS_WIDTH * 0.45, this.sunPositionY, 50, 0, 2 * Math.PI);
-        ctx.fillStyle = sunGradient;
         ctx.fill();
 
-        ctx.font = '12px "Press Start 2P"';
-        this.game.ctx.fillStyle = "white";
-        this.game.ctx.fillText( "Credit: codepen.io/TheBrutalTooth  ",10 ,PARAMS.CANVAS_HEIGHT * 0.5 + 15);
-
-    // Draw sea
-        ctx.globalAlpha = 1;
-        const seaGradient = ctx.createRadialGradient(PARAMS.CANVAS_WIDTH / 2, 0, 0, PARAMS.CANVAS_WIDTH / 2, 0, PARAMS.CANVAS_WIDTH);
-        seaGradient.addColorStop(0, '#007');
-        seaGradient.addColorStop(1, '#004');
-        ctx.fillStyle = seaGradient;
+        // Draw sea
+        ctx.fillStyle = '#007';
         ctx.fillRect(0, PARAMS.CANVAS_HEIGHT * 0.5, PARAMS.CANVAS_WIDTH, PARAMS.CANVAS_HEIGHT * 0.5);
 
     
-
-
+        //Add Credit for the idea. 
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "white";
+        this.game.ctx.fillText( "Idea Credit: codepen.io/TheBrutalTooth  ",10 ,PARAMS.CANVAS_HEIGHT * 0.5 + 15);
 
 
         let midpointX = PARAMS.CANVAS_WIDTH/2;
@@ -66,13 +49,7 @@ class NextDayCutScene{
 
         ctx.font = '50px "Press Start 2P"';
         ctx.fillStyle = "white";
-        ctx.fillText( "Days  "+ PARAMS.DAYCOUNTER, midpointX - midpointX*0.15 ,midpointY- midpointY*0.15);
-        if (PARAMS.DEBUG) {
-            ctx.strokeStyle = 'red';
-            ctx.strokeRect( 64*21 - this.game.camera.x,300- this.game.camera.y, 700, 60*10);
-
-
-        }
+        ctx.fillText( "Day  "+ PARAMS.DAYCOUNTER, midpointX - midpointX*0.15 ,midpointY- midpointY*0.15);
 
     }
 
