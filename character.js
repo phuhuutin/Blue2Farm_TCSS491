@@ -13,11 +13,9 @@ class MainCharacter{
         this.width = 48;
         this.game.character = this;
         this.radius = 30; //attack range
-     //   this.speed = 0.5;
-     this.speed = 0.5;
+        this.speed = 0.5;
         // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
-        //if (luigi) this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
 
         //healthbar information
         this.healthbar= new HealthBar(this);
@@ -43,15 +41,25 @@ class MainCharacter{
 
   
         this.animations = [];
-        this.loadAnimations();
         this.elapsedTime = 0;
 
         //Character Stats
         this.level = 1;
+        this.farmInventory = [];
+        
 
+        this.loadAnimations();
     };
-
+    //initially load().
     loadAnimations() {
+
+        this.farmInventory[PLANTNAMES.CORN] = 0;
+        this.farmInventory[PLANTNAMES.STRAWBERRY] = 0;
+        this.farmInventory[PLANTNAMES.RICE] = 0;
+
+
+
+
         for (var i = 0; i < 3; i++) {//State: 0 = walking, 1 = attacking 
             this.animations.push([]);
             for (var j = 0; j < 4; j++) { // 4 Directions
@@ -258,4 +266,38 @@ class MainCharacter{
 
  
     };
+
+
+    getListOfRequiredForNextLevel() {
+         // Adjust the base threshold as needed
+        const baseCornThreshold = 10; 
+        const baseStrawberryThreshold = 15;  
+        const baseRiceThreshold = 20;  
+
+        const cornThreshold = baseCornThreshold + (this.level * 5);
+        const strawberryThreshold = baseStrawberryThreshold + (this.level * 5);
+        const riceThreshold = baseRiceThreshold + (this.level * 5);
+        
+        return [cornThreshold,strawberryThreshold,riceThreshold];
+    }
+
+    levelUp() {
+        const requiredPlants = this.getListOfRequiredForNextLevel(this.level);
+    
+        if (
+            this.farmInventory[PLANTNAMES.CORN] >= requiredPlants[PLANTNAMES.CORN] &&
+            this.farmInventory[PLANTNAMES.STRAWBERRY] >= requiredPlants[PLANTNAMES.STRAWBERRY] &&
+            this.farmInventory[PLANTNAMES.RICE] >= requiredPlants[PLANTNAMES.RICE]
+        ) {
+
+            this.level++;
+    
+            this.farmInventory[PLANTNAMES.CORN] = this.farmInventory[PLANTNAMES.CORN] - requiredPlants[PLANTNAMES.CORN];
+            this.farmInventory[PLANTNAMES.STRAWBERRY] = this.farmInventory[PLANTNAMES.STRAWBERRY] - requiredPlants[PLANTNAMES.STRAWBERRY];
+            this.farmInventory[PLANTNAMES.RICE] =  this.farmInventory[PLANTNAMES.RICE] - requiredPlants[PLANTNAMES.RICE];
+    
+            console.log("Congratulations! You've leveled up to level " + this.level + "!");
+        }
+    }
+
 }
