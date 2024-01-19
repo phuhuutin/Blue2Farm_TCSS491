@@ -13,7 +13,7 @@ class MainCharacter{
         this.width = 48;
         this.game.character = this;
         this.radius = 30; //attack range
-        this.speed = 5.5;
+        this.speed = 0.5;
         // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
 
@@ -51,6 +51,7 @@ class MainCharacter{
         
 
         this.loadAnimations();
+
     };
     //initially load().
     loadAnimations() {
@@ -104,10 +105,21 @@ class MainCharacter{
             this.BB = new BoundingBox(this.x- this.game.camera.x- this.width/2, this.y- this.game.camera.y- this.height/2, this.width, this.height);
         
     };
+    updateBBforDashingHorizontal(){
+        this.BBDASHHorizonTal = new BoundingBox(this.x- this.game.camera.x- this.width/2 - 130, this.y- this.game.camera.y- this.height/2, this.width +130*2, this.height);
+
+    }
+    updateBBforDashingVertical(){
+        this.BBDASHVertical = new BoundingBox(this.x- this.game.camera.x- this.width/2 , this.y- this.game.camera.y- this.height/2 - 130, this.width , this.height +130*2);
+
+    }
     // updateLastBB() {
     //     this.lastBB = this.BB;
     // };
     update(){
+        let canDash = true;
+
+        if(this.elapsedTime2 > 8)console.log(this.elapsedTime2);
         this.elapsedTime += this.game.clockTick;
         this.elapsedTime2 += this.game.clockTick;
         if (this.game.left && this.game.up  && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
@@ -131,9 +143,24 @@ class MainCharacter{
             this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
         } else if (this.game.left && this.x -  this.width/2 > 0 ) {
+            
             if(this.game.keyB){
                 //this.x-=10;
-                  if(this.elapsedTime >0 && this.counter<15){
+                canDash = true;
+                    for (var i = 0; i < this.game.entities.length; i++){
+                        var entity = this.game.entities[i];
+                        if(entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+                            const collisionDirection1 = this.BBDASHHorizonTal.checkCollisionSides(entity.BB);
+                            if(collisionDirection1.right) {
+                                console.log("Collision on right with " + entity.constructor.name);
+
+                                canDash = false;
+                            }
+                        }
+                    }
+
+                
+                  if(this.elapsedTime >0 && this.counter<15 && canDash ){
                       this.x-=10;
                       this.counter++;
                       this.game.addEntity(new Smoke(this.game, this.x-10, this.y-0, this, true, true));
@@ -146,8 +173,27 @@ class MainCharacter{
                 }
             this.x -= this.speed;
             this.directionFace = Direction.LEFT;
+
         } else if (this.game.right && this.x +  this.width/2 < 2000) {
+            
+
             if(this.game.keyB ){
+                canDash = true;
+            //  console.log(canDash);
+                    for (var i = 0; i < this.game.entities.length; i++){
+                        var entity = this.game.entities[i];
+                        if(entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+                            const collisionDirection1 = this.BBDASHHorizonTal.checkCollisionSides(entity.BB);
+                            if(collisionDirection1.left) {
+                                console.log("Collision on right with " + entity.constructor.name);
+
+                                canDash = false;
+                            }
+                        }
+                    }
+                
+            //  console.log(canDash);
+            if(canDash){
                 if(this.elapsedTime >0 && this.counter<15){
                     this.x+=10;
                     this.counter++;
@@ -160,42 +206,79 @@ class MainCharacter{
             if(this.elapsedTime2>8){
                 this.counter =0;
               }
+
+            }
+            
+       
+
         }
             
             this.x += this.speed;
             this.directionFace = Direction.RIGHT;
         } else if (this.game.up) {
             if(this.game.keyB ){
-            if(this.elapsedTime >0 && this.counter<15){
-                this.y-=10;
-                this.counter++;
-                this.game.addEntity(new Smoke(this.game, this.x-30, this.y, this, true, true));
-                this.elapsedTime = 0;
-              
-                this.elapsedTime2=0;
-     
-        }
-        if(this.elapsedTime2>8){
-            this.counter =0;
-          }
+
+                canDash = true;
+                //  console.log(canDash);
+                        for (var i = 0; i < this.game.entities.length; i++){
+                            var entity = this.game.entities[i];
+                            if(entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+                                const collisionDirection1 = this.BBDASHHorizonTal.checkCollisionSides(entity.BB);
+                                if(collisionDirection1.bottom) {
+                                    console.log("Collision on right with " + entity.constructor.name);
+    
+                                    canDash = false;
+                                }
+                            }
+                        }
+                if(canDash){
+                    if(this.elapsedTime >0 && this.counter<15){
+                        this.y-=10;
+                        this.counter++;
+                        this.game.addEntity(new Smoke(this.game, this.x-30, this.y, this, true, true));
+                        this.elapsedTime = 0;
+                      
+                        this.elapsedTime2=0;
+             
+                }
+                    if(this.elapsedTime2>8){
+                        this.counter =0;
+                    }
+                }
+            
         }
             this.y -= this.speed;
             this.directionFace = Direction.UP;
         }else if (this.game.down) {
 
             if(this.game.keyB){
-               
-                if(this.elapsedTime >0 && this.counter<15){
-                    this.y+=10;
-                    this.counter++;
-                    this.elapsedTime = 0;
-                    this.elapsedTime2 = 0;
-
-                    this.game.addEntity(new Smoke(this.game, this.x-30, this.y-45, this, true, true));
+                canDash = true;
+                //  console.log(canDash);
+                        for (var i = 0; i < this.game.entities.length; i++){
+                            var entity = this.game.entities[i];
+                            if(entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+                                const collisionDirection1 = this.BBDASHHorizonTal.checkCollisionSides(entity.BB);
+                                if(collisionDirection1.top) {
+                                    console.log("Collision on right with " + entity.constructor.name);
+    
+                                    canDash = false;
+                                }
+                            }
+                        }
+                if(canDash){
+                    if(this.elapsedTime >0 && this.counter<15){
+                        this.y+=10;
+                        this.counter++;
+                        this.elapsedTime = 0;
+                        this.elapsedTime2 = 0;
+    
+                        this.game.addEntity(new Smoke(this.game, this.x-30, this.y-45, this, true, true));
+                    }
+                    if(this.elapsedTime2>8){
+                        this.counter =0;
+                      }
                 }
-                if(this.elapsedTime2>8){
-                    this.counter =0;
-                  }
+                
                 }
             this.y += this.speed;
             this.directionFace = Direction.DOWN;
@@ -220,6 +303,7 @@ class MainCharacter{
                 //    console.log("collided with Smile");
                 // }else 
                 if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+
                     const collisionDirection = this.BB.checkCollisionSides(entity.BB);
                     if(collisionDirection.left){
                         this.x -= this.speed;
@@ -268,6 +352,8 @@ class MainCharacter{
         
        // this.updateLastBB();
         this.updateBB();
+        this.updateBBforDashingHorizontal();
+        this.updateBBforDashingVertical();
     }
 
     draw(ctx) {
@@ -330,8 +416,11 @@ class MainCharacter{
             ctx.arc(this.x - this.game.camera.x, this.y - this.game.camera.y, this.radius, 0, 2 * Math.PI);
             ctx.closePath();
             ctx.stroke();
+            ctx.strokeStyle = "Black";
+            ctx.strokeRect(this.x- this.game.camera.x- this.width/2 - 130, this.y- this.game.camera.y- this.height/2, this.width +130*2, this.height );
+            ctx.strokeRect(this.x- this.game.camera.x- this.width/2 , this.y- this.game.camera.y- this.height/2 - 130, this.width , this.height +130*2 );
 
-        }
+        }   
         this.healthbar.draw(ctx);
 
 
