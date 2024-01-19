@@ -13,7 +13,7 @@ class MainCharacter{
         this.width = 48;
         this.game.character = this;
         this.radius = 30; //attack range
-        this.speed = 0.5;
+        this.speed = 5.5;
         // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
 
@@ -42,6 +42,8 @@ class MainCharacter{
   
         this.animations = [];
         this.elapsedTime = 0;
+        this.elapsedTime2= 0;
+        this.counter =0;
 
         //Character Stats
         this.level = 1;
@@ -107,7 +109,7 @@ class MainCharacter{
     // };
     update(){
         this.elapsedTime += this.game.clockTick;
-
+        this.elapsedTime2 += this.game.clockTick;
         if (this.game.left && this.game.up  && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
             // Move diagonally to the top-left
             this.x -= this.speed/ Math.sqrt(2);
@@ -129,15 +131,72 @@ class MainCharacter{
             this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
         } else if (this.game.left && this.x -  this.width/2 > 0 ) {
+            if(this.game.keyB){
+                //this.x-=10;
+                  if(this.elapsedTime >0 && this.counter<15){
+                      this.x-=10;
+                      this.counter++;
+                      this.game.addEntity(new Smoke(this.game, this.x-10, this.y-0, this, true, true));
+                      this.elapsedTime = 0;
+                      this.elapsedTime2=0;
+                  }
+                  if(this.elapsedTime2>8){
+                      this.counter =0;
+                    }
+                }
             this.x -= this.speed;
             this.directionFace = Direction.LEFT;
         } else if (this.game.right && this.x +  this.width/2 < 2000) {
+            if(this.game.keyB ){
+                if(this.elapsedTime >0 && this.counter<15){
+                    this.x+=10;
+                    this.counter++;
+                    this.game.addEntity(new Smoke(this.game, this.x-50, this.y-0  , this, true, true));
+                    this.elapsedTime = 0;
+                  
+                    this.elapsedTime2=0;
+         
+            }
+            if(this.elapsedTime2>8){
+                this.counter =0;
+              }
+        }
+            
             this.x += this.speed;
             this.directionFace = Direction.RIGHT;
         } else if (this.game.up) {
+            if(this.game.keyB ){
+            if(this.elapsedTime >0 && this.counter<15){
+                this.y-=10;
+                this.counter++;
+                this.game.addEntity(new Smoke(this.game, this.x-30, this.y, this, true, true));
+                this.elapsedTime = 0;
+              
+                this.elapsedTime2=0;
+     
+        }
+        if(this.elapsedTime2>8){
+            this.counter =0;
+          }
+        }
             this.y -= this.speed;
             this.directionFace = Direction.UP;
         }else if (this.game.down) {
+
+            if(this.game.keyB){
+               
+                if(this.elapsedTime >0 && this.counter<15){
+                    this.y+=10;
+                    this.counter++;
+                    this.elapsedTime = 0;
+                    this.elapsedTime2 = 0;
+
+                    this.game.addEntity(new Smoke(this.game, this.x-30, this.y-45, this, true, true));
+                }
+                if(this.elapsedTime2>8){
+                    this.counter =0;
+                  }
+                }
             this.y += this.speed;
             this.directionFace = Direction.DOWN;
         }
@@ -174,7 +233,20 @@ class MainCharacter{
                 
                     
                 } 
-
+                if(entity instanceof WizardSpawn){
+                    const collisionDirection = this.BB.checkCollisionSides(entity.BB);
+                    if(collisionDirection.left){
+                        this.x -= this.speed;
+                    }else if(collisionDirection.right) {
+                        this.x += this.speed;
+                    }else if(collisionDirection.top) {
+                        this.y -= this.speed;
+                    }else if(collisionDirection.bottom) {
+                        this.y += this.speed;
+                    }
+                
+                    
+                } 
  
             }
  

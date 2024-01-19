@@ -54,11 +54,15 @@ class SceneManager {
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0, 0);
         this.dog = new Dog(this.game, 600, 1400, [{ x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: 0, y: 0 }]);
-        this.wiz = new Wizard(this.game, 200, 1400, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
+        this.wiz = new Wizard(this.game, 330, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
+        this.wiz2 = new Wizard2(this.game, 400, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
+
         this.bor = new Boar(this.game, 200, 400, [{ x: 500, y: 500 }, { x: 600, y: 500 }, { x: 700, y: 1200 }]);
         this.gob = new Goblin(this.game, 700, 1400, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
         this.greenG = new GreenGoblin(this.game, 400, 1550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
         this.worm = new FireWorm(this.game, 100, 1500, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
+        this.wizardspawn = new WizardSpawn(this.game, 110 ,110);
+        this.camp = new Campfire(this.game, 110 ,110);
 
         this.loadMap();
 
@@ -67,8 +71,50 @@ class SceneManager {
 
     loadMap() {
 
+        this.game.addEntity(this.normalGrass);
+
+        
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 50, 800));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 600, 700));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 850, 550));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 200, 500));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 600));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 700));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 500, 400));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 650, 420));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 500));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 900, 320));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 450, 650));
+
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 100, 360));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 200, 450));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 500, 400));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 850));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 750));
+        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 680, 800));
+
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 790, 850));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 750, 450));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 500));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 800, 800));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 950, 500));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 370));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 80, 420));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 200, 320));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 850, 450));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 300, 350));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 1000, 400));  
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 550));
+
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 600, 800));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 850));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 900, 700));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 500, 500));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 800, 710));
 
 
+    
+        this.game.addEntity(this.listOfLakeAndOtherSide);
 
 
 
@@ -127,11 +173,15 @@ class SceneManager {
 
 
         this.character.removeFromWorld = false;
-        this.game.addEntity(this.character);
+      //  this.game.addEntity(this.character);
         // this.game.addEntity(this.dog);
-        // this.game.addEntity(this.wiz);
-        this.bor.removeFromWorld = false;
         this.game.addEntity(this.bor);
+        this.game.addEntity(this.wizardspawn)
+        this.game.addEntity(this.camp)
+         this.game.addEntity(this.wiz);
+         this.game.addEntity(this.wiz2);
+        this.bor.removeFromWorld = false;
+       // this.game.addEntity(this.bor);
         // this.game.addEntity(this.gob);
         // this.game.addEntity(this.greenG);
         // this.game.addEntity(this.worm);
@@ -163,6 +213,19 @@ class SceneManager {
 
         // }
 
+
+        
+        let offset = 300;
+
+        this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 50, 250 + offset, 5, 5));
+        this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 950, 150 + offset, 7, 4));
+        //this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 550, 350 + offset, 4,4 ));
+
+        for (let i = 0; i < this.listOfDirtGround.length; i++) {
+            this.listOfDirtGround[i].removeFromWorld = false;
+            this.game.addEntity(this.listOfDirtGround[i]);
+
+        }
 
         let houseX = 50;
         let houseY = 460;
@@ -286,18 +349,18 @@ class SceneManager {
 
 
 
-        // this.listOfSlime.push(new Slime(this.game, 0,0));
-        this.listOfSlime.push(new Slime(this.game, 200,550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+        // // this.listOfSlime.push(new Slime(this.game, 0,0));
+        // this.listOfSlime.push(new Slime(this.game, 200,550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
 
-        this.listOfSlime.push(new Slime(this.game, 333,333, [{ x: -50, y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
-        this.listOfSlime.push(new Slime(this.game, 666,1100, [{ x: 3000, y: 900 }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, {x: 110, y: 0 }]));
+        // this.listOfSlime.push(new Slime(this.game, 333,333, [{ x: -50, y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+        // this.listOfSlime.push(new Slime(this.game, 666,1100, [{ x: 3000, y: 900 }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, {x: 110, y: 0 }]));
 
 
-        for (let i = 0; i < this.listOfSlime.length; i++) {
-            this.listOfSlime[i].removeFromWorld = false;
-            this.game.addEntity(this.listOfSlime[i]);
+        // for (let i = 0; i < this.listOfSlime.length; i++) {
+        //     this.listOfSlime[i].removeFromWorld = false;
+        //     this.game.addEntity(this.listOfSlime[i]);
 
-        }
+        // }
 
 
         let soildOffer = 300;
@@ -321,68 +384,68 @@ class SceneManager {
 
 
 
+        this.game.addEntity(this.bor);
+        // this.game.addEntity(this.wizardspawn)
+        // this.game.addEntity(this.camp)
+
+
+        // this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 50, 250 + offset, 5, 5));
+        // this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 950, 150 + offset, 7, 4));
+        // //this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 550, 350 + offset, 4,4 ));
+
+        // for (let i = 0; i < this.listOfDirtGround.length; i++) {
+        //     this.listOfDirtGround[i].removeFromWorld = false;
+        //     this.game.addEntity(this.listOfDirtGround[i]);
+
+        // }
+
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 50, 800));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 600, 700));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 850, 550));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 200, 500));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 600));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 700));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 500, 400));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 650, 420));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 500));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 900, 320));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 450, 650));
 
 
 
 
-        let offset = 300;
-        this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 50, 250 + offset, 5, 5));
-        this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 950, 150 + offset, 7, 4));
-        //this.listOfDirtGround.push(new FarmLandDirtGround(this.game, 550, 350 + offset, 4,4 ));
-
-        for (let i = 0; i < this.listOfDirtGround.length; i++) {
-            this.listOfDirtGround[i].removeFromWorld = false;
-            this.game.addEntity(this.listOfDirtGround[i]);
-
-        }
-
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 50, 800));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 600, 700));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 850, 550));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 200, 500));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 600));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 700));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 500, 400));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 650, 420));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 500));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 900, 320));
-        this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 450, 650));
 
 
-
-
-
-
-        // Medium Grass
+        // // Medium Grass
      
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 100, 360));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 200, 450));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 500, 400));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 850));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 750));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 680, 800));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 790, 850));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 750, 450));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 500));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 800, 800));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 950, 500));
-        this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 370));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 100, 360));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 200, 450));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 500, 400));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 850));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 750));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 680, 800));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 790, 850));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 750, 450));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 500));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 800, 800));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 950, 500));
+        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 370));
 
 
 
-        // Thick Grass
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 80, 420));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 200, 320));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 850, 450));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 300, 350));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 1000, 400));  
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 550));
+        // // Thick Grass
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 80, 420));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 200, 320));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 850, 450));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 300, 350));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 1000, 400));  
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 550));
 
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 600, 800));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 850));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 900, 700));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 500, 500));
-        this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 800, 710));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 600, 800));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 850));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 900, 700));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 500, 500));
+        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 800, 710));
 
 
         for (let i = 0; i < this.listOfSeedGrass.length; i++) {
@@ -406,13 +469,24 @@ class SceneManager {
 
 
         this.listOfLakeAndOtherSide.removeFromWorld = false;
-        this.game.addEntity(this.listOfLakeAndOtherSide);
+       // this.game.addEntity(this.listOfLakeAndOtherSide);
 
 
         this.normalGrass.removeFromWorld = false;
-        this.game.addEntity(this.normalGrass);
+      //  this.game.addEntity(this.normalGrass);
        
-        
+        this.game.addEntity(this.character);
+        this.listOfSlime.push(new Slime(this.game, 200,550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+
+        this.listOfSlime.push(new Slime(this.game, 333,333, [{ x: -50, y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+        this.listOfSlime.push(new Slime(this.game, 666,1100, [{ x: 3000, y: 900 }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, {x: 110, y: 0 }]));
+
+
+        for (let i = 0; i < this.listOfSlime.length; i++) {
+            this.listOfSlime[i].removeFromWorld = false;
+            this.game.addEntity(this.listOfSlime[i]);
+
+        }
 
     }
     draw(ctx) {

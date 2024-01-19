@@ -14,7 +14,7 @@ class GameEngine {
         this.mouse = null;
         this.wheel = null;
         this.keys = {};
-
+        this.keyB = false;
 
         this.left = false;
         this.right = false;
@@ -140,6 +140,9 @@ class GameEngine {
                 case "Space":
                     this.spaceKey = false;
                     break;
+                    case "KeyB":
+                        this.keyB = false;
+                        break
             }
         }
 
@@ -177,6 +180,9 @@ class GameEngine {
                 case "Space":
                     this.spaceKey = true;
                     break;
+                case "KeyB":
+                    this.keyB = true;
+                        break;
             }
         }
 
@@ -206,8 +212,8 @@ class GameEngine {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         //this.ctx.save();
         // Draw latest things first
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+        for (var i = 0; i < this.entities.length; i++) {
+            this.entities[i].draw(this.ctx);
         }
        this.camera.draw(this.ctx);
     };
