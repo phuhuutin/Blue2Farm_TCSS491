@@ -9,6 +9,10 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
 
+
+        this.spritesheetFarmLand = ASSET_MANAGER.getAsset("./sprites/farmland.png");
+
+
         this.character = new MainCharacter(this.game, 400, 400);
 
         this.nextNextCutScene = false;
@@ -275,24 +279,17 @@ class SceneManager {
 
 
         let soildOffer = 300;
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 175 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 225 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 275 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 325 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 375 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 425 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 475 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970, 525 + soildOffer));
+        for (let i = this.listOfTrippleSoil.length - 1; i >= 0; i--) {
+            this.listOfTrippleSoil[i].removeFromWorld = false;
+            this.game.addEntity(this.listOfTrippleSoil[i]);
 
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 175 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 225 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 275 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 325 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 375 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 425 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 475 + soildOffer));
-        this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140, 525 + soildOffer));
+        }
+        for(let i = 0; i < 2; i++){
+            for(let j = 0; j < 6; j++){
+                this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140*i, 175 + 70*j + soildOffer));
 
+            }
+        }
         for (let i = this.listOfTrippleSoil.length - 1; i >= 0; i--) {
             this.listOfTrippleSoil[i].removeFromWorld = false;
             this.game.addEntity(this.listOfTrippleSoil[i]);
@@ -385,12 +382,27 @@ class SceneManager {
 
     }
     draw(ctx) {
+
+        const requiredPlants = this.character.getListOfRequiredForNextLevel();
+
+
         //HUB
-        ctx.font = '12px "Press Start 2P"';
+        ctx.font = '15px "Press Start 2P"';
         // ctx.strokeStyle = "White";
         this.game.ctx.fillStyle = "White";
-        this.game.ctx.fillText("Days  " + PARAMS.DAYCOUNTER, 10, 20);
-        this.game.ctx.fillText("Level " + this.character.level, 10, 35);
+        this.game.ctx.fillText("Day  " + PARAMS.DAYCOUNTER, 10, 20);
+        this.game.ctx.fillText("Level " + this.character.level, 10, 40);
+        ctx.font = '15px "Press Start 2P"';
+        this.game.ctx.drawImage(this.spritesheetFarmLand,0 ,648, 14 ,14, 10,45,14*1.5 ,14*1.5);
+        this.game.ctx.fillText(":"+ this.character.farmInventory[PLANTNAMES.STRAWBERRY] +"/"+requiredPlants[PLANTNAMES.STRAWBERRY], 10 + 25, 65);
+
+        this.game.ctx.drawImage(this.spritesheetFarmLand,0 ,663, 14 ,14, 10,45+30,14*1.5 ,14*1.5);
+        this.game.ctx.fillText(":"+ this.character.farmInventory[PLANTNAMES.CORN] +"/"+requiredPlants[PLANTNAMES.CORN], 10 + 25, 65 + 30 );
+
+        this.game.ctx.drawImage(this.spritesheetFarmLand,0 ,679, 14 ,14, 10,45+60,14*1.5 ,14*1.5);
+        this.game.ctx.fillText(":"+ this.character.farmInventory[PLANTNAMES.RICE] +"/"+requiredPlants[PLANTNAMES.RICE], 10 + 25, 65 + 30 +30);
+
+
 
     }
     update(){
