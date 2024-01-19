@@ -63,15 +63,15 @@ class Boar {
         this.animations[0][DirectionBoar.RIGHT]= new Animator(this.spritesheetWalking, 0, 64*3, 64, 64, 9, 0.2, 0, false, true);
         this.animations[0][DirectionBoar.UP]= new Animator(this.spritesheetWalking, 0, 0, 64, 64, 9, 0.2, 0, false, true);
 
-        this.animations[1][DirectionBoar.DOWN]= new Animator(this.spritesheetAttack, 0, 64*2, 64, 64, 8, 0.2, 0, false, true);
-        this.animations[1][DirectionBoar.LEFT]= new Animator(this.spritesheetAttack, 0, 64*1, 64, 64, 8, 0.2, 0, false, true);
-        this.animations[1][DirectionBoar.RIGHT]= new Animator(this.spritesheetAttack, 0, 64*3, 64, 64, 8, 0.2, 0, false, true);
-        this.animations[1][DirectionBoar.UP]= new Animator(this.spritesheetAttack, 0, 0, 64, 64, 8, 0.2, 0, false, true);
+        this.animations[1][DirectionBoar.DOWN]= new Animator(this.spritesheetAttack, 0, 64*2, 64, 64, 8, 0.3, 0, false, true);
+        this.animations[1][DirectionBoar.LEFT]= new Animator(this.spritesheetAttack, 0, 64*1, 64, 64, 8, 0.3, 0, false, true);
+        this.animations[1][DirectionBoar.RIGHT]= new Animator(this.spritesheetAttack, 0, 64*3, 64, 64, 8, 0.3, 0, false, true);
+        this.animations[1][DirectionBoar.UP]= new Animator(this.spritesheetAttack, 0, 0, 64, 64, 8, 0.3, 0, false, true);
 
-        this.animations[2][DirectionBoar.DOWN]= new Animator(this.spritesheetIdle, 0, 64*2, 64, 64, 7, 0.2, 0, false, true);
-        this.animations[2][DirectionBoar.LEFT]= new Animator(this.spritesheetIdle, 0, 64*1, 64, 64, 7, 0.2, 0, false, true);
-        this.animations[2][DirectionBoar.RIGHT]= new Animator(this.spritesheetIdle, 0, 64*3, 64, 64, 7, 0.2, 0, false, true);
-        this.animations[2][DirectionBoar.UP]= new Animator(this.spritesheetIdle, 0, 0, 64, 64, 7, 0.2, 0, false, true);
+        this.animations[2][DirectionBoar.DOWN]= new Animator(this.spritesheetIdle, 0, 64*2, 64, 64, 7, 0.4, 0, false, true);
+        this.animations[2][DirectionBoar.LEFT]= new Animator(this.spritesheetIdle, 0, 64*1, 64, 64, 7, 0.4, 0, false, true);
+        this.animations[2][DirectionBoar.RIGHT]= new Animator(this.spritesheetIdle, 0, 64*3, 64, 64, 7, 0.4, 0, false, true);
+        this.animations[2][DirectionBoar.UP]= new Animator(this.spritesheetIdle, 0, 0, 64, 64, 7, 0.4, 0, false, true);
 
        
     }
@@ -172,7 +172,7 @@ class Boar {
         
        
         if(Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1){
-            console.log("ger");
+          
             this.state = 2;
         }
 
