@@ -14,7 +14,7 @@ class GameEngine {
         this.mouse = null;
         this.wheel = null;
         this.keys = {};
-        this.keyB = false;
+        this.keyF = false;
 
         this.left = false;
         this.right = false;
@@ -140,9 +140,9 @@ class GameEngine {
                 case "Space":
                     this.spaceKey = false;
                     break;
-                    case "KeyB":
-                        this.keyB = false;
-                        break
+                case "KeyF":
+                        this.keyF = false;
+                break
             }
         }
 
@@ -180,9 +180,9 @@ class GameEngine {
                 case "Space":
                     this.spaceKey = true;
                     break;
-                case "KeyB":
-                    this.keyB = true;
-                        break;
+                case "KeyF":
+                    this.keyF = true;
+                    break;
             }
         }
 
