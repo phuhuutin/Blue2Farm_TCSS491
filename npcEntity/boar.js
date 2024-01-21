@@ -13,7 +13,7 @@ class Boar {
 
         this.height = 64;
         this.width = 64; 
-        this.radius = 60;
+        this.radius = 40;
         this.faceleft = false;
         this.healthbar= new HealthBar(this);
         this.hitpoints = 500;
@@ -128,6 +128,7 @@ class Boar {
                  //   console.log("Fighting");
 
                  } 
+            
             //    if (this.elapsedTime > 0.8) {
             //        var damage = this.damageBase + randomInt(4);
             //        ent.hitpoints -= damage;
@@ -137,7 +138,7 @@ class Boar {
             //             ent.removeFromWorld = true
             //          }
             //      }
-            }
+        }
            
         }
         if (this.state !== 1 ) {
@@ -171,7 +172,9 @@ class Boar {
 
         
        
-        if(Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1){
+        if(Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1 &&
+            this.target.x != this.game.character.x
+        ){
           
             this.state = 2;
         }
