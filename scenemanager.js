@@ -525,7 +525,16 @@ class SceneManager {
 
         this.game.ctx.drawImage(this.spritesheetFarmLand,0 ,679, 14 ,14, 10,45+60,14*1.5 ,14*1.5);
         this.game.ctx.fillText(":"+ this.character.farmInventory[PLANTNAMES.RICE] +"/"+requiredPlants[PLANTNAMES.RICE], 10 + 25, 65 + 30 +30);
+        
+        this.game.ctx.fillText("DMG :" + this.character.baseDamage, 10,45 + 120);
+        this.game.ctx.fillText("HP  :" + this.character.maxhitpoints, 10,45 + 140);
 
+        
+        
+        
+        
+        if(this.character.elapsedTime2 >= 8) this.game.ctx.drawImage(this.spritesheetFarmLand,0 ,989, 32 ,32, 250,5,32 ,32);
+        else this.game.ctx.drawImage(this.spritesheetFarmLand,0 ,1027, 32 ,32, 250,5,32 ,32);
 
 
     }
