@@ -43,3 +43,138 @@ class Score {
         
     };
 };
+
+class LevelUp{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.velocity = -32;
+        this.elapsed = 0;
+    };
+
+    update() {
+        this.elapsed += this.game.clockTick;
+        if (this.elapsed > 2) this.removeFromWorld = true;
+       
+        this.y += this.game.clockTick * this.velocity;
+    };
+
+    draw(ctx) {
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.fillText("Level Up!", this.x - 48 , this.y + 1 );
+    };
+};
+
+class HPBottle{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.x = x;
+        this.y = y;
+        this.width = 12;
+        this.height = 14;
+        this.velocity = +42;
+        this.elapsed = 0;
+        this.spritesheetFarmLand = ASSET_MANAGER.getAsset("./sprites/farmland.png");
+        this.updateBB();
+
+    };
+    update() {
+        this.updateBB();
+        if (this.elapsed < 4)this.elapsed += this.game.clockTick;
+        if (this.elapsed < 1) this.y += this.game.clockTick * this.velocity;
+        
+    };
+
+    draw(ctx) {
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.drawImage(this.spritesheetFarmLand, 325, 0,12,14, this.x  - this.game.camera.x, this.y - this.game.camera.y,12*1.5,14*1.5);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'blue';
+            ctx.strokeRect(this.x- this.game.camera.x, this.y- this.game.camera.y, this.width, this.height);
+        }
+    };
+    updateBB() {
+        
+        this.BB = new BoundingBox(this.x- this.game.camera.x, this.y- this.game.camera.y, this.width, this.height);
+    
+    };
+}
+class DMGBottle{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.x = x;
+        this.y = y;
+        this.width = 12;
+        this.height = 14;
+        this.velocity = +42;
+        this.elapsed = 0;
+        this.spritesheetFarmLand = ASSET_MANAGER.getAsset("./sprites/farmland.png");
+        this.updateBB();
+
+    };
+    update() {
+        this.updateBB();
+        if (this.elapsed < 4)this.elapsed += this.game.clockTick;
+        if (this.elapsed < 1) this.y += this.game.clockTick * this.velocity;
+        
+    };
+
+    draw(ctx) {
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.drawImage(this.spritesheetFarmLand, 341, 0,12,16, this.x  - this.game.camera.x, this.y - this.game.camera.y,12*1.5,16*1.5);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'blue';
+            ctx.strokeRect(this.x- this.game.camera.x, this.y- this.game.camera.y, this.width, this.height);
+        }
+    };
+    updateBB() {
+        
+        this.BB = new BoundingBox(this.x- this.game.camera.x, this.y- this.game.camera.y, this.width, this.height);
+    
+    };
+}
+
+class PlusHP{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.velocity = -32;
+        this.elapsed = 0;
+    };
+
+    update() {
+        this.elapsed += this.game.clockTick;
+        if (this.elapsed > 1) this.removeFromWorld = true;
+       
+        this.y += this.game.clockTick * this.velocity;
+    };
+
+    draw(ctx) {
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.fillText("+5 HP!", this.x - 48 , this.y + 1 );
+    };
+    
+};
+class PlusDMG{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.velocity = -32;
+        this.elapsed = 0;
+    };
+
+    update() {
+        this.elapsed += this.game.clockTick;
+        if (this.elapsed > 1) this.removeFromWorld = true;
+       
+        this.y += this.game.clockTick * this.velocity;
+    };
+
+    draw(ctx) {
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.fillText("+1 DMG!", this.x - 48 , this.y + 1 );
+    };
+    
+};

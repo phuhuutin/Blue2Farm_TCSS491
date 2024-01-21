@@ -20,8 +20,10 @@ class MainCharacter{
         //healthbar information
         this.healthbar= new HealthBar(this);
         this.hitpoints = 100;
-        this.maxhitpoints = 100;
-
+        this.level = 1;
+        this.maxhitpoints = 100 ;
+        this.baseDamage = 10 ;
+        this.farmInventory = [];
         // MainCharacter's state variables
         this.facing = 0; // 0 = right, 1 = left
         this.state = 0; // 0 = walking, 1 = attacking, 2, idling
@@ -42,13 +44,15 @@ class MainCharacter{
   
         this.animations = [];
         this.elapsedTime = 0;
+        this.elapsedTime2= 8;
+        this.counter =0;
 
         //Character Stats
-        this.level = 1;
-        this.farmInventory = [];
+
         
 
         this.loadAnimations();
+
     };
     //initially load().
     loadAnimations() {
@@ -102,12 +106,23 @@ class MainCharacter{
             this.BB = new BoundingBox(this.x- this.game.camera.x- this.width/2, this.y- this.game.camera.y- this.height/2, this.width, this.height);
         
     };
+    updateBBforDashingHorizontal(){
+        this.BBDASHHorizonTal = new BoundingBox(this.x- this.game.camera.x- this.width/2 - 130, this.y- this.game.camera.y- this.height/2, this.width +130*2, this.height);
+
+    }
+    updateBBforDashingVertical(){
+        this.BBDASHVertical = new BoundingBox(this.x- this.game.camera.x- this.width/2 , this.y- this.game.camera.y- this.height/2 - 130, this.width , this.height +130*2);
+
+    }
     // updateLastBB() {
     //     this.lastBB = this.BB;
     // };
     update(){
-        this.elapsedTime += this.game.clockTick;
+        let canDash = true;
 
+        console.log(this.elapsedTime2);
+        if(this.elapsedTime <= 10)this.elapsedTime += this.game.clockTick;
+        if(this.elapsedTime2 <= 10) this.elapsedTime2 += this.game.clockTick;
         if (this.game.left && this.game.up  && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
             // Move diagonally to the top-left
             this.x -= this.speed/ Math.sqrt(2);
@@ -131,6 +146,7 @@ class MainCharacter{
         } else if (this.game.left && this.x -  this.width/2 > 0 ) {
             this.x -= this.speed;
             this.directionFace = Direction.LEFT;
+
         } else if (this.game.right && this.x +  this.width/2 < 2000) {
             this.x += this.speed;
             this.directionFace = Direction.RIGHT;
@@ -141,6 +157,85 @@ class MainCharacter{
             this.y += this.speed;
             this.directionFace = Direction.DOWN;
         }
+
+        if(this.game.keyF ){
+                canDash = true;
+            //  console.log(canDash);
+                    for (var i = 0; i < this.game.entities.length; i++){
+                        var entity = this.game.entities[i];
+                        if(entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+                            const collisionDirection1 = this.BBDASHHorizonTal.checkCollisionSides(entity.BB);                       
+                            if(this.directionFace == Direction.RIGHT && collisionDirection1.left) {
+                                console.log("Collision on right with " + entity.constructor.name);
+
+                                canDash = false;
+                            }else if(this.directionFace == Direction.LEFT && collisionDirection1.right){
+                                console.log("Collision on Left with " + entity.constructor.name);
+                                canDash = false;
+                            } else if(this.directionFace == Direction.UP && collisionDirection1.bottom ){
+                                console.log("Collision on UP with " + entity.constructor.name);
+                                canDash = false;
+                            } else if(this.directionFace == Direction.DOWN && collisionDirection1.top ){
+                                console.log("Collision on DOWN with " + entity.constructor.name);
+                                canDash = false;
+                            }
+                        }
+                    }
+                
+            //  console.log(canDash);
+            if(canDash){
+                if(this.elapsedTime >0 && this.counter<15){
+                    if(this.directionFace == Direction.RIGHT){
+                        this.x+=10;
+                        this.counter++;
+                        this.game.addEntity(new Smoke(this.game, this.x-50, this.y-0  , this, true, true));
+                    }else if(this.directionFace == Direction.LEFT){
+                        this.x-=10;
+                        this.counter++;
+                        this.game.addEntity(new Smoke(this.game, this.x-10, this.y-0, this, true, true));
+                    }else if(this.directionFace == Direction.UP){
+                        this.y-=10;
+                        this.counter++;
+                        this.game.addEntity(new Smoke(this.game, this.x-30, this.y, this, true, true));
+                    } else if(this.directionFace == Direction.DOWN){
+                        this.y+=10;
+                    }
+                    for (var i = 0; i < this.game.entities.length; i++){
+                        var entity = this.game.entities[i];
+                        if ((entity instanceof Slime || entity instanceof Boar) && collide(this,  entity)) {
+                                if (this.elapsedTime > 0.001) {
+                                var damage = this.baseDamage/2 + randomInt(4);
+                                if(entity.hitpoints - damage < 0) {
+                                    const dropX = entity.x;
+                                    const dropY = entity.y;
+                                //   this.game.addEntity(new HPBottle(this.game, dropX , dropY));
+                                    this.game.addEntity(new DMGBottle(this.game, dropX , dropY));
+                                    entity.removeFromWorld = true;
+                                }
+                                entity.hitpoints -= damage;
+                                this.game.addEntity(new Score(this.game, entity.x - this.game.camera.x +  Math.floor(Math.random() * (31 - 20) + 20), entity.y - Math.floor(Math.random() * (31 - 20) + 20)- this.game.camera.y, damage));
+                                this.elapsedTime = 0.00;
+                            }
+
+                            }
+                    }
+                    this.elapsedTime = 0;
+                  
+                    this.elapsedTime2=0;
+         
+            }
+            if(this.elapsedTime2>8){
+                this.counter =0;
+              }
+
+            }
+            }
+
+
+
+
+
+
         for (var i = 0; i < this.game.entities.length; i++){
             var entity = this.game.entities[i];
             
@@ -161,6 +256,21 @@ class MainCharacter{
                 //    console.log("collided with Smile");
                 // }else 
                 if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+
+                    const collisionDirection = this.BB.checkCollisionSides(entity.BB);
+                    if(collisionDirection.left){
+                        this.x -= this.speed;
+                    }else if(collisionDirection.right) {
+                        this.x += this.speed;
+                    }else if(collisionDirection.top) {
+                        this.y -= this.speed;
+                    }else if(collisionDirection.bottom) {
+                        this.y += this.speed;
+                    }
+                
+                    
+                } 
+                if(entity instanceof WizardSpawn){
                     const collisionDirection = this.BB.checkCollisionSides(entity.BB);
                     if(collisionDirection.left){
                         this.x -= this.speed;
@@ -175,17 +285,39 @@ class MainCharacter{
                     
                 } 
 
+                if((entity instanceof HPBottle)){
+                    this.maxhitpoints += 5;
+                    if(this.hitpoints + 30 > this.maxhitpoints ) this.hitpoints = this.maxhitpoints;
+                    else this.hitpoints += 30
+                    entity.removeFromWorld = true;
+                    this.game.addEntity(new PlusHP(this.game, this.x - this.game.camera.x, this.y- this.game.camera.y))
+                }
+                if((entity instanceof DMGBottle)){
+                    this.baseDamage += 1;
+                    entity.removeFromWorld = true;
+                    this.game.addEntity(new PlusDMG(this.game, this.x - this.game.camera.x, this.y- this.game.camera.y))
+                }
  
             }
+
+            
+
  
             if ((entity instanceof Slime || entity instanceof Boar) && collide(this,  entity)) {
                         if(this.state === 1){
                         if (this.elapsedTime > 0.2) {
-                            var damage = 7 + randomInt(4);
-                            if(entity.hitpoints - damage < 0) entity.removeFromWorld = true;
+                            var damage = this.baseDamage + randomInt(4);
+                            if(entity.hitpoints - damage < 0) {
+                                const dropX = entity.x;
+                                const dropY = entity.y;
+                             //   this.game.addEntity(new HPBottle(this.game, dropX , dropY));
+                                if(Math.random() < 0.5) this.game.addEntity(new DMGBottle(this.game, dropX , dropY))
+                                else this.game.addEntity(new HPBottle(this.game, dropX , dropY))
+                                entity.removeFromWorld = true;
+                            }
                             entity.hitpoints -= damage;
 
-                            this.game.addEntityFirst(new Score(this.game, entity.x - this.game.camera.x, entity.y- this.game.camera.y, damage));
+                            this.game.addEntity(new Score(this.game, entity.x - this.game.camera.x, entity.y- this.game.camera.y, damage));
                             this.elapsedTime = 0;
                             
                         }
@@ -196,6 +328,8 @@ class MainCharacter{
         
        // this.updateLastBB();
         this.updateBB();
+        this.updateBBforDashingHorizontal();
+        this.updateBBforDashingVertical();
     }
 
     draw(ctx) {
@@ -258,11 +392,14 @@ class MainCharacter{
             ctx.arc(this.x - this.game.camera.x, this.y - this.game.camera.y, this.radius, 0, 2 * Math.PI);
             ctx.closePath();
             ctx.stroke();
+            ctx.strokeStyle = "Black";
+            ctx.strokeRect(this.x- this.game.camera.x- this.width/2 - 130, this.y- this.game.camera.y- this.height/2, this.width +130*2, this.height );
+            ctx.strokeRect(this.x- this.game.camera.x- this.width/2 , this.y- this.game.camera.y- this.height/2 - 130, this.width , this.height +130*2 );
 
-        }
+        }   
         this.healthbar.draw(ctx);
-
-
+        ctx.font = '12px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
 
  
     };
@@ -270,9 +407,9 @@ class MainCharacter{
 
     getListOfRequiredForNextLevel() {
          // Adjust the base threshold as needed
-        const baseCornThreshold = 10; 
-        const baseStrawberryThreshold = 15;  
-        const baseRiceThreshold = 20;  
+        const baseCornThreshold = 1; 
+        const baseStrawberryThreshold = 1;  
+        const baseRiceThreshold = 2;  
 
         const cornThreshold = baseCornThreshold + (this.level * 5);
         const strawberryThreshold = baseStrawberryThreshold + (this.level * 5);
@@ -291,11 +428,13 @@ class MainCharacter{
         ) {
 
             this.level++;
-    
+            this.maxhitpoints += 20 + 5*this.level;
+            this.hitpoints = this.maxhitpoints;
+            this.baseDamage +=5 + 2*this.level;
             this.farmInventory[PLANTNAMES.CORN] = this.farmInventory[PLANTNAMES.CORN] - requiredPlants[PLANTNAMES.CORN];
             this.farmInventory[PLANTNAMES.STRAWBERRY] = this.farmInventory[PLANTNAMES.STRAWBERRY] - requiredPlants[PLANTNAMES.STRAWBERRY];
             this.farmInventory[PLANTNAMES.RICE] =  this.farmInventory[PLANTNAMES.RICE] - requiredPlants[PLANTNAMES.RICE];
-    
+            this.game.addEntity(new LevelUp(this.game, this.x - this.game.camera.x, this.y- this.game.camera.y));
             console.log("Congratulations! You've leveled up to level " + this.level + "!");
         }
     }
