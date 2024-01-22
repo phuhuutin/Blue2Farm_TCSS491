@@ -15,7 +15,6 @@ class HorizontalSoil{
         this.x = x;
         this.y = y;
         this.selectedLand = null;
-        this.game.soil1 = this;
         this.width = 92;
         this.heigh = 27;
         this.plants = [];
@@ -32,7 +31,7 @@ class HorizontalSoil{
         this.previousLandPartsClick = null;
 
 
-       this.menuOffsetY = 20;
+       this.menuOffsetY = 35;
     }; 
 
     update(){
@@ -50,10 +49,14 @@ class HorizontalSoil{
             && this.game.mouse.x < this.x + 92 - this.game.camera.x 
             && this.game.mouse.y > this.y - this.game.camera.y
             &&  this.game.mouse.y  < this.y + 27 - this.game.camera.y )
+        // if(this.game.mouse.x - this.game.camera.x > this.x 
+        //     && this.game.mouse.x - this.game.camera.x< this.x + 92
+        //     && this.game.mouse.y - this.game.camera.y> this.y
+        //     &&  this.game.mouse.y - this.game.camera.y  < this.y + 27 )
             {   
-
+              //  console.log("in the zone");
                 const partWidth = this.width / 3;
-                const clickedPart = Math.floor((this.game.mouse.x - this.x) / partWidth);
+                const clickedPart = Math.floor((this.game.mouse.x - this.x + this.game.camera.x ) / partWidth);
                 switch (clickedPart) {
                     case LandParts.LEFT:
                         if (this.selectedLand !== LandParts.LEFT) {
@@ -81,8 +84,20 @@ class HorizontalSoil{
                 if(this.game.mouseClick){
                     //console.log(this.plants[clickedPart].state);
                     if(this.plants[clickedPart] && this.plants[clickedPart].isHarvestable){
-                       this.plants[clickedPart] = null;  
 
+                        if(this.plants[clickedPart] instanceof CornPlant ) 
+                            this.game.character.farmInventory[PLANTNAMES.CORN] += (Math.floor(Math.random() * 3) + 1);
+                        else if(this.plants[clickedPart] instanceof StrawberryPlant ) 
+                            this.game.character.farmInventory[PLANTNAMES.STRAWBERRY] += (Math.floor(Math.random() * 3) + 2);
+                        else if(this.plants[clickedPart] instanceof RicePlant)
+                            this.game.character.farmInventory[PLANTNAMES.RICE] += (Math.floor(Math.random() * 3) + 3);
+
+
+
+                       this.plants[clickedPart] = null;  
+                       this.menuPlantShow = false;
+                       this.game.mouseClick = false;
+                       this.game.character.levelUp();
                     }else if(this.plants[clickedPart] == null){
                         this.menuPlantShow = true;
                         this.previousLandPartsClick = clickedPart;
@@ -106,7 +121,7 @@ class HorizontalSoil{
             &&  this.game.mouse.y  < this.y + 27 - this.game.camera.y -  this.menuOffsetY && this.menuPlantShow){
                
                 const partWidth = 96 / 3;
-                const clickedPartMenu = Math.floor((this.game.mouse.x - this.x) / partWidth);
+                const clickedPartMenu = Math.floor((this.game.mouse.x - this.x + this.game.camera.x ) / partWidth);
                 
                 switch (clickedPartMenu) {
                     case LandParts.LEFT:
