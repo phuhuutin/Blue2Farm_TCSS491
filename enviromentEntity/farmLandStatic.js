@@ -4,6 +4,7 @@ const StaticType = {
         WELL: 'WELL',
         BOTTLE: 'BOTTLE',
         DEADTREE: 'DEADTREE',
+        CAMP: 'CAMP',
 
 };
 
@@ -13,6 +14,8 @@ class FarmLandStatic {
                 this.type = type;
                 this.spritesheet = ASSET_MANAGER.getAsset("./sprites/farmland.png");
                 this.spritesheet1 = ASSET_MANAGER.getAsset("./sprites/farmAsset.png");
+                this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/forest.png");
+
 
         }
         update() {
@@ -50,6 +53,12 @@ class FarmLandStatic {
                                         this.x - this.game.camera.x,
                                         this.y - this.game.camera.y,
                                         30, 50);
+                                break;
+                        case StaticType.CAMP:
+                                ctx.drawImage(this.spritesheet2, 193, 193, 95, 127,
+                                        this.x - this.game.camera.x,
+                                        this.y - this.game.camera.y,
+                                        100, 130);
                                 break;
 
                 }
