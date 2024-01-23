@@ -199,6 +199,7 @@ class MainCharacter{
                         this.game.addEntity(new Smoke(this.game, this.x-30, this.y, this, true, true));
                     } else if(this.directionFace == Direction.DOWN){
                         this.y+=10;
+                        this.counter++;
                     }
                     for (var i = 0; i < this.game.entities.length; i++){
                         var entity = this.game.entities[i];
