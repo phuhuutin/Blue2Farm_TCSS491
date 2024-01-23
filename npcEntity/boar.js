@@ -106,7 +106,8 @@ class Boar {
                 this.attackTarget = ent;
 
             }
-            if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
+            if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker
+                || ent instanceof InvisibleFenceBlocker || ent instanceof InvisibleMonsterBlocker ){
                 const collisionDirection = this.BB.checkCollisionSides(ent.BB);
                 if(collisionDirection.left){
                     this.x -= this.speed;
