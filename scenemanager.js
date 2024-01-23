@@ -515,7 +515,7 @@ class SceneManager {
         this.listOfTree.push(new ForestRedTree(this.game, 680, 325));
         this.listOfTree.push(new FarmLandBigTree(this.game, 230, 400));
         this.listOfTree.push(new FarmLandBigTree(this.game, 740, 325));
-        this.listOfTree.push(new ForestRedTree(this.game, 900, 450));
+        this.listOfTree.push(new ForestRedTree(this.game, 900, 400));
 
 
         // right trees
