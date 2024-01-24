@@ -120,7 +120,7 @@ class MainCharacter{
     update(){
         let canDash = true;
 
-        console.log(this.elapsedTime2);
+       // console.log(this.elapsedTime2);
         if(this.elapsedTime <= 10)this.elapsedTime += this.game.clockTick;
         if(this.elapsedTime2 <= 10) this.elapsedTime2 += this.game.clockTick;
         if (this.game.left && this.game.up  && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
@@ -199,6 +199,7 @@ class MainCharacter{
                         this.game.addEntity(new Smoke(this.game, this.x-30, this.y, this, true, true));
                     } else if(this.directionFace == Direction.DOWN){
                         this.y+=10;
+                        this.counter++;
                     }
                     for (var i = 0; i < this.game.entities.length; i++){
                         var entity = this.game.entities[i];
