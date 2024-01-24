@@ -1,247 +1,244 @@
+const DirectionDog = {
+  UP: 0,
+  DOWN: 2,
+  LEFT: 1,
+  RIGHT: 3,
+};
 class Dog {
   constructor(game, x, y, path) {
       Object.assign(this, { game, x, y, path });
- 
-      this.radius = 10;
+      this.x = x;
+      this.y = y;
+      this.speed = 0.5;
+      this.width = 23;
+      this.height = 63;
+
+      this.damageBase = 10;
+      this.radius = 40;
       this.faceleft = false;
       this.healthbar= new HealthBar(this);
-      this.hitpoints = 100;
-      this.maxhitpoints = 100;
+      this.hitpoints = 1000;
+      this.maxhitpoints = 1000;
       this.condition = false;
+      this.maxSpeed = 90;
+      
 
-      this.visualRadius = 150;
+      this.visualRadius = 350;
 
-      this.initialPoint = { x, y };
-      this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dogwalkk.png");
-      this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/doghit.png");
-      this.spritesheet3 = ASSET_MANAGER.getAsset("./sprites/dogidle.png");
 
-      this.targetID = 0;
-      if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
+      this.spritesheet = ASSET_MANAGER.getAsset("./sprites/wolfsheet1.png");
 
-      var dist = distance(this, this.target);
-      this.maxSpeed = 70; // pixels per second
-      //speed invovle in x, y this case since there are different direciton
-      this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
-      this.state = 0; // 0 walking, 1 attacking, 2 dead
+
+     this.targetID = 0;
+     if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
+
+     var dist = distance(this, this.target);
+     // pixels per second
+    //  speed invovle in x, y this case since there are different direciton
+     this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
+      this.state = 0; // 0 walking, 1 attacking, 2 idle
 
       this.facing = 0; // 0 = up, clockwise
 
       this.elapsedTime = 0;
       this.animations = [];
-      this.animations.push([]);
-
-      this.animations[0].push(new Animator( this.spritesheet, // Assuming spritesheet is a property of the Wizard class
-      0,
-      0,
-      47.9,
-      48,
-      6,
-      0.2,
-      0,
-      false,
-      true));
-      this.animations.push([]);
-
-      this.animations[1].push(new Animator( this.spritesheet2, // Assuming spritesheet is a property of the Wizard class
-      0,
-      0,
-      47.9,
-      48,
-      4,
-      0.2,
-      0,
-      false,
-      true));
-      this.animations.push([]);
-
-      this.animations[2].push(new Animator( this.spritesheet3, // Assuming spritesheet is a property of the Wizard class
-      0,
-      0,
-      47.9,
-      48,
-      4,
-      0.2,
-      0,
-      false,
-      true));
+      
+      this.directionFace = 3;
+        
+      this.attackTarget = null;
+      this.removeFromWorld = false;
+      this.updateBB();
+      this.loadAnimations();
 
   };
+  loadAnimations(){
+    for (var i = 0; i < 4; i++) { // 0 = walking, 1 = attack, 2 = idle
+        this.animations.push([]);
+        for (var j = 0; j < 4; j++) {  // 4 directions
+            this.animations[i].push([]);
+        }
+    }
+
+    //walking
+    this.animations[0][DirectionDog.DOWN]= new Animator(this.spritesheet, 5, 128, 23, 63, 4, 0.2, 9, false, true);
+    this.animations[0][DirectionDog.LEFT]= new Animator(this.spritesheet, 320, 289, 64, 31, 5, 0.2, 0, false, true);
+    this.animations[0][DirectionDog.RIGHT]= new Animator(this.spritesheet, 320, 97, 64, 31, 5, 0.2, 0, false, true);
+    this.animations[0][DirectionDog.UP]= new Animator(this.spritesheet, 164, 128, 23, 63, 4, 0.2, 9, false, true);
+
+    this.animations[1][DirectionDog.DOWN]= new Animator(this.spritesheet, 2, 257, 23, 63, 5, 0.2, 9, false, true);
+    this.animations[1][DirectionDog.LEFT]= new Animator(this.spritesheet, 320, 353, 64, 32, 5, 0.2, 0, false, true);
+    this.animations[1][DirectionDog.RIGHT]= new Animator(this.spritesheet, 320, 161, 64, 32, 5, 0.2, 0, false, true);
+    this.animations[1][DirectionDog.UP]= new Animator(this.spritesheet, 163, 257, 23, 63, 5, 0.2, 9, false, true);
+
+    this.animations[2][DirectionDog.DOWN]= new Animator(this.spritesheet, 5, 65, 23, 63, 4, 0.5, 9, false, true);
+    this.animations[2][DirectionDog.LEFT]= new Animator(this.spritesheet, 320, 247, 64, 41, 4, 0.5, 1, false, true);
+    this.animations[2][DirectionDog.RIGHT]= new Animator(this.spritesheet, 320, 55, 63, 41, 4, 0.5, 1, false, true);
+    this.animations[2][DirectionDog.UP]= new Animator(this.spritesheet, 163, 65, 23, 63, 4, 0.5, 9, false, true);
+
+
+    this.animations[3][DirectionDog.DOWN]= new Animator(this.spritesheet, 5, 193, 23, 63, 5, 0.2, 9, false, true);
+    this.animations[3][DirectionDog.LEFT]= new Animator(this.spritesheet, 320, 320+1, 63, 31, 5, 0.2, 1, false, true);
+    this.animations[3][DirectionDog.RIGHT]= new Animator(this.spritesheet, 320, 128+1, 63, 31, 4, 0.2, 1, false, true);
+    this.animations[3][DirectionDog.UP]= new Animator(this.spritesheet, 165, 199, 23, 63, 6, 0.2, 9, false, true);
+
+   
+}
+
 
 
 
   // };
   update() {
-
-      this.elapsedTime += this.game.clockTick;
-      var dist = distance(this, this.target);
-      var old = this;
-  
-      for (var i = 0; i < this.game.entities.length; i++) {
-          var ent = this.game.entities[i];
-          if (this.x > 750 && this.condition == false && ent instanceof MainCharacter && !canSee(this, ent) ) {
-               
-              this.condition = true;
-
-          }
-          if (this.x > 400 && this.condition == true && ent instanceof MainCharacter && !canSee(this, ent) ) {
-            this.state =3;
-            console.log("STATE")
-          this.x-=1;
-          if(this.x <=400){
-            this.state =0;
-            this.condition = false;
-          }
+    this.updateBB();
+    this.elapsedTime += this.game.clockTick;
+    var dist = distance(this, this.target);
+    if (dist < 5) {
+        if (this.targetID < this.path.length - 1 && this.target === this.path[this.targetID]) {
+            this.targetID++;
         }
-          if (ent instanceof Slime && canSee(this, ent) ) {
-
-              this.target = ent;
-              //character
-
-              if(this.x > this.target.x){
-                 this.state =3;
-                 this.faceleft = true;
-              }
-              else if(this.x <this.target.x){
-                      this.state =0;
-                      this.faceleft = false;
-              }
-           
-            
-          }
-          if (ent instanceof Slime && collide(this, ent)) {
-           console.log("facelft " + this.faceleft)
-            
-        
+        this.target = this.path[this.targetID];
+    }
+    this.facing = this.getFacingForBoarOnly(this.velocity);
 
 
-                    
-                  this.state = 1;
-                  if (this.elapsedTime > 0.8) {
-                      var damage = 7 + randomInt(4);
-                      ent.hitpoints -= 5+ damage;
-                      if(ent.hitpoints - damage < 0) {ent.removeFromWorld = true};
-                      // this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
-                      this.elapsedTime = 0;
-                  }
-           
-             if(this.state ===3){
-              this.state = 1;
-              this.elapsedTime = 0;
-        
-            }
-              
-      
-          }
-          else if (ent instanceof MainCharacter && canSee(this, ent)){
+    for (var i = 0; i < this.game.entities.length; i++) {
+        var ent = this.game.entities[i];
+
+        if (ent instanceof Slime && canSee(this, ent)) {
             this.target = ent;
-            //character
+            this.attackTarget = ent;
+            if(this.state === 2) this.state = 3;
+            
+        }
+    }
 
-            if(this.x > this.target.x + 5){
-               this.state =3;
-               this.faceleft = true;
-            }
-            else if(this.x <this.target.x){
-                    this.state =0;
-                    this.faceleft = false;
-            }
-          }
-
-          if (ent instanceof MainCharacter && collide(this, ent)) {
-              this.state = 4;
+    if (this.state == 0 || this.state == 3) {
+        dist = distance(this, this.target);
+        this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
+        if (this.x + this.velocity.x * this.game.clockTick + this.width / 2 < 2000 && this.x + this.velocity.x * this.game.clockTick - this.width / 2 > 0) this.x += this.velocity.x * this.game.clockTick;
+        this.y += this.velocity.y * this.game.clockTick;
+    }
+    for (var i = 0; i < this.game.entities.length; i++) {
+        var ent = this.game.entities[i];
+        if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
+          const collisionDirection = this.BB.checkCollisionSides(ent.BB);
+          if(collisionDirection.left){
+              this.x -= this.speed;
+          }else if(collisionDirection.right) {
+              this.x += this.speed;
+          }else if(collisionDirection.top) {
+              this.y -= this.speed;
+          }else if(collisionDirection.bottom) {
+              this.y += this.speed;
+          }    
           }
           
+       
+        
       }
-  
-      if (this.state !== 1) {
-          dist = distance(this, this.target);
-          this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
-          //this help me move
-          // this.x += this.velocity.x * this.game.clockTick;
-      
-          //  this.y += this.velocity.y * this.game.clockTick;
-       }
+    
+    if (this.attackTarget) {
+       
+        if (collide(this, this.attackTarget)) {
+            if (this.state === 0 || this.state == 3) {
+                this.state = 1;
+                this.elapsedTime = 0;
+            }
 
-      this.facing = getFacing(this.velocity);
+            if (this.elapsedTime > 0.5) {
+                var damage = this.damageBase + randomInt(4);
+                this.attackTarget.hitpoints -= damage;
+                this.game.addEntity(new Score(this.game, this.attackTarget.x - this.game.camera.x, this.attackTarget.y - this.game.camera.y, damage));
+                this.elapsedTime = 0;
+
+                if (this.attackTarget.hitpoints <= 0) {
+                    this.attackTarget.removeFromWorld = true;
+                    this.attackTarget = null; // Reset attack target after defeating the Slime
+                    this.state = 0; // Return to walking state
+                }
+            }
+        } else {
+            // Slime is not in range, return to walking state
+            // this.attackTarget = null;
+            this.state = 3;
+        }
+    }
+    if (!this.attackTarget) {
+        this.target = this.game.character;
+    }
+
+    if(Math.abs(this.x - this.target.x)  < 60 && Math.abs( this.y - this.target.y) < 60 
+        && this.attackTarget == null && this.target == this.game.character){
+          
+            this.state = 2;
+        }else if(this.state != 1){
+            this.target = this.game.character;
+            this.state = 3;
+        }
+
+
+
+        
+
+        
+
+
+
+    };
+
+    
+    
   
+
+  updateBB() {
+
+    this.BB = new BoundingBox(this.x - this.game.camera.x- this.width/2, this.y - this.game.camera.y- this.height/2, this.width*2, this.height*2);
+
   };
 
   draw(ctx) {
-     
-      var xOffset = 25;
-      var yOffset = 30;
-      var width = this.state ? 64 : 48;
-      //  ctx.save();
-      //   ctx.scale(-1,1)
-  //    this.animator.drawFrame(this.game.clockTick, ctx, this.x-330-this.game.camera.x , this.y-190-this.game.camera.y, 1); // Scale set to 1 for no scaling
 
 
+    //this.animations[2][3].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
 
-if(this.state==0 ){
+   // this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - (this.width),this.y - this.game.camera.y - (this.height) ,PARAMS.SCALE);
+    if(this.facing == DirectionDog.DOWN ||this.facing == DirectionDog.UP ) this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - (this.width)/2,this.y - this.game.camera.y - (this.height)/2 ,PARAMS.SCALE)
+   else this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - (this.height)/2,this.y - this.game.camera.y - (this.width)/2 ,PARAMS.SCALE)
 
-  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 30 - this.game.camera.x, this.y -60 - this.game.camera.y, 1.5);
-  
-
- }
-else if( this.state==1 && this.faceleft ==true){
-  ctx.save();
-ctx.scale(-1, 1);
-this.animations[1][0].drawFrame(this.game.clockTick, ctx, -this.x -40 + this.game.camera.x, this.y - 50 - this.game.camera.y, 1.5);
-ctx.restore();
-
-}
-else if( this.state==1 && this.faceleft ==false){
-  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 30 - this.game.camera.x, this.y -60 - this.game.camera.y,1.5);
-
-}
-  else if (this.state === 3) { // Example: checking for state 3
-      ctx.save();
-      ctx.scale(-1, 1);
-      this.animations[0][0].drawFrame(this.game.clockTick, ctx, -this.x -40 + this.game.camera.x, this.y - 50 - this.game.camera.y, 1.5);
-      ctx.restore();
-  }
-  else if (this.state === 4) { // Example: checking for state 3
-    ctx.save();
-    ctx.scale(-1, 1);
-    this.animations[2][0].drawFrame(this.game.clockTick, ctx, -this.x -40 + this.game.camera.x, this.y - 50 - this.game.camera.y, 1.5);
-    ctx.restore();
-}
-
-      // Select the animation based on the current state
-//     this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 120 - this.game.camera.x, this.y - 140 - this.game.camera.y, 1);
-  
-   //for carmera view, change this.game.camera.x
-//     ctx.save();
-//     ctx.scale(-1,1)
-//  this.animations[this.state][0].drawFrame(this.game.clockTick, ctx, -this.x+50+this.game.camera.x , this.y-190-this.game.camera.y, 1);
-//      ctx.restore();
 
 
 
       if (PARAMS.DEBUG) {
-          ctx.strokeStyle = "Black";
+           ctx.strokeStyle = 'red';
+          ctx.strokeRect(this.x - this.game.camera.x- this.width, this.y - this.game.camera.y- this.height/2, this.width*2, this.height);
+         
+         
           ctx.beginPath();
-          ctx.moveTo(this.initialPoint.x, this.initialPoint.y);
-          // for (var i = 0; i < this.path.length; i++) {
-          //     ctx.lineTo(this.path[i].x, this.path[i].y);
-          // };
-          ctx.stroke();
+            ctx.arc(this.x - this.game.camera.x , this.y - this.game.camera.y  , this.radius, 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.stroke();
 
-          ctx.strokeStyle = "black";
-          ctx.beginPath();
-          ctx.arc(this.x-this.game.camera.x, this.y-this.game.camera.y, this.radius , 0, 2 * Math.PI);
-          
-          ctx.closePath();
-          ctx.stroke();
 
-          ctx.setLineDash([5, 15]);
-          ctx.beginPath();
-          ctx.arc(this.x-this.game.camera.x, this.y-this.game.camera.y, this.visualRadius, 0, 2 * Math.PI);
-           ctx.closePath();
-          ctx.stroke();
-           ctx.setLineDash([]);
-      }
+            ctx.setLineDash([5, 15]);
+            ctx.beginPath();
+            ctx.arc(this.x - this.game.camera.x , this.y - this.game.camera.y , this.visualRadius, 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+        }
 
       this.healthbar.draw(ctx);
   };
+  getFacingForBoarOnly(velocity) {
+    if (velocity.x === 0 && velocity.y === 0) return DirectionDog.RIGHT; // Default to right if no movement
+
+    // Determine the facing direction based on velocity components
+    if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
+        return velocity.x > 0 ? DirectionDog.RIGHT : DirectionDog.LEFT;
+    } else {
+        return velocity.y > 0 ? DirectionDog.DOWN : DirectionDog.UP;
+    }
+};
+
 };
