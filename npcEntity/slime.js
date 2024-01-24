@@ -153,7 +153,7 @@ class Slime{
 
             }
             //size of FarmLandBigTree: 99,127
-            if (ent instanceof Dog && collide(this,  ent)) {s
+            if (ent instanceof Dog && collide(this,  ent)) {
                 if (this.state === 0) {
                     this.state = 1;
                     this.elapsedTime = 0;
@@ -163,7 +163,7 @@ class Slime{
                if (this.elapsedTime > 0.8) {
                    var damage = 7 + randomInt(4);
                    ent.hitpoints -= damage;
-                     this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
+                     this.game.addEntity(new Score(this.game, ent.x - this.game.camera.x, ent.y- this.game.camera.y, damage));
                      this.elapsedTime = 0;
                      if( ent.hitpoints<=0){
                         ent.removeFromWorld = true

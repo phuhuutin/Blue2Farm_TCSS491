@@ -55,7 +55,7 @@ class SceneManager {
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0, 0);
-        this.dog = new Dog(this.game, 600, 1400, [{ x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: randomInt(3800), y: randomInt(0) }, { x: 0, y: 0 }]);
+        this.dog = new Dog(this.game, 500, 400, [{ x: 500, y: 500 },{ x: 800, y: 800 }, { x: 700, y: 1200 }]);
         this.wiz = new Wizard(this.game, 330, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
         this.wiz2 = new Wizard2(this.game, 400, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
 
@@ -137,6 +137,17 @@ class SceneManager {
 
 
         this.character.removeFromWorld = false;
+
+      //  this.game.addEntity(this.character);
+      
+        // this.game.addEntity(this.bor);
+        // this.game.addEntity(this.wizardspawn)
+        // this.game.addEntity(this.camp)
+        //  this.game.addEntity(this.wiz);
+        //  this.game.addEntity(this.wiz2);
+       // this.bor.removeFromWorld = false;
+       // this.game.addEntity(this.bor);
+
         //  this.game.addEntity(this.character);
         // this.game.addEntity(this.dog);
         this.game.addEntity(this.bor);
@@ -146,6 +157,7 @@ class SceneManager {
         this.game.addEntity(this.wiz2);
         this.bor.removeFromWorld = false;
         // this.game.addEntity(this.bor);
+
         // this.game.addEntity(this.gob);
         // this.game.addEntity(this.greenG);
         // this.game.addEntity(this.worm);
@@ -459,12 +471,14 @@ class SceneManager {
             this.game.addEntity(this.listOfSlime[i]);
 
         }
-        this.game.addEntity(this.bor);
+       // this.game.addEntity(this.bor);
 
         //DO NOT BLOCK THE CHARACTER
         /////////////////////////////////////
         this.game.addEntity(this.character);
         //////////////////////////////////////
+        this.game.addEntity(this.dog);
+        this.dog.removeFromWorld = false;
         // BLOCK THE CHARACTER
 
         //House

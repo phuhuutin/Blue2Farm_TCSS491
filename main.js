@@ -3,15 +3,9 @@ const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/villager1.png");
 ASSET_MANAGER.queueDownload("./sprites/farmAsset.png");
-ASSET_MANAGER.queueDownload("./sprites/plants.png");
-ASSET_MANAGER.queueDownload("./sprites/inventory.png");
 ASSET_MANAGER.queueDownload("./sprites/slime.png");
 ASSET_MANAGER.queueDownload("./sprites/farmland.png");
 ASSET_MANAGER.queueDownload("./sprites/farmAsset.png");
-ASSET_MANAGER.queueDownload("./sprites/grassbase.png");
-ASSET_MANAGER.queueDownload("./sprites/doghit.png");
-ASSET_MANAGER.queueDownload("./sprites/dogwalkk.png");
-ASSET_MANAGER.queueDownload("./sprites/dogidle.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
 ASSET_MANAGER.queueDownload("./sprites/farmHouses.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy/wizardRun.png");
@@ -32,8 +26,8 @@ ASSET_MANAGER.queueDownload("./sprites/fireball (2).png");
 ASSET_MANAGER.queueDownload("./sprites/wizardspawn.png");
 ASSET_MANAGER.queueDownload("./sprites/house.png");
 ASSET_MANAGER.queueDownload("./sprites/enemyhouse.png");
-
-
+ 
+ASSET_MANAGER.queueDownload("./sprites/wolfsheet1.png");
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
