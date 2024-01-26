@@ -36,15 +36,15 @@ class DayNightCycle {
             );
 
             gradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)'); // Adjust color and opacity
-            gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)'); // Adjust color and opacity
-            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Adjust color and opacity
+            gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)'); 
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
 
-            ctx.globalCompositeOperation = 'lighter'; // Use 'lighter' composite mode for additive blending
+            ctx.globalCompositeOperation = 'lighter'; /
             ctx.fillStyle = gradient;
             ctx.beginPath();
-            ctx.arc(characterX, characterY, 200, 0, 2 * Math.PI); // Increased radius for a stronger glow
+            ctx.arc(characterX, characterY, 200, 0, 2 * Math.PI); 
             ctx.fill();
-            ctx.globalCompositeOperation = 'source-over'; // Reset composite mode
+            ctx.globalCompositeOperation = 'source-over'; 
          }
 
         // Draw dark overlay during the night
