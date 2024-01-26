@@ -56,7 +56,7 @@ class MainCharacter{
         this.loadAnimations();
 
     };
-
+    
     isDead(){
         this.x = this.spawnX;
         this.y = this.spawnY;

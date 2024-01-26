@@ -1,4 +1,3 @@
-
 class Slime{
     constructor(game, x, y,path) {
         Object.assign(this, { game, x, y, path});

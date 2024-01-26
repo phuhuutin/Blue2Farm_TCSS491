@@ -22,38 +22,7 @@ function collide(A, B) {
 
 function canSee(A, B) { // if A can see B
     return (distance(A, B) < A.visualRadius + B.radius);
-
 };
-function distanceHelper(ax, ay, bx, by) {
-    // Calculate the Euclidean distance between two points
-    return Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2));
-}
-function canSeeForCircleAndRec(circle, rectangle) {
-    // Extract circle properties
-    
-    // Extract rectangle properties
-  
-
-    // Find the closest point on the rectangle to the circle
-    let closestX = Math.max(rectangle.x, Math.min(circle.x, circle.y + rectangle.width));
-    let closestY = Math.max(rectangle.y, Math.min(circle.x, circle.y + rectangle.height));
-
-    // Check if the closest point is within the circle's visual radius
-    return distance(circle.x, circle.y, closestX, closestY) < circle.visualRadius;
-}
-function collideForCircleAndRec(circle, rectangle) {
-    // Extract circle properties
-    
-    // Extract rectangle properties
-  
-
-    // Find the closest point on the rectangle to the circle
-    let closestX = Math.max(rectangle.x, Math.min(circle.x, circle.y + rectangle.width));
-    let closestY = Math.max(rectangle.y, Math.min(circle.x, circle.y + rectangle.height));
-
-    // Check if the closest point is within the circle's visual radius
-    return distance(circle.x, circle.y, closestX, closestY) < circle.radius;
-}
 
 function getFacing(velocity) {
     if (velocity.x === 0 && velocity.y === 0) return 4;
