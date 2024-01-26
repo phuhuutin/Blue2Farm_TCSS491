@@ -31,7 +31,7 @@ class Boar {
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
         var dist = distance(this, this.target);
-        this.maxSpeed = 70; // pixels per second
+        this.maxSpeed = 20; // pixels per second
         //speed invovle in x, y this case since there are different direciton
         this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
         this.state = 0; // 0 walking, 1 attacking, 2 dead
@@ -109,6 +109,7 @@ class Boar {
                 this.attackTarget = ent;
 
             }
+
             // if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
             //     const collisionDirection = this.BB.checkCollisionSides(ent.BB);
             //     if(collisionDirection.left){
@@ -120,6 +121,7 @@ class Boar {
             //     }else if(collisionDirection.bottom) {
             //         this.y += this.speed;
             //     }
+
             
                 
             // }

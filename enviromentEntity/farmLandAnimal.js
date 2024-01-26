@@ -16,8 +16,8 @@ class FarmLandAnimal {
 
         switch (type) {
             case AnimalType.COW:
-                this.animations.push(new Animator(this.spritesheet, 256, 1011, 63, 38,
-                    3, 0.5, 0, false, true));
+               this.animations.push(new Animator(this.spritesheet, 256, 1011, 63, 38,
+                    3, 0.5, 0, false, true)); 
                 break;
             case AnimalType.CHICKEN:
                 this.animations.push(new Animator(this.spritesheet, 256, 770, 31, 31,
@@ -50,7 +50,6 @@ class FarmLandAnimal {
     }
 
     draw(ctx) {
-        // Draw the static image
         if (this.animations.length == 1) {
             this.animations[0].drawFrame(this.game.clockTick,
                 ctx,

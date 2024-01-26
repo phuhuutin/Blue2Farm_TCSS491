@@ -16,7 +16,7 @@ class MainCharacter{
         this.game.character = this;
         this.radius = 30; //attack range
         this.speed = 0.5;
-        // spritesheet
+                // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
 
         //healthbar information
@@ -266,7 +266,8 @@ class MainCharacter{
                 //     }
                 //    console.log("collided with Smile");
                 // }else 
-                if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
+                if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker
+                    || entity instanceof InvisibleFenceBlocker){
 
                     const collisionDirection = this.BB.checkCollisionSides(entity.BB);
                     if(collisionDirection.left){
