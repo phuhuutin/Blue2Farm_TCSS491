@@ -9,6 +9,8 @@ class Dog {
       Object.assign(this, { game, x, y, path });
       this.x = x;
       this.y = y;
+      this.spawnX = x;
+      this.spawnY = y;
       this.speed = 0.5;
       this.width = 23;
       this.height = 63;
@@ -17,13 +19,13 @@ class Dog {
       this.radius = 40;
       this.faceleft = false;
       this.healthbar= new HealthBar(this);
-      this.hitpoints = 1000;
-      this.maxhitpoints = 1000;
+      this.hitpoints = 599;
+      this.maxhitpoints = 599;
       this.condition = false;
-      this.maxSpeed = 90;
+      this.maxSpeed = 100;
       
 
-      this.visualRadius = 350;
+      this.visualRadius = 250;
 
 
       this.spritesheet = ASSET_MANAGER.getAsset("./sprites/wolfsheet1.png");
@@ -51,6 +53,12 @@ class Dog {
       this.loadAnimations();
 
   };
+  isDead(){
+    this.x = this.spawnX;
+    this.y = this.spawnY;
+    this.hitpoints = this.maxhitpoints;
+
+}
   loadAnimations(){
     for (var i = 0; i < 4; i++) { // 0 = walking, 1 = attack, 2 = idle
         this.animations.push([]);
@@ -79,7 +87,7 @@ class Dog {
     this.animations[3][DirectionDog.DOWN]= new Animator(this.spritesheet, 5, 193, 23, 63, 5, 0.2, 9, false, true);
     this.animations[3][DirectionDog.LEFT]= new Animator(this.spritesheet, 320, 320+1, 63, 31, 5, 0.2, 1, false, true);
     this.animations[3][DirectionDog.RIGHT]= new Animator(this.spritesheet, 320, 128+1, 63, 31, 4, 0.2, 1, false, true);
-    this.animations[3][DirectionDog.UP]= new Animator(this.spritesheet, 165, 199, 23, 63, 6, 0.2, 9, false, true);
+    this.animations[3][DirectionDog.UP]= new Animator(this.spritesheet, 165, 197, 23, 58, 5, 0.2, 9, false, true);
 
    
 }
@@ -104,7 +112,7 @@ class Dog {
     for (var i = 0; i < this.game.entities.length; i++) {
         var ent = this.game.entities[i];
 
-        if (ent instanceof Slime && canSee(this, ent)) {
+        if (ent instanceof Slime && canSee(this, ent) || ent instanceof Boar && canSee(this, ent)) {
             this.target = ent;
             this.attackTarget = ent;
             if(this.state === 2) this.state = 3;
