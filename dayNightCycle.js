@@ -13,7 +13,7 @@ class DayNightCycle {
         this.time = (this.time + this.game.clockTick * 24 / (3 * 60)) % 24; // Increment time based on clockTick
         const currentHour = Math.floor(this.time);
         if(lastHour == 23 && currentHour == 0) PARAMS.DAYCOUNTER += 1;
-        if(lastHour == 22 && currentHour == 23 ) this.game.addEntity(new GoToSleepMessage(this.game, PARAMS.CANVAS_WIDTH/2 - 200 , PARAMS.CANVAS_HEIGHT/3));
+        if(lastHour == 20 && currentHour == 21 ) this.game.addEntity(new GoToSleepMessage(this.game, PARAMS.CANVAS_WIDTH/2 - 200 , PARAMS.CANVAS_HEIGHT/3));
     }
 
     draw(ctx) {

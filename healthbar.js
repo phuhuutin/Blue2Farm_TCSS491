@@ -188,7 +188,7 @@ class GoToSleepMessage{
 
     update() {
         this.elapsed += this.game.clockTick;
-        if (this.elapsed > 2) this.removeFromWorld = true;
+        if (this.elapsed > 5) this.removeFromWorld = true;
        
         this.y += this.game.clockTick * this.velocity;
     };
