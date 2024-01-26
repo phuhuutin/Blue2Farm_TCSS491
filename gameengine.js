@@ -90,7 +90,6 @@ class GameEngine {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
-            console.log({x:this.click.x + this.camera.x, y: this.click.y + this.camera.y });
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {

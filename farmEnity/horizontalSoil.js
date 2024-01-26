@@ -16,18 +16,12 @@ class HorizontalSoil{
         this.y = y;
         this.selectedLand = null;
         this.width = 92;
-        this.height = 27;
+        this.heigh = 27;
         this.plants = [];
-        this.radius = 5;
-        this.visualRadius = 50;
-
-        this.plants.push(new StrawberryPlant(this.game,this.x + (92/3)*0,this.y, PARAMS.DAYCOUNTER));
-        this.plants.push(new RicePlant(this.game,this.x + (92/3)*1,this.y, PARAMS.DAYCOUNTER));
-        this.plants.push(new CornPlant(this.game,this.x + (92/3)*2,this.y, PARAMS.DAYCOUNTER));
-        //For Prototype Showcase.
-        this.plants.forEach(plant =>{
-            plant.startDay = -4;
-        });
+     
+        this.plants.push(null);
+        this.plants.push(null);
+        this.plants.push(null);
         // spritesheet
          this.spritesheet = ASSET_MANAGER.getAsset("./sprites/farmland.png");
          this.removeFromWorld = false;
@@ -38,15 +32,9 @@ class HorizontalSoil{
 
 
        this.menuOffsetY = 35;
-       this.updateBB();
     }; 
-    updateBB(){
-        this.BB = new BoundingBox(this.x   - this.game.camera.x , this.y   - this.game.camera.y , this.width, this.height);
-      //  console.log(this.BB);
-    }
 
     update(){
-        this.updateBB();
     
         // if(this.game.click.x > this.x && this.game.click.x < this.x +92 &&  this.game.click.y > this.game.y && this.click.y < this.y + 27  )
         // {
@@ -227,14 +215,6 @@ class HorizontalSoil{
 
         if(this.menuSelect != null){
             this.game.ctx.strokeRect(this.x - this.game.camera.x + (96/3)*this.menuSelect,this.y - this.game.camera.y - this.menuOffsetY,92/3,32);
-        }
-        
-        if (PARAMS.DEBUG) {
-            ctx.strokeRect(this.x - this.game.camera.x, this.y - this.game.camera.y, this.width, this.height);
-            ctx.beginPath();
-            ctx.arc(this.x - this.game.camera.x + this.width/2, this.y - this.game.camera.y + this.height/2 , this.radius, 0, 2 * Math.PI);
-            ctx.closePath();
-            ctx.stroke();
         }
 
     }
