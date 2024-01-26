@@ -28,6 +28,8 @@ ASSET_MANAGER.queueDownload("./sprites/house.png");
 ASSET_MANAGER.queueDownload("./sprites/enemyhouse.png");
  
 ASSET_MANAGER.queueDownload("./sprites/wolfsheet1.png");
+ASSET_MANAGER.queueDownload("./sprites/towers.png");
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");

@@ -10,7 +10,7 @@ class Slime{
 
         //walking to the target information
         this.radius = 48/2;
-        this.visualRadius = 200;
+        this.visualRadius = 400;
 
     
         this.targetID = 0;
@@ -46,6 +46,8 @@ class Slime{
         this.animations = [];
         this.loadAnimations();
         this.elapsedTime = 0;
+        this.attackTarget = null;
+     //   this.path.push({x:this.game.character.x,y: this.game.character.y});
 
     };
     
@@ -84,27 +86,11 @@ class Slime{
     
     };
     update(){
+        
+
         this.updateBB();
         this.elapsedTime += this.game.clockTick;
         
-        // if (this.game.left) {
-        //     this.x -= this.speed;
-        //     this.directionFace = Direction.LEFT;
-        // } else if (this.game.right) {
-        //     this.x += this.speed;
-        //     this.directionFace = Direction.RIGHT;
-        // } else if (this.game.up) {
-        //     this.y -= this.speed;
-        //     this.directionFace = Direction.UP;
-        // }else if (this.game.down) {
-        //     this.y += this.speed;
-        //     this.directionFace = Direction.DOWN;
-        // }
-
-        
-
-
-
 
          var dist = distance(this, this.target);
         if (dist < 5) {
@@ -112,29 +98,40 @@ class Slime{
                 this.targetID++;
             }
             this.target = this.path[this.targetID];
+            if(this.targetID == this.path.length - 1 && this.attackTarget == null){
+            this.attackTarget = this.game.character;
+            this.target = this.game.character;
+        }
         }
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
-            if (ent instanceof FarmLandBigTree && canSee(this, ent)) {
-                this.target = ent;
-
-            }
-            //size of FarmLandBigTree: 99,127
-            if (ent instanceof FarmLandBigTree && collide(this,  ent)) {
-                if (this.state === 0) {
-                    this.state = 1;
-                    this.elapsedTime = 0;
-                 //   console.log("Fighting");
-
-                 } 
-                //else if (this.elapsedTime > 0.8) {
-                //     var damage = 7 + randomInt(4);
-                //     ent.hitpoints -= damage;
-                //     this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
-                //     this.elapsedTime = 0;
+            if (this.attackTarget== null && ent instanceof HorizontalSoil && canSee(this, {x:ent.x + ent.width/2, y:ent.y  + ent.height/2, radius: ent.radius})) {
+                // const currentI = i;
+                // while(i < this.game.entities.length-1 && this.game.entities[i+1] instanceof HorizontalSoil ){
+                //     ++i;
                 // }
+               
+               
+                // const newTarget = this.game.entities[currentI +  Math.random() * (i - currentI -1) ];
+                const availableTargets = this.game.entities.filter(target => 
+                    target instanceof HorizontalSoil 
+                    && canSee(this, { x: target.x + target.width / 2, y: target.y + target.height / 2, radius: target.radius })
+                    && (target.plants[0] ||target.plants[0] || target.plants[1] )
+                    );
+                if (availableTargets.length > 0) {
+                    // Pick a random target from the available targets
+                    const randomIndex = Math.floor(Math.random() * availableTargets.length);
+                    const randomTarget = availableTargets[randomIndex];
+        
+                    // Set the target and attackTarget
+                    this.target = randomTarget;
+                    this.attackTarget = randomTarget;
+                } else {
+                    
+                }
             }
-            if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
+            //size of FarmLandBigTree: 99,12       
+            if(ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
                 const collisionDirection = this.BB.checkCollisionSides(ent.BB);
                 if(collisionDirection.left){
                     this.x -= this.speed;
@@ -148,107 +145,92 @@ class Slime{
             
                 
             } 
-            if (ent instanceof Dog && canSee(this, ent)) {
-                this.target = ent;
-
-            }
-            //size of FarmLandBigTree: 99,127
-            if (ent instanceof Dog && collide(this,  ent)) {
-                if (this.state === 0) {
-                    this.state = 1;
-                    this.elapsedTime = 0;
-                 //   console.log("Fighting");
-
-                 } 
-               if (this.elapsedTime > 0.8) {
-                   var damage = 7 + randomInt(4);
-                   ent.hitpoints -= damage;
-                     this.game.addEntity(new Score(this.game, ent.x - this.game.camera.x, ent.y- this.game.camera.y, damage));
-                     this.elapsedTime = 0;
-                     if( ent.hitpoints<=0){
-                        ent.removeFromWorld = true
-                     }
-                 }
-            }
         }
-        if (this.state !== 1) {
+
+      
+
+
+
+        if (this.state == 0) {
             dist = distance(this, this.target);
             this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
            if(this.x + this.velocity.x * this.game.clockTick +  this.width/2 < 2000 && this.x + this.velocity.x * this.game.clockTick - this.width/2 > 0) this.x += this.velocity.x * this.game.clockTick;
             this.y += this.velocity.y * this.game.clockTick;
         }
-        this.facing = getFacing(this.velocity);
+        this.facing = this.getFacingForBoarOnly(this.velocity);
+        if (this.attackTarget && this.attackTarget instanceof HorizontalSoil) {
+       
+            if (collide(this, this.attackTarget)) {
+                if (this.state === 0 ) {
+                    this.state = 1;
+                    this.elapsedTime = 0;
+                }
+    
+                if (this.elapsedTime > 1) {
+                    if(this.attackTarget.plants[0] != null){
+                        this.attackTarget.plants[0] = null
+                    }else  if(this.attackTarget.plants[1] != null){
+                        this.attackTarget.plants[1] = null
+                    }else if(this.attackTarget.plants[2] != null){
+                        this.attackTarget.plants[2] = null
+                    } else {
+                        this.attackTarget = null;
+                        this.state = 0; 
+                    }
+                    //var damage = this.damageBase + randomInt(4);
+                    //this.attackTarget.hitpoints -= damage;
+                   // this.game.addEntity(new Score(this.game, this.attackTarget.x - this.game.camera.x, this.attackTarget.y - this.game.camera.y, damage));
+                    this.elapsedTime = 0;
+    
+                    
+                }
+            }
+        }else if(this.attackTarget != null) {
+            if (collide(this, this.attackTarget)) {
+                if (this.state === 0 ) {
+                    this.state = 1;
+                    this.elapsedTime = 0;
+                }
+                if (this.elapsedTime > 0.5) {
+                //var damage = this.damageBase + randomInt(4);
+                //this.attackTarget.hitpoints -= damage;
+               // this.game.addEntity(new Score(this.game, this.attackTarget.x - this.game.camera.x, this.attackTarget.y - this.game.camera.y, damage));
+                this.elapsedTime = 0;
 
+                if (this.attackTarget.hitpoints <= 0) {
+                    this.attackTarget.removeFromWorld = true;
+                    this.attackTarget = null; // Reset attack target after defeating the Slime
+                    this.state = 0; // Return to walking state
+                }
+            }
+            
+        }else if(this.attackTarget){
+            if( !collide(this, this.target)) this.state = 0;
+            if( !canSee(this,this.target )) {
+                
+        
+                this.target = this.game.character;
+                this.attackTarget = this.game.character
+              
+            };
+        }
+    }
         
 
     }
+    getFacingForBoarOnly(velocity) {
+        if (velocity.x === 0 && velocity.y === 0) return DirectionDog.RIGHT; // Default to right if no movement
+    
+        // Determine the facing direction based on velocity components
+        if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
+            return velocity.x > 0 ? DirectionDog.RIGHT : DirectionDog.LEFT;
+        } else {
+            return velocity.y > 0 ? DirectionDog.DOWN : DirectionDog.UP;
+        }
+    };
 
     draw(ctx) {
-        //These are for testing loading assets via keybroad like the main character
-
-
-
-        // ctx.strokeStyle = 'blue';
-        // ctx.strokeRect(this.x - this.game.camera.x, this.y - this.game.camera.y, 48*PARAMS.SCALE, 48*PARAMS.SCALE);
         
-           // ctx.drawImage(this.spritesheet,192,0*46, 48,46, this.x - this.game.camera.x,this.y - this.game.camera.y,48*PARAMS.SCALE,46*PARAMS.SCALE);
-        //    if (this.game.left) {
-          
-        //     this.animations[Direction.LEFT][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-
-        // } else if (this.game.right) {
-        //     this.animations[Direction.RIGHT][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        // } else if (this.game.up) {
-        //     this.animations[Direction.UP][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-
-        // } else if (this.game.down) {
-        //     this.animations[Direction.DOWN][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        // } else if(!this.game.spaceKey){
-        //     ctx.drawImage(this.spritesheet,0,this.directionFace*46, 48,46, this.x - this.game.camera.x,this.y - this.game.camera.y,48*PARAMS.SCALE,46*PARAMS.SCALE);
-        // }
-
-        // if (this.game.left) {
-          
-        //     this.animations[Direction.LEFT][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-
-        // } else if (this.game.right) {
-        //     this.animations[Direction.RIGHT][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        // } else if (this.game.up) {
-        //     this.animations[Direction.UP][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-
-        // } else if (this.game.down) {
-        //     this.animations[Direction.DOWN][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        // } else if(!this.game.spaceKey){
-        //     ctx.drawImage(this.spritesheet,0,this.directionFace*48+1, 48,48, this.x - this.game.camera.x,this.y - this.game.camera.y,48*PARAMS.SCALE,48*PARAMS.SCALE);
-        // }
-         //      this.animations[Direction.DOWN][2].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-
-        // if(this.game.spaceKey){
-
-        //     switch(this.directionFace){
-        //         case Direction.DOWN:
-        //            // this.animations[Direction.DOWN][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        //             this.animations[Direction.DOWN][1].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x ,this.y - this.game.camera.y ,PARAMS.SCALE);
-                
-        //             break;
-        //         case Direction.LEFT:
-        //            // this.animations[Direction.LEFT][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        //             this.animations[Direction.LEFT][1].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x ,this.y - this.game.camera.y ,PARAMS.SCALE);
-
-        //             break;
-        //         case Direction.RIGHT:
-        //           //  this.animations[Direction.RIGHT][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-        //             this.animations[Direction.RIGHT][1].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x ,this.y - this.game.camera.y ,PARAMS.SCALE);
-    
-        //         break;
-        //         case Direction.UP:
-        //             this.animations[Direction.UP][1].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x ,this.y - this.game.camera.y ,PARAMS.SCALE);
-        //            // this.animations[Direction.UP][0].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x,this.y - this.game.camera.y,PARAMS.SCALE);
-
-        //             break;
-        //     }
-
-        // }
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - (48/2),this.y - this.game.camera.y - (46/2) ,PARAMS.SCALE);
         if (PARAMS.DEBUG) {
             ctx.stroke();
@@ -283,7 +265,7 @@ class Slime{
     //     this.animations[this.direction][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, PARAMS.SCALE);
     //     this.animations[this.direction][1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, PARAMS.SCALE);
     //     this.animations[this.direction][2].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y, PARAMS.SCALE);
- 
+        
     };
 
 }

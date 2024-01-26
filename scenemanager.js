@@ -8,15 +8,15 @@ class SceneManager {
         //go to line 61, they are set to focus on the main charater.
         this.x = 0;
         this.y = 0;
-
+        this.currentDay = 0;
 
         this.spritesheetFarmLand = ASSET_MANAGER.getAsset("./sprites/farmland.png");
 
 
-        this.character = new MainCharacter(this.game, 400, 400);
+        this.character = new MainCharacter(this.game, 800, 525);
 
         this.nextNextCutScene = false;
-
+    
 
 
         this.listOfSlime = [];
@@ -49,17 +49,20 @@ class SceneManager {
         this.listOfSmallPlants = [];
 
         this.listOfLakeAndOtherSide = new LakeAndOtherSide(this.game);
+        this.normalBossesHouse = new NormalBossesHome(this.game);
 
         this.listOfInvisibleBlocker = [];
+
+        this.listOfBossTowers = [];
 
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0, 0);
-        this.dog = new Dog(this.game, 500, 400, [{ x: 500, y: 500 },{ x: 800, y: 800 }, { x: 700, y: 1200 }]);
+        this.dog = new Dog(this.game, 800, 800, [ { x: 700, y: 1200 }]);
         this.wiz = new Wizard(this.game, 330, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
         this.wiz2 = new Wizard2(this.game, 400, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]);
 
-        this.bor = new Boar(this.game, 300, 400, [{ x: 500, y: 500 }, { x: 600, y: 500 }, { x: 700, y: 1200 }]);
+        this.bor = new Boar(this.game, 200, 400, [{ x: 500, y: 500 }, { x: 600, y: 500 }, { x: 700, y: 1200 }]);
         this.gob = new Goblin(this.game, 700, 1400, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
         this.greenG = new GreenGoblin(this.game, 400, 1550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
         this.worm = new FireWorm(this.game, 100, 1500, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
@@ -67,9 +70,24 @@ class SceneManager {
         this.camp = new Campfire(this.game, 110, 110);
 
         this.loadMap();
+        this.elapsed = 0;
 
 
     };
+    loadSlime(){
+        this.listOfSlime = [];
+        this.listOfSlime.push(new Slime(this.game, 850,850, [{ x: 1055, y: 555 }]));
+        this.listOfSlime.push(new Slime(this.game, 800,800, [{ x: 1055, y: 555 }]));
+
+        this.listOfSlime.push(new Slime(this.game, 800,800, [ { x: 1055, y: 555 }]));
+       this.listOfSlime.push(new Slime(this.game, 666,1100, [{x: 1055, y: 555 }]));
+
+        for (let i = 0; i < this.listOfSlime.length; i++) {
+            this.listOfSlime[i].removeFromWorld = false;
+            this.game.addEntity(this.listOfSlime[i]);
+
+        }
+    }
 
     loadMap() {
         let houseX = 50;
@@ -357,9 +375,9 @@ class SceneManager {
             this.game.addEntity(this.listOfTrippleSoil[i]);
 
         }
-        for (let i = 0; i < 2; i++) {
-            for (let j = 0; j < 6; j++) {
-                this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140 * i, 175 + 70 * j + soildOffer));
+        for(let i = 0; i < 2; i++){
+            for(let j = 0; j < 6; j++){
+                this.listOfTrippleSoil.push(new HorizontalSoil(this.game, 970 + 140*i, 175 + 70*j + soildOffer));
 
             }
         }
@@ -460,19 +478,18 @@ class SceneManager {
 
 
         this.normalGrass.removeFromWorld = false;
-        //  this.game.addEntity(this.normalGrass);
-        this.listOfSlime.push(new Slime(this.game, 200, 550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+      //  this.game.addEntity(this.normalGrass);
+        this.listOfSlime.push(new Slime(this.game, 200,550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
 
-        this.listOfSlime.push(new Slime(this.game, 333, 333, [{ x: -50, y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
-        this.listOfSlime.push(new Slime(this.game, 666, 1100, [{ x: 3000, y: 900 }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+        this.listOfSlime.push(new Slime(this.game, 333,333, [{ x: -50, y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 110, y: 0 }]));
+        this.listOfSlime.push(new Slime(this.game, 666,1100, [{ x: 3000, y: 900 }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, {x: 110, y: 0 }]));
 
         for (let i = 0; i < this.listOfSlime.length; i++) {
             this.listOfSlime[i].removeFromWorld = false;
             this.game.addEntity(this.listOfSlime[i]);
 
         }
-       // this.game.addEntity(this.bor);
-
+        this.game.addEntity(this.bor);
         //DO NOT BLOCK THE CHARACTER
         /////////////////////////////////////
         this.game.addEntity(this.character);
@@ -480,6 +497,11 @@ class SceneManager {
         this.game.addEntity(this.dog);
         this.dog.removeFromWorld = false;
         // BLOCK THE CHARACTER
+
+        //Boss Towers
+        
+        
+
 
         //House
 
@@ -668,11 +690,21 @@ class SceneManager {
 
 
     }
-    update() {
-        let midpointX = PARAMS.CANVAS_WIDTH / 2;
-        let midpointY = PARAMS.CANVAS_HEIGHT / 2;
-        if (this.game.testSleepCutScene) {
+    update(){
+        let midpointX = PARAMS.CANVAS_WIDTH/2 ;
+        let midpointY = PARAMS.CANVAS_HEIGHT/2 ;
+        if(this.game.testSleepCutScene) {
             this.game.addEntity(new NextDayCutScene(this.game));
+            this.startCounting = true;
+            this.elapsed = 0;
+            
+        }
+        if(this.elapsed > 3.5){
+            this.loadSlime();
+            this.elapsed = 0;
+            this.startCounting = false;
+
+            console.log("loaded slime");
         }
 
         if (0 < this.character.x - midpointX && this.character.x + midpointX < 2000) {
