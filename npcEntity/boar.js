@@ -16,9 +16,9 @@ class Boar {
         this.radius = 40;
         this.faceleft = false;
         this.healthbar= new HealthBar(this);
-        this.hitpoints = 500;
-        this.maxhitpoints = 500;
-        this.damageBase = 15;
+        this.hitpoints = 1500;
+        this.maxhitpoints = 1500;
+        this.damageBase = 25;
         this.visualRadius = 150;
         this.initialPoint = {};
         this.initialPoint.x = x;
@@ -31,7 +31,7 @@ class Boar {
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
         var dist = distance(this, this.target);
-        this.maxSpeed = 20; // pixels per second
+        this.maxSpeed = 70; // pixels per second
         //speed invovle in x, y this case since there are different direciton
         this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
         this.state = 0; // 0 walking, 1 attacking, 2 dead
@@ -84,6 +84,10 @@ class Boar {
 
     // };s
     update() {
+        // console.log(this.state);
+       // console.log(this.target);
+        // console.log(this.velocity);
+
         this.updateBB();
     
         this.elapsedTime += this.game.clockTick;
@@ -91,8 +95,7 @@ class Boar {
 
 
         var dist = distance(this, this.target);
-        var dist = distance(this, this.target);
-        if (dist < 5) {
+        if ( dist < 5) {
             if (this.targetID < this.path.length - 1 && this.target === this.path[this.targetID]) {
                 this.targetID++;
             }
@@ -101,29 +104,27 @@ class Boar {
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
 
-            if (ent instanceof Dog || ent instanceof MainCharacter && canSee(this, ent)) {
+            if (ent instanceof MainCharacter && canSee(this, ent) || ent instanceof Dog && canSee(this, ent)) {
                 this.target = ent;
                 this.attackTarget = ent;
 
             }
-
-            if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
-                const collisionDirection = this.BB.checkCollisionSides(ent.BB);
-                if(collisionDirection.left){
-                    this.x -= this.speed;
-                }else if(collisionDirection.right) {
-                    this.x += this.speed;
-                }else if(collisionDirection.top) {
-                    this.y -= this.speed;
-                }else if(collisionDirection.bottom) {
-                    this.y += this.speed;
-                }
-
+            // if(ent instanceof FarmLandBigTree || ent instanceof LakeAndOtherSide ||ent instanceof InvisibleLakeBlocker ){
+            //     const collisionDirection = this.BB.checkCollisionSides(ent.BB);
+            //     if(collisionDirection.left){
+            //         this.x -= this.speed;
+            //     }else if(collisionDirection.right) {
+            //         this.x += this.speed;
+            //     }else if(collisionDirection.top) {
+            //         this.y -= this.speed;
+            //     }else if(collisionDirection.bottom) {
+            //         this.y += this.speed;
+            //     }
             
                 
-            }
+            // }
             //size of FarmLandBigTree: 99,127
-            if (ent instanceof Dog || ent instanceof MainCharacter  && collide(this,  ent)) {
+            if (ent instanceof Dog && collide(this,  ent)|| ent instanceof MainCharacter  && collide(this,  ent)) {
                 if (this.state === 0) {
                     this.state = 1;
                     this.elapsedTime = 0;
@@ -131,19 +132,33 @@ class Boar {
 
                  } 
             
-            //    if (this.elapsedTime > 0.8) {
-            //        var damage = this.damageBase + randomInt(4);
-            //        ent.hitpoints -= damage;
-            //          this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
-            //          this.elapsedTime = 0;
-            //          if( ent.hitpoints<=0){
-            //             ent.removeFromWorld = true
-            //          }
-            //      }
+               if (this.elapsedTime > 0.8) {
+                   var damage = this.damageBase + randomInt(4);
+                   ent.hitpoints -= damage;
+                     this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
+                     this.elapsedTime = 0;
+                     if( ent.hitpoints<=0){
+                        //ent.removeFromWorld = true;
+                        ent.isDead();
+                     }
+                 }
         }
            
         }
-        if (this.state !== 1 ) {
+
+        
+        this.facing = this.getFacingForBoarOnly(this.velocity);
+        if(this.attackTarget){
+            if( !collide(this, this.attackTarget)) this.state = 0;
+            if( !canSee(this,this.attackTarget )) {
+                
+        
+                this.target = this.path[this.targetID];
+              
+            };
+        }
+
+        if (this.state != 1 ) {
 
 
             if(this.targetID == this.path.length - 1 && Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1){
@@ -161,27 +176,15 @@ class Boar {
             // this.y += this.velocity.y * this.game.clockTick;
             
         }
-        this.facing = this.getFacingForBoarOnly(this.velocity);
-        if(this.attackTarget){
-            if( !collide(this, this.attackTarget)) this.state = 0;
-            if( !canSee(this,this.attackTarget )) {
-                
-        
-                this.target = this.path[this.targetID];
-              
-            };
-        }
-
-        
        
-        if(Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1 &&
-            this.target.x != this.game.character.x
-        ){
+        // if(Math.abs(this.x - this.target.x)  < 1 &&Math.abs( this.y - this.target.y) < 1 &&
+        //     this.target.x != this.game.character.x
+        // ){
           
-            this.state = 2;
-        }
+        //     this.state = 2;
+        // }
 
-
+        
     
     };
 

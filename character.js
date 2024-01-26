@@ -9,6 +9,8 @@ class MainCharacter{
         Object.assign(this, { game, x, y });
         this.x = x;
         this.y = y;
+        this.spawnX = x;
+        this.spawnY = y;
         this.height = 48;
         this.width = 48;
         this.game.character = this;
@@ -54,6 +56,14 @@ class MainCharacter{
         this.loadAnimations();
 
     };
+    
+    isDead(){
+        this.x = this.spawnX;
+        this.y = this.spawnY;
+        this.hitpoints = this.maxhitpoints;
+
+    }
+
     //initially load().
     loadAnimations() {
 

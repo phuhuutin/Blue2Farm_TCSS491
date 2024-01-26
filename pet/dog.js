@@ -54,9 +54,13 @@ class Dog {
 
   };
   isDead(){
+    this.targetID = 0;
     this.x = this.spawnX;
     this.y = this.spawnY;
+    this.state = 3;
     this.hitpoints = this.maxhitpoints;
+    this.attackTarget = null;
+    this.target = this.game.character;
 
 }
   loadAnimations(){
@@ -97,6 +101,9 @@ class Dog {
 
   // };
   update() {
+    // console.log(this.target);
+    // console.log(this.attackTarget);
+    // console.log(this.state);
     this.updateBB();
     this.elapsedTime += this.game.clockTick;
     var dist = distance(this, this.target);
