@@ -111,6 +111,8 @@ class GameEngine {
         const keyUpListener = (e)=>{
             switch (e.code) {
                 case "KeyI":
+                    ++PARAMS.DAYCOUNTER;
+                  //  this.game.dayNightManager.time = 6;
                     this.testSleepCutScene = false;
                     break;
                 case "ArrowLeft":
@@ -150,7 +152,6 @@ class GameEngine {
             switch (e.code) {
 
                 case "KeyI":
-                    ++PARAMS.DAYCOUNTER;
                     this.testSleepCutScene = true;
                     break;
                 case "ArrowLeft":

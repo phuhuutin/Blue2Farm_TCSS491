@@ -11,6 +11,7 @@ class SceneManager {
 
 
         this.spritesheetFarmLand = ASSET_MANAGER.getAsset("./sprites/farmland.png");
+        this.dayNightManager = new DayNightCycle(this.game, 0);
 
 
         this.character = new MainCharacter(this.game, 800, 525);
@@ -53,7 +54,6 @@ class SceneManager {
 
         this.listOfInvisibleBlocker = [];
         this.listOfBossTowers = [];
-
 
 
         this.normalGrass = new FarmLandNormalGrass(this.game, 0, 0);
@@ -565,6 +565,8 @@ class SceneManager {
             this.game.addEntity(this.listOfTree[i]);
 
         }
+        this.dayNightManager.time = 17;
+        this.game.addEntity(this.dayNightManager );
 
     }
     draw(ctx) {
@@ -603,15 +605,17 @@ class SceneManager {
 
     }
     update(){
-        if(this.startCounting) this.elapsed += this.game.clockTick;;
+       if(this.startCounting) this.elapsed += this.game.clockTick;;
         let midpointX = PARAMS.CANVAS_WIDTH/2 ;
         let midpointY = PARAMS.CANVAS_HEIGHT/2 ;
         if(this.game.testSleepCutScene) {
             this.game.addEntity(new NextDayCutScene(this.game));
             this.startCounting = true;
             this.elapsed = 0;
+
         }
         if(this.elapsed > 3.5){
+            this.dayNightManager.time = 6;
             this.loadSlime();
             this.elapsed = 0;
             this.startCounting = false;
@@ -629,7 +633,7 @@ class SceneManager {
             this.y = this.character.y - midpointY;
 
         }
-
+        const newDay = PARAMS.DAYCOUNTER;
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
     }

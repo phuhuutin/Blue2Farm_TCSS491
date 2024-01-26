@@ -178,3 +178,25 @@ class PlusDMG{
     };
     
 };
+
+class GoToSleepMessage{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.velocity = 0;
+        this.elapsed = 0;
+    };
+
+    update() {
+        this.elapsed += this.game.clockTick;
+        if (this.elapsed > 5) this.removeFromWorld = true;
+       
+        this.y += this.game.clockTick * this.velocity;
+    };
+
+    draw(ctx) {
+        ctx.font = '15px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.fillText("Please go home and Sleep (press I)", this.x - 48 , this.y + 1 );
+    };
+    
+};
