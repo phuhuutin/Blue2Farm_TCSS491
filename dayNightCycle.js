@@ -9,7 +9,6 @@ class DayNightCycle {
 
     update() {
         const lastHour = Math.floor(this.time);
-        console.log(this.time);
         this.time = (this.time + this.game.clockTick * 24 / (3 * 60)) % 24; // Increment time based on clockTick
         const currentHour = Math.floor(this.time);
         if(lastHour == 23 && currentHour == 0) PARAMS.DAYCOUNTER += 1;
@@ -39,7 +38,7 @@ class DayNightCycle {
             gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)'); 
             gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
 
-            ctx.globalCompositeOperation = 'lighter'; /
+            ctx.globalCompositeOperation = 'lighter'; 
             ctx.fillStyle = gradient;
             ctx.beginPath();
             ctx.arc(characterX, characterY, 200, 0, 2 * Math.PI); 
