@@ -17,7 +17,22 @@ class SceneManager {
         this.character = new MainCharacter(this.game, 800, 525);
 
         this.nextNextCutScene = false;
-    
+        this.start = false;
+        this.stopstart = false;
+        this.about = false;
+        this.exit = false;
+            this.back= false;
+            this.back2= false;
+
+            this.credit = false;
+            this.touch = false;
+            this.clearEntitiesFlag = false; 
+            this.characterDeath = false;
+            this.bossDeath = false;
+
+            this.dieAtMap1 =true;
+            this.flag = false;
+            this.countDeath =0;
 
 
         this.listOfSlime = [];
@@ -66,11 +81,16 @@ class SceneManager {
         this.greenG = new GreenGoblin(this.game, 400, 1550, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
         this.worm = new FireWorm(this.game, 100, 1500, [{ x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: randomInt(800), y: randomInt(800) }, { x: 0, y: 0 }]);
         this.wizardspawn = new WizardSpawn(this.game, 110, 110);
+        this.wizardspawn2 = new WizardSpawn2(this.game, 510, 110);
+
+        this.portal = new Portal(this.game, 310, 110);
+
         this.camp = new Campfire(this.game, 110, 110);
 
         this.loadMap();
         this.elapsed = 0;
-
+        this.dayNightManager.time = 17;
+        this.game.addEntity(this.dayNightManager );
 
     };
     loadSlime(){
@@ -87,24 +107,21 @@ class SceneManager {
 
         }
     };
+    loadBoss(){
+      this.portalmap = new PortalMap(this.game,0,0);
+
+      this.game.addEntity(this.portalmap);
+        this.boss2 = new Boss(this.game,600, 161, [{ x: randomInt(0), y: randomInt(0) }, { x: randomInt(0), y: randomInt(0) }, { x: randomInt(0), y: randomInt(0) }, { x: 0, y: 0 }]);
+
+        this.game.addEntity(this.boss2);
+      this.character = new MainCharacter(this.game,800, 525);        
+      this.game.addEntity(this.character);
+    }
     loadMap() {
         let houseX = 50;
         let houseY = 460;
 
         this.game.addEntity(this.normalGrass);
-
-
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 50, 800));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 600, 700));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 850, 550));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 200, 500));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 600));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 700));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 500, 400));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 650, 420));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 500));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 900, 320));
-        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 450, 650));
 
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 100, 360));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 200, 450));
@@ -112,26 +129,6 @@ class SceneManager {
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 850));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 650, 750));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 680, 800));
-
-        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 790, 850));
-        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 750, 450));
-        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 500));
-        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 800, 800));
-        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 950, 500));
-        // this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 850, 370));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 80, 420));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 200, 320));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 850, 450));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 300, 350));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 1000, 400));  
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 550));
-
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 600, 800));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 750, 850));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 900, 700));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 500, 500));
-        // this.listOfThickGrass.push(new FarmLandThickGrass(this.game, 800, 710));
-
 
 
         this.game.addEntity(this.listOfLakeAndOtherSide);
@@ -169,42 +166,14 @@ class SceneManager {
         // this.game.addEntity(this.dog);
         this.game.addEntity(this.bor);
         this.game.addEntity(this.wizardspawn)
+        this.game.addEntity(this.wizardspawn2)
+
         this.game.addEntity(this.camp)
         this.game.addEntity(this.wiz);
         this.game.addEntity(this.wiz2);
+        this.game.addEntity(this.portal);
+
         this.bor.removeFromWorld = false;
-        // this.game.addEntity(this.bor);
-
-        // this.game.addEntity(this.gob);
-        // this.game.addEntity(this.greenG);
-        // this.game.addEntity(this.worm);
-
-
-        //////////////////////////////////DO NOT BLOCK THE MAIN CHARACTER
-
-        // this.listOfCutTree.push(new FarmLandCutTree(this.game, 300,200))
-        // for(let i = 0; i < this.listOfCutTree.length; i++){
-        //     this.listOfCutTree[i].removeFromWorld = false;
-        //     this.game.addEntity(this.listOfCutTree[i]);
-
-        // }
-
-
-
-        // this.listOfDeadTree.push(new FarmLandDeadTree(this.game,400,200))
-        // for(let i = 0; i < this.listOfDeadTree.length; i++){
-        //     this.listOfDeadTree[i].removeFromWorld = false;
-        //     this.game.addEntity(this.listOfDeadTree[i]);
-
-        // }
-
-
-        // this.listOfSproutTree.push(new FarmLandSproutTree(this.game, 900, 800));
-        // for(let i = 0; i < this.listOfSproutTree.length; i++){
-        //     this.listOfSproutTree[i].removeFromWorld = false;
-        //     this.game.addEntity(this.listOfSproutTree[i]);
-
-        // }
 
 
 
@@ -357,7 +326,7 @@ class SceneManager {
 
         let soildOffer = 300;
         for (let i = this.listOfTrippleSoil.length - 1; i >= 0; i--) {
-            this.listOfTrippleSoil[i].removeFromWorld = false;
+      //   this.listOfTrippleSoil[i].removeFromWorld = false;
             this.game.addEntity(this.listOfTrippleSoil[i]);
 
         }
@@ -368,7 +337,7 @@ class SceneManager {
             }
         }
         for (let i = this.listOfTrippleSoil.length - 1; i >= 0; i--) {
-            this.listOfTrippleSoil[i].removeFromWorld = false;
+        //    this.listOfTrippleSoil[i].removeFromWorld = false;
             this.game.addEntity(this.listOfTrippleSoil[i]);
 
         }
@@ -565,16 +534,19 @@ class SceneManager {
             this.game.addEntity(this.listOfTree[i]);
 
         }
-        this.dayNightManager.time = 17;
+        this.dayNightManager = new DayNightCycle(this.game, 0);
         this.game.addEntity(this.dayNightManager );
+
 
     }
     draw(ctx) {
-
+  
+        if(this.start&&this.countDeath!=3&&!this.bossDeath){
         const requiredPlants = this.character.getListOfRequiredForNextLevel();
 
 
         //HUB
+       
         ctx.font = '15px "Press Start 2P"';
         // ctx.strokeStyle = "White";
         this.game.ctx.fillStyle = "White";
@@ -595,16 +567,304 @@ class SceneManager {
         this.game.ctx.fillText("HP  :"+ this.character.hitpoints  +"/" + this.character.maxhitpoints, 10,45 + 140);
 
 
-
+        
 
 
 
         if (this.character.elapsedTime2 >= 8) this.game.ctx.drawImage(this.spritesheetFarmLand, 0, 989, 32, 32, 250, 5, 32, 32);
         else this.game.ctx.drawImage(this.spritesheetFarmLand, 0, 1027, 32, 32, 250, 5, 32, 32);
-
-
+             
+        }
+        
     }
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+  
+        ASSET_MANAGER.muteAudio(mute);
+      
+  
+    };
+
     update(){
+
+        if (PARAMS.Mute == true) {
+    
+            ASSET_MANAGER.playAsset("./music/chill.mp3");
+        }
+        this.updateAudio();
+
+
+        this.game.entities.forEach((entity) =>{  
+       
+            if(entity instanceof MainCharacter){
+              this.dieAtMap1 = entity.dieAtMap1;
+                    this.touch = entity.touch;
+
+                this.clearEntitiesFlag = entity.clearEntitiesFlag;
+
+            }
+            if(entity instanceof Start){
+             this.start= entity.clickOnStart;
+             this.about = entity.clickOnAbout;
+              this.credit = entity.clickOnCredit
+            }
+            if(entity instanceof About){
+                this.exit = entity.exit;
+            }
+            if(entity instanceof Credit){
+              this.exit = entity.exit;
+ 
+             }
+             if(entity instanceof GameOver){
+                this.back = entity.back;
+              }
+              if(entity instanceof EndGame){
+                this.exit = entity.exit; 
+                this.back2 = entity.exit             
+              }
+           
+
+
+
+            })
+
+            if(this.bossDeath ==true){
+           //   this.bossDeath = false
+              this.game.entities.forEach((entity) =>{  
+                  
+                entity.removeFromWorld = true;
+               
+             });
+             this.abcdefg = new EndGame(this.game,300,400)    
+                  
+             this.game.addEntity(this.abcdefg)
+             console.log("THIS EXIT " + this.exit)
+             if(this.exit){
+              this.exit = false;
+               this.game.entities.forEach((entity) =>{  
+                   
+                 entity.removeFromWorld = true;
+                
+              });
+              this.bossDeath = false;
+
+              this.newStart = new Start(this.game,300,400)    
+             
+             this.game.addEntity(this.newStart)
+             
+             }
+                 // this.start = false;
+                
+            
+            }
+
+
+            if(this.countDeath ==3){
+                this.game.entities.forEach((entity) =>{  
+                    
+                  entity.removeFromWorld = true;
+                 
+               });
+              
+               this.game.addEntity(new GameOver(this.game,500,500))
+                  if(this.back){
+                    this.back = false;
+                    this.start = false;
+                  }
+              
+              }
+
+
+
+     
+            if(!this.start ){
+                this.countDeath = 0;
+              
+                 this.stopstart = false;
+              
+                      this.game.entities.forEach((entity) =>{  
+                    
+                         entity.removeFromWorld = true;
+                        
+                      });
+                      this.newStart = new Start(this.game,300,400)    
+                  
+                    this.game.addEntity(this.newStart)
+
+              
+               }
+
+               else if(this.start&&!this.stopstart){
+  
+                this.stopstart = true;
+              this.game.entities.forEach((entity) =>{  
+                   
+                entity.removeFromWorld = true;
+               
+             });
+             this.dayNightManager.time = 17;
+                  this.game.addEntity(this.dayNightManager );
+             this.loadMap();
+           
+             this.game.addEntity(new Portal(this.game, 310, 110));
+             this.game.addEntity(new WizardSpawn(this.game, 110, 110));
+             this.game.addEntity(new WizardSpawn2(this.game, 650, 110))
+             this.game.addEntity(new WizardSpawn2(this.game, 110, 110))
+             this.game.addEntity(new Campfire(this.game, 110, 110));
+             this.game.addEntity(new Campfire(this.game, 650, 110));
+
+             this.game.addEntity(new Wizard2(this.game, 950, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]));
+             this.game.addEntity(new Wizard(this.game, 850, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]))
+             this.dayNightManager.time = 17;
+             this.game.addEntity(this.dayNightManager );
+     
+            }
+               if(this.about ||this.credit){
+                if(this.about){
+                this.game.entities.forEach((entity) =>{  
+                    
+                  entity.removeFromWorld = true;
+                 
+               });
+               this.abc = new About(this.game,300,400)    
+                  
+                    this.game.addEntity(this.abc)
+              
+              }
+              if(this.credit){
+                this.game.entities.forEach((entity) =>{  
+                    
+                  entity.removeFromWorld = true;
+                 
+               });
+               this.abcd = new Credit(this.game,300,400)    
+                  
+                    this.game.addEntity(this.abcd)
+              
+              }
+              
+              //Click exit print back Start Screen
+              if(this.exit){
+               this.exit = false;
+                this.game.entities.forEach((entity) =>{  
+                    
+                  entity.removeFromWorld = true;
+                 
+               });
+               this.newStart = new Start(this.game,300,400)    
+              
+              this.game.addEntity(this.newStart)
+              
+              }
+              
+              }
+
+
+          
+
+
+    else if(this.characterDeath == true && this.dieAtMap1 ){
+        this.countDeath++;
+
+        this.characterDeath= false;
+     
+      
+        this.character = new MainCharacter(this.game,700, 700);    
+            
+      this.game.addEntity(this.character);
+      }
+
+      else if(this.characterDeath == true && !this.flag){
+        this.countDeath++;
+        
+
+       this.touch = false;
+       this.characterDeath= false;
+      //  this.loadMap();
+        this.game.entities.forEach((entity) => {
+          if(entity instanceof Boss || entity instanceof Skeleton || entity instanceof DemonSlime ||entity instanceof PortalMap ){
+            entity.removeFromWorld = true;
+       
+          }
+         
+        else {
+          entity.removeFromWorld = true;
+          }
+
+          
+       }); 
+       this.dayNightManager.time = 17;
+       this.game.addEntity(this.dayNightManager );
+       this.loadMap();
+       this.game.addEntity(new Portal(this.game, 310, 110));
+      this.character = new MainCharacter(this.game,700, 700);    
+      this.game.addEntity(new Wizard2(this.game, 400, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]));
+      this.game.addEntity(new Wizard(this.game, 330, 2050, [{ x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: randomInt(3800), y: randomInt(3800) }, { x: 0, y: 0 }]))
+      this.game.addEntity(new WizardSpawn(this.game, 110, 110));
+      
+      this.game.addEntity(this.character);
+       this.flag = true;
+
+      }
+
+
+    if (this.touch&&!this.clearEntitiesFlag) {
+        this.dieAtMap1 = false;
+         this.flag = false;
+          this.clearEntitiesFlag = true; 
+          this.game.entities.forEach((entity) =>{  
+
+   
+     
+   
+            entity.removeFromWorld = true;
+    
+         
+          });
+          this.loadBoss();
+        //   this.portalmap = new PortalMap(this.game,0,0);
+
+        // this.game.addEntity(this.portalmap);
+        //   this.boss2 = new Boss(this.game,600, 161, [{ x: randomInt(0), y: randomInt(0) }, { x: randomInt(0), y: randomInt(0) }, { x: randomInt(0), y: randomInt(0) }, { x: 0, y: 0 }]);
+
+        //   this.game.addEntity(this.boss2);
+        // this.character = new MainCharacter(this.game,800, 525);        
+        // this.game.addEntity(this.character);
+    }
+
+
+    else{
+        this.game.entities.forEach((entity) =>{  
+         
+          if(entity instanceof Boss){
+            if(entity.hitpoints<10){
+            this.bossDeath = true;
+            }
+          
+            else if(entity.hitpoints>20){
+              this.bossDeath = false;
+            }
+          }
+
+          if(entity instanceof MainCharacter){
+            if(entity.hitpoints <50){
+              this.characterDeath = true;
+            }
+          
+           else{
+              this.characterDeath = false;
+             
+            }
+          }
+     
+          
+           });
+      }
+
+
+        if(this.startCounting) this.elapsed += this.game.clockTick;;
+
+
        if(this.startCounting) this.elapsed += this.game.clockTick;;
         let midpointX = PARAMS.CANVAS_WIDTH/2 ;
         let midpointY = PARAMS.CANVAS_HEIGHT/2 ;
@@ -633,8 +893,11 @@ class SceneManager {
             this.y = this.character.y - midpointY;
 
         }
+
         const newDay = PARAMS.DAYCOUNTER;
         PARAMS.DEBUG = document.getElementById("debug").checked;
+
+        PARAMS.Mute = document.getElementById("mute").checked;
 
     }
 

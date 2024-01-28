@@ -15,7 +15,7 @@ class MainCharacter{
         this.width = 48;
         this.game.character = this;
         this.radius = 30; //attack range
-        this.speed = 0.5;
+        this.speed = 5.5;
                 // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
 
@@ -47,7 +47,12 @@ class MainCharacter{
         this.animations = [];
         this.elapsedTime = 0;
         this.elapsedTime2= 8;
+        this.elapsedTimeForShuriken =0;
+        this.elapsedTimeForShuriken2 =0;
         this.counter =0;
+        this.counterForShuriken=0;
+        this.characterDeath = false;
+        this.dieAtMap1 = false;
 
         //Character Stats
 
@@ -129,6 +134,8 @@ class MainCharacter{
     // };
     update(){
         let canDash = true;
+        this.elapsedTimeForShuriken+= this.game.clockTick;
+        this.elapsedTimeForShuriken2+= this.game.clockTick;
 
        // console.log(this.elapsedTime2);
         if(this.elapsedTime <= 10)this.elapsedTime += this.game.clockTick;
@@ -173,6 +180,7 @@ class MainCharacter{
             //  console.log(canDash);
                     for (var i = 0; i < this.game.entities.length; i++){
                         var entity = this.game.entities[i];
+                       
                         if(entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker ){
                             const collisionDirection1 = this.BBDASHHorizonTal.checkCollisionSides(entity.BB);                       
                             if(this.directionFace == Direction.RIGHT && collisionDirection1.left) {
@@ -242,11 +250,80 @@ class MainCharacter{
             }
             }
 
+            //This part here is for SHURIKEN SKILL LEFT,RIGHT,UP,DOWN (15 secs reset)
+            //KEY G skill
+            if( this.directionFace == Direction.RIGHT){
+         
+                if(this.game.keyG){
 
 
+                   if( this.elapsedTimeForShuriken > 0.5 && this.counterForShuriken<6){
+                     this.elapsedTimeForShuriken = 0;
+                     this.elapsedTimeForShuriken2=0;
+                     this.counterForShuriken++;
+
+                    this.game.addEntity(new Shuriken(this.game, this.x-0.1, this.y, this, true, true));
+                   }
+                   else if(this.elapsedTimeForShuriken2>15){
+                    this.counterForShuriken=0;
+                }
+                }
+            }
+           else if( this.directionFace == Direction.LEFT){
+         
+                if(this.game.keyG){
 
 
+                   if( this.elapsedTimeForShuriken > 0.5 && this.counterForShuriken<6){
+                     this.elapsedTimeForShuriken = 0;
+                     this.elapsedTimeForShuriken2=0;
+                     this.counterForShuriken++;
 
+                    this.game.addEntity(new Shuriken(this.game, this.x+0.1, this.y, this, true, true));
+                   }
+                   else if(this.elapsedTimeForShuriken2>15){
+                    this.counterForShuriken=0;
+                }
+                }
+            }
+
+           else if( this.directionFace == Direction.UP){
+         
+                if(this.game.keyG){
+
+
+                   if( this.elapsedTimeForShuriken > 0.5 && this.counterForShuriken<6){
+                     this.elapsedTimeForShuriken = 0;
+                     this.elapsedTimeForShuriken2=0;
+                     this.counterForShuriken++;
+
+                    this.game.addEntity(new Shuriken(this.game, this.x, this.y+0.1, this, true, true));
+                   }
+                   else if(this.elapsedTimeForShuriken2>15){
+                    this.counterForShuriken=0;
+                }
+                }
+            }
+           else if( this.directionFace == Direction.DOWN){
+         
+                if(this.game.keyG){
+
+
+                   if( this.elapsedTimeForShuriken > 0.5 && this.counterForShuriken<6){
+                     this.elapsedTimeForShuriken = 0;
+                     this.elapsedTimeForShuriken2=0;
+                     this.counterForShuriken++;
+
+                    this.game.addEntity(new Shuriken(this.game, this.x, this.y-0.1, this, true, true));
+                   }
+                   else if(this.elapsedTimeForShuriken2>15){
+                    this.counterForShuriken=0;
+                }
+                }
+            }
+
+
+            var that = this;
         for (var i = 0; i < this.game.entities.length; i++){
             var entity = this.game.entities[i];
             
@@ -266,7 +343,26 @@ class MainCharacter{
                 //     }
                 //    console.log("collided with Smile");
                 // }else 
-                if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker
+                if(entity instanceof WizardSpawn){
+                    that.dieAtMap1 = true;
+                }
+             
+                if(entity instanceof Portal){
+                      
+                    that.game.addEntity(new LoadingScreen(that.game,500,500))
+                    setTimeout(() => {
+                        that.x = 300;
+                        that.y = 100;                    
+                     that.touch = true;
+
+                  
+
+       //                 // this.x = 500;
+       //                 // this.y =
+                  }, 300);
+                }
+
+              else  if(entity instanceof FarmLandBigTree || entity instanceof LakeAndOtherSide ||entity instanceof InvisibleLakeBlocker
                     || entity instanceof InvisibleFenceBlocker){
 
                     const collisionDirection = this.BB.checkCollisionSides(entity.BB);
@@ -282,20 +378,21 @@ class MainCharacter{
                 
                     
                 } 
-                if(entity instanceof WizardSpawn){
-                    const collisionDirection = this.BB.checkCollisionSides(entity.BB);
-                    if(collisionDirection.left){
-                        this.x -= this.speed;
-                    }else if(collisionDirection.right) {
-                        this.x += this.speed;
-                    }else if(collisionDirection.top) {
-                        this.y -= this.speed;
-                    }else if(collisionDirection.bottom) {
-                        this.y += this.speed;
-                    }
+                if(entity instanceof WizardSpawn2){
+                   const collisionDirection = this.BB.checkCollisionSides(entity.BB);
+                   if(collisionDirection.left){
+                       this.x -= this.speed;
+                   }else if(collisionDirection.right) {
+                       this.x += this.speed;
+                   }else if(collisionDirection.top) {
+                       this.y -= this.speed;
+                   }else if(collisionDirection.bottom) {
+                       this.y += this.speed;
+                   }
                 
                     
                 } 
+           
 
                 if((entity instanceof HPBottle)){
                     this.maxhitpoints += 5;
@@ -336,8 +433,36 @@ class MainCharacter{
                        
                     }
             }
+
+            if ((entity instanceof Boss) && collide(this,  entity)) {
+                if(this.state === 1){
+                if (this.elapsedTime > 0.2) {
+                    var damage = this.baseDamage + randomInt(4);
+                    if(entity.hitpoints - damage < 0) {
+                        const dropX = entity.x;
+                        const dropY = entity.y;
+                     //   this.game.addEntity(new HPBottle(this.game, dropX , dropY));
+                        if(Math.random() < 0.5) this.game.addEntity(new DMGBottle(this.game, dropX , dropY))
+                        else this.game.addEntity(new HPBottle(this.game, dropX , dropY))
+                        entity.removeFromWorld = true;
+                    }
+                    entity.hitpoints -= damage;
+
+                    this.game.addEntity(new Score(this.game, entity.x - this.game.camera.x, entity.y- this.game.camera.y, damage));
+                    this.elapsedTime = 0;
+                    
+                }
+               
+            }
+    }
         }
-        
+        if(this.hitpoints<50){
+            this.removeFromWorld = true;
+          
+        }
+        if(this.hitpoints>0){
+            this.characterDeath = false;
+        }
        // this.updateLastBB();
         this.updateBB();
         this.updateBBforDashingHorizontal();

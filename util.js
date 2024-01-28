@@ -56,5 +56,7 @@ const PARAMS = {
     DEBUG: true,
     SCALE: 1,
     BITWIDTH: 16,
-    DAYCOUNTER:0
+    DAYCOUNTER:0,
+    Mute: false,
+
 };

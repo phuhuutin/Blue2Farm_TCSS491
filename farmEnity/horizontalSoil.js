@@ -30,7 +30,7 @@ class HorizontalSoil{
         });
         // spritesheet
          this.spritesheet = ASSET_MANAGER.getAsset("./sprites/farmland.png");
-         this.removeFromWorld = false;
+       //  this.removeFromWorld = false;
 
         this.menuPlantShow = false;
         this.menuSelect  = null;

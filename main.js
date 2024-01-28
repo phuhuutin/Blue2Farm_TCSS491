@@ -29,6 +29,14 @@ ASSET_MANAGER.queueDownload("./sprites/enemyhouse.png");
  
 ASSET_MANAGER.queueDownload("./sprites/wolfsheet1.png");
 ASSET_MANAGER.queueDownload("./sprites/towers.png");
+ASSET_MANAGER.queueDownload("./sprites/shuriken.png");
+ASSET_MANAGER.queueDownload("./sprites/endportal.png");
+ASSET_MANAGER.queueDownload("./sprites/Bringer-of-Death-SpritSheet.png")
+ASSET_MANAGER.queueDownload("./sprites/bossmap.png")
+ASSET_MANAGER.queueDownload("./sprites/skeleton.png")
+ASSET_MANAGER.queueDownload("./sprites/demonslime.png")
+ASSET_MANAGER.queueDownload("./sprites/slash.png")
+ASSET_MANAGER.queueDownload("./music/chill.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
@@ -47,6 +55,8 @@ ASSET_MANAGER.downloadAll(() => {
 	PARAMS.CANVAS_HEIGHT = canvas.height;
 	
 	gameEngine.init(ctx);
+	ASSET_MANAGER.autoRepeat("./music/chill.mp3");
+
 	//gameEngine.addEntity(new SceneManager(gameEngine));
 	new SceneManager(gameEngine);
 

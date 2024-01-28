@@ -15,6 +15,7 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
         this.keyF = false;
+        this.keyG = false;
 
         this.left = false;
         this.right = false;
@@ -145,6 +146,9 @@ class GameEngine {
                 case "KeyF":
                         this.keyF = false;
                 break
+                case "KeyG":
+                    this.keyG = false;
+            break
             }
         }
 
@@ -184,6 +188,9 @@ class GameEngine {
                 case "KeyF":
                     this.keyF = true;
                     break;
+                    case "KeyG":
+                        this.keyG = true;
+                break
             }
         }
 
