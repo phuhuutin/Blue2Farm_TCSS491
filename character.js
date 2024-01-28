@@ -18,6 +18,7 @@ class MainCharacter{
         this.speed = 0.5;
                 // spritesheet
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/villager1.png");
+        this.spritesheetFishing = ASSET_MANAGER.getAsset("./sprites/fishing.png");
 
         //healthbar information
         this.healthbar= new HealthBar(this);
@@ -47,13 +48,17 @@ class MainCharacter{
         this.animations = [];
         this.elapsedTime = 0;
         this.elapsedTime2= 8;
+        this.elapsedTime3 = 0;
         this.counter =0;
 
         //Character Stats
 
-        
+        this.fishingAnimation = [];
 
         this.loadAnimations();
+        this.fishingMode = false;
+        this.fishingStatus = 0;
+        this.getFish = false;
 
     };
     
@@ -106,7 +111,14 @@ class MainCharacter{
 
         this.animations[2][Direction.UP] = new Animator(this.spritesheet, 48*3, 48*3+1, 48, 48, 3, 0.20, 0, false, true);
 
-
+        //fishingAnimation[0] waiting
+        this.fishingAnimation.push(new Animator(this.spritesheetFishing,0,0,96,48,3,0.5,0,false,true));
+        //fishingAnimation[1] Miss
+        this.fishingAnimation.push(new Animator(this.spritesheetFishing,0,48,48+48,48,3,0.5,0,false,true));
+         //fishingAnimation[2] Fish a fish
+        this.fishingAnimation.push(new Animator(this.spritesheetFishing,0,48+48,48+48,48,3,0.5,0,false,true));
+        //fishingAnimation[3] Fish a fish
+        this.fishingAnimation.push(new Animator(this.spritesheetFishing,0,48+48+48,48,48,3,0.2,0,false,true))
 
 
         
@@ -129,43 +141,88 @@ class MainCharacter{
     // };
     update(){
         let canDash = true;
+        
+        if(this.game.keyG == true && Math.abs(this.x - this.game.camera.x - 1087) < 15 &&  Math.abs(this.y - 84  - this.game.camera.x) < 50 ) this.fishingMode = true;
+      if(this.game.keyG) {
+        console.log((this.x  - this.game.camera.x) + "and"+(this.y  - this.game.camera.x));
 
-       // console.log(this.elapsedTime2);
+      }
+      if(this.fishingMode && this.elapsedTime3 > 2 && this.elapsedTime3 < 3 ){
+            console.log("up");
+            this.fishingStatus = 0; 
+        }
+        if(this.fishingMode == true && this.elapsedTime > 5){
+            if(Math.random() < 0.5) {
+                this.game.addEntity(new FishEatTheBait(this.game,this.x - this.game.camera.x, this.y - this.game.camera.y));
+                this.getFish = true;
+            }
+            this.elapsedTime = 0;
+        }
+        if(this.game.spaceKey && this.fishingMode == true  && this.elapsedTime <= 0.75 &&  this.getFish){
+            console.log("fish up T!");
+           this.fishingStatus = 2; 
+            this.elapsedTime = 0;
+            this.elapsedTime3 = 0;
+            this.getFish = false;
+        } else if(this.game.spaceKey && this.fishingMode == true && this.elapsedTime > 0.75){
+            console.log("fish up  F!");
+             this.fishingStatus = 1;   
+             this.elapsedTime3 = 0;
+             this.getFish = false;
+
+
+        }
+     
+
+       // console.log(this.fishingMode);
+    // console.log(this.elapsedTime);
+       if(this.elapsedTime3 <= 3 && this.fishingMode)this.elapsedTime3 += this.game.clockTick;
         if(this.elapsedTime <= 10)this.elapsedTime += this.game.clockTick;
-        if(this.elapsedTime2 <= 10) this.elapsedTime2 += this.game.clockTick;
+        if(this.elapsedTime2 <= 9) this.elapsedTime2 += this.game.clockTick;
         if (this.game.left && this.game.up  && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
             // Move diagonally to the top-left
             this.x -= this.speed/ Math.sqrt(2);
             this.y -= this.speed/ Math.sqrt(2);
             this.directionFace = Direction.LEFT;
+            this.fishingMode = false
         } else if (this.game.right && this.game.up&& this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000 ) {
             // Move diagonally to the top-right
             this.x += this.speed/ Math.sqrt(2);
             this.y -= this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
+            this.fishingMode = false
         } else if (this.game.left && this.game.down&& this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000) {
             // Move diagonally to the bottom-left
             this.x -= this.speed/ Math.sqrt(2);
             this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.LEFT;
+            this.fishingMode = false
         } else if (this.game.right && this.game.down && this.x -  this.width/2 > 0 && this.x +  this.width/2 < 2000) {
             // Move diagonally to the bottom-right
             this.x += this.speed/ Math.sqrt(2);
             this.y += this.speed/ Math.sqrt(2);
             this.directionFace = Direction.RIGHT;
+            this.fishingMode = false
         } else if (this.game.left && this.x -  this.width/2 > 0 ) {
             this.x -= this.speed;
             this.directionFace = Direction.LEFT;
+            this.fishingMode = false
 
         } else if (this.game.right && this.x +  this.width/2 < 2000) {
             this.x += this.speed;
             this.directionFace = Direction.RIGHT;
+            this.fishingMode = false
+
         } else if (this.game.up) {
             this.y -= this.speed;
             this.directionFace = Direction.UP;
+            this.fishingMode = false
+
         }else if (this.game.down) {
             this.y += this.speed;
             this.directionFace = Direction.DOWN;
+            this.fishingMode = false
+
         }
 
         if(this.game.keyF ){
@@ -348,6 +405,10 @@ class MainCharacter{
 
         this.state = 0;
 
+        if(this.fishingMode == true){
+                 this.fishingAnimation[3].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
+                this.fishingAnimation[this.fishingStatus].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x - this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
+        }else{
  
 
         if (this.game.left) {
@@ -366,7 +427,7 @@ class MainCharacter{
             this.animations[2][this.directionFace].drawFrame(this.game.clockTick,ctx,this.x - this.game.camera.x- this.width/2,this.y - this.game.camera.y- this.height/2,PARAMS.SCALE);
         }
         
-        if(this.game.spaceKey){
+        if(this.game.spaceKey ){
 
             this.state = 1;
 
@@ -394,6 +455,7 @@ class MainCharacter{
             }
 
         }
+    }
         if (PARAMS.DEBUG) {
            //w  ctx.strokeStyle = 'red';
             ctx.strokeRect(this.x - this.game.camera.x- this.width/2, this.y - this.game.camera.y- this.height/2, 48*PARAMS.SCALE, 48*PARAMS.SCALE);

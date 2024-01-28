@@ -9,7 +9,6 @@ class DayNightCycle {
 
     update() {
         const lastHour = Math.floor(this.time);
-        console.log(this.time);
         this.time = (this.time + this.game.clockTick * 24 / (3 * 60)) % 24; // Increment time based on clockTick
         const currentHour = Math.floor(this.time);
         if(lastHour == 23 && currentHour == 0) PARAMS.DAYCOUNTER += 1;

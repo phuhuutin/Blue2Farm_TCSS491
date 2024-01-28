@@ -69,6 +69,10 @@ class LakeAndOtherSide{
         ctx.drawImage(this.spritesheet,447,180, 30,32, x  - this.game.camera.x , y - this.game.camera.y, 30,40);
 
     }
+    addHorizontalWoodBridge(ctx,x,y){
+        ctx.drawImage(this.spritesheet,478,224, 34,32, x  - this.game.camera.x , y - this.game.camera.y, 34,32);
+
+    }
     draw(ctx) {
         
 
@@ -262,10 +266,16 @@ class LakeAndOtherSide{
             this.verticalLeftWaterAnimation.drawFrame
         (this.game.clockTick,ctx,64*21- 20 - this.game.camera.x,300+60*i - this.game.camera.y,PARAMS.SCALE);
         }
+
+
         //add bridge
         for(let i = 0; i < 3; i++){
             this.addWoodBridge(ctx,1750 ,135 + 40*i);
         }
+        for(let i = 0; i < 3; i++){
+            this.addHorizontalWoodBridge(ctx, 1330+ 34*i, 410 );
+        }
+
         if (PARAMS.DEBUG) {
              ctx.strokeStyle = 'red';
              ctx.strokeRect(0- this.game.camera.x, 0- this.game.camera.y, 2000, 300);
