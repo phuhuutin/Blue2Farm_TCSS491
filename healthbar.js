@@ -200,3 +200,24 @@ class GoToSleepMessage{
     };
     
 };
+class FishEatTheBait{
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.velocity = 0;
+        this.elapsed = 0;
+    };
+
+    update() {
+        this.elapsed += this.game.clockTick;
+        if (this.elapsed > 2) this.removeFromWorld = true;
+       
+        this.y += this.game.clockTick * this.velocity;
+    };
+
+    draw(ctx) {
+        ctx.font = '20px "Press Start 2P"';
+        this.game.ctx.fillStyle = "White";
+        ctx.fillText("!", this.x - 5, this.y - 20 );
+    };
+    
+};

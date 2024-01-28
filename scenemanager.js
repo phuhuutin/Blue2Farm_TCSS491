@@ -123,6 +123,20 @@ class SceneManager {
 
         this.game.addEntity(this.normalGrass);
 
+
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 50, 800));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 600, 700));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 850, 550));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 200, 500));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 600));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 700));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 500, 400));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 650, 420));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 700, 500));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 900, 320));
+        // this.listOfSeedGrass.push(new FarmLandSeedGrass(this.game, 450, 650));
+
+
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 100, 360));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 200, 450));
         this.listOfMediumGrass.push(new FarmLandMediumGrass(this.game, 500, 400));
@@ -132,6 +146,7 @@ class SceneManager {
 
 
         this.game.addEntity(this.listOfLakeAndOtherSide);
+        this.normalBossesHouse.removeFromWorld = false;
         this.game.addEntity(this.normalBossesHouse);
 
 
@@ -417,6 +432,9 @@ class SceneManager {
         this.listOfBuildingsBlOCKCharacter.push(new InvisibleFenceBlocker(this.game, 355,840,35, 15));
         this.listOfBuildingsBlOCKCharacter.push(new InvisibleFenceBlocker(this.game, 380,555,15, 300));
         this.listOfBuildingsBlOCKCharacter.push(new InvisibleFenceBlocker(this.game, 40,540,365, 15));
+        this.listOfBuildingsBlOCKCharacter.push(new InvisibleFenceBlocker(this.game, 64 * 21,300,665, 70));
+        this.listOfBuildingsBlOCKCharacter.push(new InvisibleFenceBlocker(this.game, 64 * 22.5,300,565, 170));
+
         this.listOfBuildingsBlOCKCharacter.push(new InvisibleMonsterBlocker(this.game, 300,840,55, 20));
 
         for (let i = 0; i < this.listOfBuildingsBlOCKCharacter.length; i++) {
@@ -534,7 +552,11 @@ class SceneManager {
             this.game.addEntity(this.listOfTree[i]);
 
         }
+
         this.dayNightManager = new DayNightCycle(this.game, 0);
+
+        this.dayNightManager.time = 6;
+
         this.game.addEntity(this.dayNightManager );
 
 
