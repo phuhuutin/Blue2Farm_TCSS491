@@ -565,7 +565,7 @@ class SceneManager {
             this.game.addEntity(this.listOfTree[i]);
 
         }
-        this.dayNightManager.time = 17;
+        this.dayNightManager.time = 15;
         this.game.addEntity(this.dayNightManager );
 
     }
