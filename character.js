@@ -1,3 +1,8 @@
+const PLANTNAMESHERE = {
+    CORN: 0,
+    STRAWBERRY: 1,
+    RICE: 2
+};
 const Direction = {
     UP: 3,
     DOWN: 0,
@@ -67,9 +72,9 @@ class MainCharacter{
     //initially load().
     loadAnimations() {
 
-        this.farmInventory[PLANTNAMES.CORN] = 0;
-        this.farmInventory[PLANTNAMES.STRAWBERRY] = 0;
-        this.farmInventory[PLANTNAMES.RICE] = 0;
+        this.farmInventory[PLANTNAMESHERE.CORN] = 0;
+        this.farmInventory[PLANTNAMESHERE.STRAWBERRY] = 0;
+        this.farmInventory[PLANTNAMESHERE.RICE] = 0;
 
 
 
@@ -434,18 +439,18 @@ class MainCharacter{
         const requiredPlants = this.getListOfRequiredForNextLevel(this.level);
     
         if (
-            this.farmInventory[PLANTNAMES.CORN] >= requiredPlants[PLANTNAMES.CORN] &&
-            this.farmInventory[PLANTNAMES.STRAWBERRY] >= requiredPlants[PLANTNAMES.STRAWBERRY] &&
-            this.farmInventory[PLANTNAMES.RICE] >= requiredPlants[PLANTNAMES.RICE]
+            this.farmInventory[PLANTNAMESHERE.CORN] >= requiredPlants[PLANTNAMESHERE.CORN] &&
+            this.farmInventory[PLANTNAMESHERE.STRAWBERRY] >= requiredPlants[PLANTNAMESHERE.STRAWBERRY] &&
+            this.farmInventory[PLANTNAMESHERE.RICE] >= requiredPlants[PLANTNAMESHERE.RICE]
         ) {
 
             this.level++;
             this.maxhitpoints += 20 + 5*this.level;
             this.hitpoints = this.maxhitpoints;
             this.baseDamage +=5 + 2*this.level;
-            this.farmInventory[PLANTNAMES.CORN] = this.farmInventory[PLANTNAMES.CORN] - requiredPlants[PLANTNAMES.CORN];
-            this.farmInventory[PLANTNAMES.STRAWBERRY] = this.farmInventory[PLANTNAMES.STRAWBERRY] - requiredPlants[PLANTNAMES.STRAWBERRY];
-            this.farmInventory[PLANTNAMES.RICE] =  this.farmInventory[PLANTNAMES.RICE] - requiredPlants[PLANTNAMES.RICE];
+            this.farmInventory[PLANTNAMESHERE.CORN] = this.farmInventory[PLANTNAMESHERE.CORN] - requiredPlants[PLANTNAMESHERE.CORN];
+            this.farmInventory[PLANTNAMESHERE.STRAWBERRY] = this.farmInventory[PLANTNAMESHERE.STRAWBERRY] - requiredPlants[PLANTNAMESHERE.STRAWBERRY];
+            this.farmInventory[PLANTNAMESHERE.RICE] =  this.farmInventory[PLANTNAMESHERE.RICE] - requiredPlants[PLANTNAMESHERE.RICE];
             this.game.addEntity(new LevelUp(this.game, this.x - this.game.camera.x, this.y- this.game.camera.y));
             console.log("Congratulations! You've leveled up to level " + this.level + "!");
         }
